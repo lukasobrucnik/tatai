@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-22T00:00:00Z",
+  "title": "Design System: TATAI",
+  "extensions": {
+    "colorMeta": {
+      "signal-500": {
+        "role": "primary",
+        "displayName": "Signal Cyan",
+        "canonical": "#00a8e0",
+        "tonalRamp": ["#00688c", "#0089b8", "#00a8e0", "#4fc2eb", "#bee8f8", "#eaf7fd"]
+      },
+      "timber-500": {
+        "role": "secondary",
+        "displayName": "Timber Amber",
+        "canonical": "#b98a4b",
+        "tonalRamp": ["#7a5327", "#b98a4b", "#dcc49b", "#f1e7d6"]
+      },
+      "graphite-1000": {
+        "role": "neutral",
+        "displayName": "Near-Black Graphite",
+        "canonical": "#0e1113",
+        "tonalRamp": ["#0e1113", "#14181a", "#1d2225", "#2b3134", "#41484c", "#606060", "#8a9195", "#b4babd", "#d5d9db", "#e8ebec", "#f2f4f5"]
+      },
+      "bone-200": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#f5f2ec",
+        "tonalRamp": ["#d9d3c8", "#e5e0d6", "#efebe3", "#f5f2ec", "#faf8f4"]
+      },
+      "status-error": {
+        "role": "neutral",
+        "displayName": "Field Error Red",
+        "canonical": "#b4342a"
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headlines only, one per view." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles (h2)." },
+      "title": { "displayName": "Title", "purpose": "Card and component headings (h3/h4)." },
+      "body": { "displayName": "Body", "purpose": "Paragraph copy, capped ~65ch." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, index numbers, spec-table keys, tag text — metadata only, always mono uppercase." }
+    },
+    "shadows": [
+      { "name": "shadow-flat", "value": "0 1px 0 0 rgba(14,17,19,0.12)", "purpose": "Reserved; not currently used on any shipped surface." },
+      { "name": "shadow-lift", "value": "0 2px 8px rgba(14,17,19,0.06)", "purpose": "Reserved for future low-elevation overlay UI." },
+      { "name": "shadow-panel", "value": "0 12px 32px rgba(14,17,19,0.10)", "purpose": "Reserved for future modal/panel surfaces." },
+      { "name": "shadow-overlay", "value": "0 24px 64px rgba(14,17,19,0.20)", "purpose": "Reserved for future highest-elevation overlays." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.2, 0, 0.2, 1)", "purpose": "Default state-change easing (hover, focus)." },
+      { "name": "ease-out", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrance / reveal easing — 'things reveal, they never bounce'." },
+      { "name": "ease-in", "value": "cubic-bezier(0.5, 0, 1, 1)", "purpose": "Exit easing, used sparingly." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default call-to-action. Graphite fill at rest, signal cyan on hover — the accent's one permitted large-surface moment.",
+      "html": "<button class=\"ds-btn-primary\">Poptávka<span aria-hidden>→</span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 12px; background: #0e1113; color: #faf8f4; border: 1px solid #0e1113; border-radius: 0; padding: 14px 22px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 150ms cubic-bezier(0.2,0,0.2,1), color 150ms cubic-bezier(0.2,0,0.2,1), border-color 150ms cubic-bezier(0.2,0,0.2,1); } .ds-btn-primary span { display: inline-block; transition: transform 150ms cubic-bezier(0.2,0,0.2,1); } .ds-btn-primary:hover { background: #00a8e0; color: #0e1113; border-color: #00a8e0; } .ds-btn-primary:hover span { transform: translateX(3px); } .ds-btn-primary:focus-visible { outline: 2px solid #00a8e0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action. Transparent fill, inverts to solid graphite on hover.",
+      "html": "<button class=\"ds-btn-outline\">Všechny realizace<span aria-hidden>→</span></button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; gap: 12px; background: transparent; color: #0e1113; border: 1px solid rgba(14,17,19,0.28); border-radius: 0; padding: 14px 22px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 150ms cubic-bezier(0.2,0,0.2,1), color 150ms cubic-bezier(0.2,0,0.2,1), border-color 150ms cubic-bezier(0.2,0,0.2,1); } .ds-btn-outline span { display: inline-block; transition: transform 150ms cubic-bezier(0.2,0,0.2,1); } .ds-btn-outline:hover { background: #0e1113; color: #faf8f4; border-color: #0e1113; } .ds-btn-outline:hover span { transform: translateX(3px); } .ds-btn-outline:focus-visible { outline: 2px solid #00a8e0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Filter Tag",
+      "kind": "chip",
+      "refersTo": "tag-default",
+      "description": "Interactive filter pill (e.g. project category filters). Solid inversion marks the active state.",
+      "html": "<button class=\"ds-tag\" aria-pressed=\"true\">Střechy (3)</button>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #606060; border: 1px solid rgba(14,17,19,0.28); border-radius: 0; padding: 7px 12px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: border-color 150ms cubic-bezier(0.2,0,0.2,1), color 150ms cubic-bezier(0.2,0,0.2,1), background 150ms cubic-bezier(0.2,0,0.2,1); } .ds-tag:hover { border-color: #0e1113; color: #0e1113; } .ds-tag[aria-pressed='true'] { background: #0e1113; color: #faf8f4; border-color: #0e1113; } .ds-tag:focus-visible { outline: 2px solid #00a8e0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Underline-only field. No box, no radius — a single bottom rule that widens and turns signal cyan on focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Telefon</span><input class=\"ds-input\" type=\"tel\" placeholder=\"+420 777 123 456\" /></label>",
+      "css": ".ds-field { display: grid; gap: 8px; } .ds-field-label { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: #606060; } .ds-input { font-family: 'Instrument Sans', sans-serif; font-size: 1.0625rem; color: #0e1113; background: transparent; border: none; border-bottom: 1px solid rgba(14,17,19,0.28); border-radius: 0; padding: 12px 0; outline: none; transition: border-color 150ms cubic-bezier(0.2,0,0.2,1), border-width 150ms cubic-bezier(0.2,0,0.2,1); } .ds-input:focus { border-bottom: 2px solid #00a8e0; padding-bottom: 11px; }"
+    },
+    {
+      "name": "Assembly Row",
+      "kind": "custom",
+      "description": "One layer of a material breakdown (AssemblyStack) — index, name, material, thickness in mm. The system's most literal expression of 'the field report is the design.'",
+      "html": "<div class=\"ds-assembly-row\"><span class=\"ds-assembly-index\">03</span><span class=\"ds-assembly-name\">Tepelná izolace</span><span class=\"ds-assembly-material\">EPS 150 ve spádu</span><span class=\"ds-assembly-thickness\">240 mm</span></div>",
+      "css": ".ds-assembly-row { display: grid; grid-template-columns: 34px 1fr auto 72px; align-items: center; gap: 16px; padding: 16px 12px; border-bottom: 1px solid rgba(14,17,19,0.12); transition: background 150ms cubic-bezier(0.2,0,0.2,1); } .ds-assembly-row:hover { background: #faf8f4; } .ds-assembly-index { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.6875rem; color: #8a9195; transition: color 150ms cubic-bezier(0.2,0,0.2,1); } .ds-assembly-row:hover .ds-assembly-index { color: #00a8e0; } .ds-assembly-name { font-size: 0.9375rem; font-weight: 500; color: #0e1113; } .ds-assembly-material { font-size: 0.75rem; color: #606060; text-align: right; } .ds-assembly-thickness { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.75rem; text-align: right; font-variant-numeric: tabular-nums; color: #2b3134; }"
+    },
+    {
+      "name": "Hero Diptych Panel",
+      "kind": "custom",
+      "description": "One half of the homepage hero (real HeroDiptych uses Framer Motion for the on-load rise/stagger and scroll parallax, both omitted here as static CSS can't express them — this snippet captures the resting look plus the hover state: photo scales 1.045, resting 25%-black tint lifts, signal-cyan top rule draws in).",
+      "html": "<a class=\"ds-hero-panel\" href=\"#strechy\" aria-label=\"Střechy — Ploché i šikmé\"><span class=\"ds-hero-panel-photo\"></span><span class=\"ds-hero-panel-tint\"></span><span class=\"ds-hero-panel-rule\"></span><span class=\"ds-hero-panel-label\"><span class=\"ds-hero-panel-index\">01</span><span class=\"ds-hero-panel-dash\">—</span>Střechy</span></a>",
+      "css": ".ds-hero-panel { position: relative; display: block; overflow: hidden; aspect-ratio: 1 / 1.2; text-decoration: none; } .ds-hero-panel-photo { position: absolute; inset: -32px 0; background: #2b3134 center/cover; transition: transform 700ms cubic-bezier(0.16,1,0.3,1); } .ds-hero-panel:hover .ds-hero-panel-photo { transform: scale(1.045); } .ds-hero-panel-tint { position: absolute; inset: 0; background: rgba(14,17,19,0.25); transition: opacity 500ms cubic-bezier(0.2,0,0.2,1); } .ds-hero-panel:hover .ds-hero-panel-tint { opacity: 0; } .ds-hero-panel-rule { position: absolute; inset: 0 0 auto 0; height: 2px; background: #00a8e0; transform: scaleX(0); transform-origin: left; transition: transform 500ms cubic-bezier(0.16,1,0.3,1); } .ds-hero-panel:hover .ds-hero-panel-rule { transform: scaleX(1); } .ds-hero-panel-label { position: absolute; left: clamp(20px,5vw,72px); top: 2rem; display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: #faf8f4; } .ds-hero-panel-index { color: #00a8e0; } .ds-hero-panel-dash { color: #8a9195; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Report",
+    "overview": "TATAI's interface reads like a report filed from the job site, not a brochure printed to sell one. The company's real working documents — layer breakdowns with measured thicknesses, numbered detail photos, a spec table per project — are the design language. Nothing here is decorative in the usual marketing sense: every visual device is doing the same job it does on an actual construction document, just rendered for the web. The system explicitly rejects the generic AI/SaaS landing page (gradient text, shadow-heavy cards, an eyebrow above every section, the hero-metric template) and glossy real-estate marketing (over-lit stock photography, aspirational tone) — TATAI's credibility comes from precision, not polish.",
+    "keyCharacteristics": [
+      "One accent color used sparingly; everything else is graphite and paper.",
+      "Zero box-shadow anywhere in the codebase — depth is hairline rules and tonal shifts only.",
+      "Square corners everywhere except pills and two small-control radii (2px, 3px).",
+      "Monospace, uppercase, wide-tracked labels mark metadata only — never body copy.",
+      "Real numbers everywhere a claim could otherwise be vague: layer thickness in mm, Σ totals, year counts, project counts.",
+      "Motion runs on two curves only — ease-standard for state changes, ease-out for entrances — always transform/opacity, never bounce, always with a prefers-reduced-motion fallback."
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Signal cyan appears on rules, hovers, and single data points — never as a fill larger than a button. Its rarity is what makes it read as a signal instead of decoration.", "section": "colors" },
+      { "name": "The No Pure White Rule", "body": "Backgrounds are bone-100/bone-200, never #ffffff, except surface-card where a true white plate is needed against paper.", "section": "colors" },
+      { "name": "The Mono-Means-Metadata Rule", "body": "JetBrains Mono never appears in a sentence a visitor reads for content — only in labels, numbers, and technical call-outs.", "section": "typography" },
+      { "name": "The Flat Rule", "body": "Depth comes from a hairline or a change in surface tone, never from a shadow.", "section": "elevation" },
+      { "name": "The Reveal-Never-Bounce Rule", "body": "Motion always eases out toward rest; it never overshoots or oscillates. If a curve has a bounce or elastic character, it's wrong for this system.", "section": "overview" }
+    ],
+    "dos": [
+      "Do keep signal-500 rationed to rules, hovers, and single data points.",
+      "Do use real numbers instead of adjectives wherever a claim can be shown instead of stated.",
+      "Do use JetBrains Mono uppercase exclusively for metadata.",
+      "Do keep every surface flat; depth is a hairline or a tone shift.",
+      "Do default to square corners; reserve radius for pills and the two smallest control radii only.",
+      "Do use warm paper backgrounds, never pure white, except the explicit surface-card plate."
+    ],
+    "donts": [
+      "Don't use gradient text, shadow-heavy cards, or the hero-metric template.",
+      "Don't add a tiny uppercase eyebrow above every section reflexively.",
+      "Don't use over-polished, aspirational, lifestyle photography.",
+      "Don't add box-shadow to any component at rest.",
+      "Don't round card corners or box a list/grid item in a bordered container.",
+      "Don't let vague superlatives stand in for a number the company actually has."
+    ]
+  }
+}

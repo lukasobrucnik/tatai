@@ -1,69 +1,431 @@
-import Image from "next/image";
+import { NavProvider } from "@/components/nav-context";
+import { SectionAnchor } from "@/components/section-anchor";
+import { Reveal } from "@/components/reveal";
+import { Header } from "@/components/header";
+import { Accordion } from "@/components/accordion";
+import { DetailCallout } from "@/components/detail-callout";
+import { InquiryForm } from "@/components/inquiry-form";
+import { RealizaceExplorer } from "@/components/realizace-explorer";
+import { Hero } from "@/components/ui/hero";
+import { HeroDiptych } from "@/components/ui/hero-diptych";
+import { Section } from "@/components/ui/section";
+import { SectionHeader } from "@/components/ui/section-header";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { Photo } from "@/components/ui/photo";
+import { PhotoGrid } from "@/components/ui/photo-grid";
+import { ProjectCard } from "@/components/ui/project-card";
+import { PillarSplit } from "@/components/ui/pillar-split";
+import { AssemblyStack } from "@/components/ui/assembly-stack";
+import { SpecTable } from "@/components/ui/spec-table";
+import { StatBand } from "@/components/ui/stat-band";
+import { ProcessTrack } from "@/components/ui/process-track";
+import { MaterialStrip } from "@/components/ui/material-strip";
+import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/ui/footer";
+import {
+  NAV,
+  PROJECTS,
+  FLAT_ROOF,
+  CLT_WALL,
+  HERO_META,
+  ROOF_META,
+  HOUSE_META,
+  KROV_POINTS,
+  ROOF_POINTS,
+  CLT_POINTS,
+  FLAT_SPEC,
+  PITCHED_SPEC,
+  ROOF_PHOTOS,
+  PROCESS,
+  STATS,
+  MATERIALS,
+  FAQ,
+  TEAM,
+  CONTACT_ROWS,
+  FOOTER_COLUMNS,
+} from "@/lib/data";
+
+const PHONE = "+420 777 123 456";
 
 export default function Home() {
+  const homeProjects = PROJECTS.slice(1, 4);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+    <NavProvider>
+      <div className="min-h-screen bg-surface-page">
+        <Header items={NAV} phone={PHONE} />
+
+        <main>
+        <SectionAnchor id="home">
+          <HeroDiptych
+            eyebrow="Střechy a dřevěné konstrukce"
+            title="Stavíme to, co drží."
+            lead="Ploché a šikmé střechy, sloupkové konstrukce, CLT panely a roubenky. Od skladby a detailu po předání."
+            meta={HERO_META}
+            left={{
+              src: "/photos/pillar-strechy.webp",
+              alt: "Krov novostavby proti obloze",
+              index: "01",
+              label: "Střechy",
+              caption: "Ploché i šikmé",
+              href: "#strechy",
+            }}
+            right={{
+              src: "/photos/pillar-domy.webp",
+              alt: "Dřevostavba s laťovou fasádou",
+              index: "02",
+              label: "Domy",
+              caption: "Sloupkové, CLT, roubenky",
+              href: "#domy",
+            }}
+            actions={
+              <>
+                <Button variant="inverse" size="lg" arrow href="#realizace">
+                  Realizace
+                </Button>
+                <Button variant="inverse-outline" size="lg" href="#kontakt">
+                  Poptávka
+                </Button>
+              </>
+            }
+          />
+        </SectionAnchor>
+
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Co děláme"
+              title="Dvě věci. Obě naplno."
+              lead="Střecha a dřevěná konstrukce jsou u nás jeden obor. Proto umíme obojí do detailu a nepřehazujeme odpovědnost na někoho dalšího."
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          </Reveal>
+          <PillarSplit
+            left={{
+              eyebrow: "Střechy",
+              title: "Střechy",
+              body: "Ploché i šikmé. Skladba, izolace, oplechování, detail.",
+              items: ["Ploché střechy", "Šikmé střechy"],
+              label: "Plochá střecha — svařování fólie",
+              href: "#strechy",
+            }}
+            right={{
+              eyebrow: "Domy",
+              title: "Domy",
+              body: "Dřevěné konstrukce od sloupku po ručně tesanou roubenku.",
+              items: ["Sloupkové konstrukce", "CLT panely", "Roubenky"],
+              label: "CLT panel na jeřábu",
+              href: "#domy",
+            }}
+          />
+        </Section>
+
+        <Section tone="raised" density="lg" topRule>
+          <Reveal>
+            <SectionHeader
+              eyebrow="Realizace"
+              title="Zakázky, které stojí za podpisem."
+              action={
+                <Button variant="outline" arrow href="#realizace">
+                  Všechny realizace
+                </Button>
+              }
+            />
+          </Reveal>
+          <Reveal>
+            <a href="#realizace" className="block mb-12">
+              <Photo src="/photos/feature-hala-olomouc.webp" ratio="band" label="Plochá střecha — 4 200 m², Olomouc" index="01 / 06" hoverZoom />
+              <div className="flex flex-wrap items-baseline justify-between gap-6 pt-5 mt-5 border-t border-border-hairline">
+                <span className="font-display text-h3 font-medium tracking-heading text-strong">Výrobní hala Olomouc</span>
+                <span className="font-mono text-caption tracking-eyebrow uppercase text-signal-500">Plochá střecha — 2025 →</span>
+              </div>
+            </a>
+          </Reveal>
+          <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1!">
+            {homeProjects.map((p) => (
+              <Reveal key={p.slug}>
+                <ProjectCard project={p} index={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")} />
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Detail"
+              title="Rozhoduje se v místech, která nikdo neuvidí."
+              lead="Atika, prostup, pozednice, spoj. Fotíme skryté vrstvy, než je zakryjeme — vy pak víte, co máte na střeše."
+            />
+          </Reveal>
+          <DetailCallout label="Krov — vaznicová soustava" caption="Rekonstrukce krovu, Valašské Meziříčí, 2024" points={KROV_POINTS} />
+        </Section>
+
+        <Section tone="inverse" density="lg">
+          <Reveal>
+            <SectionHeader
+              tone="inverse"
+              eyebrow="Proces"
+              title="Jak to u nás probíhá."
+              lead="Pět kroků, jeden odpovědný člověk. Žádné „to se uvidí na stavbě“."
+            />
+          </Reveal>
+          <ProcessTrack tone="inverse" steps={PROCESS} />
+        </Section>
+
+        <Section density="md">
+          <StatBand items={STATS} />
+        </Section>
+
+        <Section tone="raised" density="lg" topRule>
+          <Reveal>
+            <SectionHeader
+              eyebrow="Materiál"
+              title="Materiál si nevybíráme podle katalogu."
+              lead="Vybíráme podle rozponu, rozpočtu a toho, co daná stavba unese. Tady je, s čím pracujeme nejčastěji."
+            />
+          </Reveal>
+          <MaterialStrip items={MATERIALS} />
+        </Section>
+
+        <SectionAnchor id="strechy">
+          <Hero
+            height="66svh"
+            eyebrow="Střechy"
+            title="Střecha je skladba, ne krytina."
+            lead="Ploché a šikmé střechy pro rodinné domy, bytové domy i průmyslové objekty. Od návrhu skladby po fotodokumentaci skrytých vrstev."
+            src="/photos/hero-strechy.webp"
+            label="Plochá střecha — detail atiky"
+            meta={ROOF_META}
+          />
+        </SectionAnchor>
+
+        <Section density="lg">
+          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!">
+            <Reveal>
+              <div className="grid gap-8 content-start">
+                <Eyebrow>Ploché střechy</Eyebrow>
+                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
+                  Plochá střecha, která nikam neteče.
+                </h2>
+                <p className="text-body-lg leading-body text-body">
+                  Novostavby i rekonstrukce. Hydroizolace z PVC-P nebo modifikovaného asfaltu, spádové vrstvy z EPS, atiky, vpusti,
+                  prostupy a bezpečnostní prvky. Skryté vrstvy fotíme průběžně — fotodokumentace je součástí předání.
+                </p>
+                <SpecTable rows={FLAT_SPEC} />
+              </div>
+            </Reveal>
+            <Reveal delay={0.07}>
+              <AssemblyStack title="Skladba — plochá střecha R1" layers={FLAT_ROOF} />
+            </Reveal>
+          </div>
+        </Section>
+
+        <Section tone="raised" density="lg" topRule>
+          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!">
+            <Reveal>
+              <PhotoGrid pattern="halves" items={ROOF_PHOTOS} />
+            </Reveal>
+            <Reveal delay={0.07} className="max-lg:row-start-1">
+              <div className="grid gap-8 content-start">
+                <Eyebrow>Šikmé střechy</Eyebrow>
+                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
+                  Krov a krytina od jedné party.
+                </h2>
+                <p className="text-body-lg leading-body text-body">
+                  Krovy, rekonstrukce krovů, falcovaný plech, tašky, štípaný šindel. Tesařinu děláme sami — proto se u nás krov a
+                  krytina nikdy nehádají o toleranci.
+                </p>
+                <SpecTable rows={PITCHED_SPEC} />
+              </div>
+            </Reveal>
+          </div>
+        </Section>
+
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Detail"
+              title="Atika, vpusť, prostup."
+              lead="Tři místa, kde plochá střecha nejčastěji selže. A tři místa, kterým věnujeme nejvíc času."
+            />
+          </Reveal>
+          <DetailCallout label="Plochá střecha — napojení atiky" caption="Výrobní hala Olomouc, 2025" points={ROOF_POINTS} />
+        </Section>
+
+        <SectionAnchor id="domy">
+          <Hero
+            height="66svh"
+            eyebrow="Domy"
+            title="Dřevo unese víc, než si myslíte."
+            lead="Sloupkové konstrukce, CLT panely a ručně tesané roubenky. Tři technologie, jedna parta a jeden odpovědný stavbyvedoucí."
+            src="/photos/hero-domy.webp"
+            label="CLT panel — montáž na jeřábu"
+            meta={HOUSE_META}
+          />
+        </SectionAnchor>
+
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Konstrukce"
+              title="Tři cesty k dřevěnému domu."
+              lead="Nemáme jednu technologii, kterou tlačíme na všechno. Vybíráme podle rozponů, rozpočtu a toho, jak chcete dům vidět zvenku i zevnitř."
+            />
+          </Reveal>
+          <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1!">
+            {[
+              { i: "01", eyebrow: "Sloupkové konstrukce", title: "Sloupkové konstrukce", label: "Sloupková konstrukce — hrubá stavba", body: "Variabilní a cenově nejpříznivější. Difuzně otevřené skladby, dřevovláknitá izolace, volná dispozice." },
+              { i: "02", eyebrow: "CLT panely", title: "CLT panely", label: "CLT panel — hrubá stavba", body: "Tuhost, akustika, rychlost. Hrubá stavba stojí za dny a panel je nosná stěna i pohledový povrch." },
+              { i: "03", eyebrow: "Roubenky", title: "Roubenky", label: "Roubenka — tesaný rybinový spoj", body: "Ručně tesané spoje z masivního smrku. Nejpomalejší a nejpoctivější způsob, jak postavit dům." },
+            ].map((c) => (
+              <Reveal key={c.i}>
+                <div className="grid gap-5 content-start">
+                  <Photo ratio="project" label={c.label} hoverZoom />
+                  <Eyebrow index={c.i}>{c.eyebrow}</Eyebrow>
+                  <h3 className="text-h4 font-display font-medium tracking-heading text-strong">{c.title}</h3>
+                  <p className="text-body-md leading-body text-body">{c.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+
+        <Section tone="raised" density="lg" topRule>
+          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!">
+            <Reveal>
+              <div className="grid gap-8 content-start">
+                <Eyebrow>Skladba</Eyebrow>
+                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
+                  Stěna, kterou vidíte zevnitř.
+                </h2>
+                <p className="text-body-lg leading-body text-body">
+                  U CLT je nosná konstrukce zároveň interiérovým povrchem. Skladba proto musí být dořešená do milimetru — od
+                  difuzní fólie po brus panelu.
+                </p>
+                <p className="font-mono text-caption tracking-mono text-muted">U = 0,15 W/m²K · difuzně otevřená skladba</p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.07}>
+              <AssemblyStack title="Skladba — obvodová stěna CLT" layers={CLT_WALL} />
+            </Reveal>
+          </div>
+        </Section>
+
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Detail"
+              title="Spoj, který drží dům."
+              lead="U dřeva rozhoduje spoj. Tesařský, šroubovaný nebo lepený — ale vždy s vědomím, co se s dřevem stane za dvacet let."
+            />
+          </Reveal>
+          <DetailCallout
+            label="CLT panel — spoj stěna / strop"
+            ratio="hero"
+            caption="CLT dům Frenštát pod Radhoštěm, 2024"
+            points={CLT_POINTS}
+          />
+        </Section>
+
+        <Section tone="raised" density="lg" topRule>
+          <Reveal>
+            <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
+          </Reveal>
+          <Accordion items={FAQ} />
+        </Section>
+
+        <SectionAnchor id="realizace">
+          <Section density="md">
+            <div className="grid gap-8 max-w-[56ch] pt-10">
+              <Eyebrow>Realizace</Eyebrow>
+              <h2 className="text-h1 font-display font-medium tracking-display leading-tight text-strong">
+                Každá stavba má skladbu, fotky a jméno stavbyvedoucího.
+              </h2>
+            </div>
+            <RealizaceExplorer projects={PROJECTS} />
+          </Section>
+        </SectionAnchor>
+
+        <SectionAnchor id="o-nas">
+          <Hero
+            height="66svh"
+            eyebrow="O nás"
+            title="Parta, která zvedá krovy a svařuje fólie."
+            lead="Od roku 2008. Valašské Meziříčí a okolí do 120 km."
+            label="Parta na stavbě — ráno"
+          />
+        </SectionAnchor>
+
+        <Section density="lg">
+          <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
+            <Reveal>
+              <div className="grid gap-6 max-w-[62ch] content-start">
+                <Eyebrow>Firma</Eyebrow>
+                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
+                  Začali jsme střechami. U dřeva jsme zůstali.
+                </h2>
+                <p className="text-body-lg leading-body text-body">
+                  Prvních deset let jsme dělali skoro výhradně střechy — ploché i šikmé, hodně rekonstrukcí. Tesařina, kterou k
+                  tomu potřebujete, nás dovedla k celým konstrukcím: sloupkovým stavbám, CLT a nakonec i k roubenkám.
+                </p>
+                <p className="text-body-lg leading-body text-body">
+                  Klíčové práce neděláme přes subdodavatele. Máme čtyři vlastní party a jednoho stavbyvedoucího na zakázku. Když
+                  se něco pokazí, víte, komu volat.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.07}>
+              <Photo ratio="portrait" label="Stavbyvedoucí na střeše" caption="Valašské Meziříčí, 2025" />
+            </Reveal>
+          </div>
+        </Section>
+
+        <Section tone="raised" density="lg" topRule>
+          <Reveal>
+            <SectionHeader eyebrow="Lidé" title="Bez těchhle lidí by to byla jen prezentace." align="stack" />
+          </Reveal>
+          <PhotoGrid pattern="quarters" items={TEAM} />
+        </Section>
+
+        <SectionAnchor id="kontakt">
+          <Section tone="inverse" density="lg">
+            <div className="grid gap-10 max-w-[62ch]">
+              <Eyebrow tone="inverse">Kontakt</Eyebrow>
+              <h2 className="text-h1 font-display font-medium tracking-display leading-tight text-inverse">
+                Napište, co máte za stavbu. Zbytek vymyslíme.
+              </h2>
+              <p className="text-lead leading-snug max-w-[46ch] text-inverse-muted">
+                Prohlídka a návrh skladby jsou nezávazné. Ozveme se do dvou pracovních dnů.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button variant="inverse-outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
+                  {PHONE}
+                </Button>
+              </div>
+            </div>
+          </Section>
+        </SectionAnchor>
+
+        <Section tone="raised" density="lg">
+          <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
+            <InquiryForm eyebrow="Poptávka" />
+            <div className="grid gap-10 content-start">
+              <SpecTable rows={CONTACT_ROWS} />
+              <Photo ratio="detail" label="Mapa — sídlo a působnost" />
+            </div>
+          </div>
+        </Section>
+        </main>
+
+        <Footer
+          phone={PHONE}
+          email="info@tatai.cz"
+          address="Valašské Meziříčí, Morava"
+          ico="12345678"
+          claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2008."
+          columns={FOOTER_COLUMNS}
+        />
+      </div>
+    </NavProvider>
   );
 }
