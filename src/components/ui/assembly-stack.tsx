@@ -19,9 +19,9 @@ export function AssemblyStack({
     <div className="grid gap-6">
       {title && (
         <div className={`flex justify-between items-baseline pb-3 border-b ${inv ? "border-border-inverse" : "border-border-hairline"}`}>
-          <span className={`font-mono text-eyebrow tracking-eyebrow uppercase ${inv ? "text-graphite-400" : "text-muted"}`}>{title}</span>
-          <span className={`font-mono text-caption tabular-nums ${inv ? "text-inverse" : "text-strong"}`}>
-            Σ {cs(total)} {unit}
+          <span className={`font-mono text-body-sm font-medium tracking-eyebrow uppercase ${inv ? "text-inverse" : "text-strong"}`}>{title}</span>
+          <span className={`font-mono text-caption tabular-nums ${inv ? "text-graphite-300" : "text-muted"}`}>
+            Celkem {cs(total)} {unit}
           </span>
         </div>
       )}

@@ -35,6 +35,15 @@ export const FLAT_ROOF: AssemblyLayer[] = [
   { name: "Nosná konstrukce", material: "Trapézový plech", thickness: 135 },
 ];
 
+export const PITCHED_ROOF: AssemblyLayer[] = [
+  { name: "Krytina", material: "Plech, taška nebo šindel" },
+  { name: "Kontralatě", material: "Impregnované řezivo, větraná mezera", thickness: 40 },
+  { name: "Pojistná fólie", material: "Difuzně otevřená" },
+  { name: "Krokve", material: "Smrk, izolace mezi krokvemi", thickness: 200 },
+  { name: "Parozábrana", material: "Fólie s přelepenými spoji" },
+  { name: "Podhled", material: "Sádrokarton nebo palubky", thickness: 12.5 },
+];
+
 export const CLT_WALL: AssemblyLayer[] = [
   { name: "Fasádní obklad", material: "Sibiřský modřín, provětrávaný", thickness: 21 },
   { name: "Nosný rošt", material: "Lať 40/60", thickness: 60 },
@@ -94,13 +103,6 @@ export const PITCHED_SPEC: SpecRow[] = [
   { label: "Krytina", value: "Plech / taška / šindel" },
   { label: "Konstrukce", value: "Vaznicová, hambálková" },
   { label: "Tesařina", value: "Vlastní parta" },
-];
-
-export const ROOF_PHOTOS = [
-  { label: "Falcovaný plech", caption: "Falcovaný plech", index: "01", src: "/photos/roof-falcovany-plech.webp" },
-  { label: "Krov — pohled", caption: "Krov — pohled", index: "02", src: "/photos/roof-krov-pohled.webp" },
-  { label: "Oplechování", caption: "Oplechování", index: "03", src: "/photos/roof-oplechovani.webp" },
-  { label: "Štípaný šindel", caption: "Štípaný šindel", index: "04", src: "/photos/roof-stipany-sindel.webp" },
 ];
 
 export const PROCESS: ProcessStep[] = [

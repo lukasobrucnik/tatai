@@ -25,6 +25,7 @@ import {
   NAV,
   PROJECTS,
   FLAT_ROOF,
+  PITCHED_ROOF,
   CLT_WALL,
   HERO_META,
   ROOF_META,
@@ -33,7 +34,6 @@ import {
   CLT_POINTS,
   FLAT_SPEC,
   PITCHED_SPEC,
-  ROOF_PHOTOS,
   PROCESS,
   ROOF_MATERIALS,
   HOUSE_MATERIALS,
@@ -212,13 +212,7 @@ export default function Home() {
               <AssemblyStack title="Skladba — plochá střecha R1" layers={FLAT_ROOF} />
             </Reveal>
             <Reveal delay={0.07}>
-              <div className="grid gap-6">
-                <div className="flex justify-between items-baseline pb-3 border-b border-border-hairline">
-                  <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-muted">Skladba — šikmá střecha</span>
-                  <span className="font-mono text-caption tabular-nums text-strong">4 detaily</span>
-                </div>
-                <PhotoGrid pattern="halves" items={ROOF_PHOTOS} />
-              </div>
+              <AssemblyStack title="Skladba — šikmá střecha" layers={PITCHED_ROOF} />
             </Reveal>
           </div>
         </Section>
@@ -263,7 +257,7 @@ export default function Home() {
             <SectionHeader
               eyebrow="Konstrukce"
               title="Tři cesty k dřevěnému domu."
-              lead="Nemáme jednu technologii, kterou tlačíme na všechno. Vybíráme podle rozponů, rozpočtu a toho, jak chcete dům vidět zvenku i zevnitř."
+              lead="Jedna technologie nesedí na všechno. Vybíráme podle rozponů, rozpočtu a toho, jak chcete dům vidět zvenku i zevnitř."
             />
           </Reveal>
           <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1!">
@@ -367,8 +361,8 @@ export default function Home() {
                   Začali jsme střechami. U dřeva jsme zůstali.
                 </h2>
                 <p className="text-body-lg leading-body text-body">
-                  Prvních deset let jsme dělali skoro výhradně střechy — ploché i šikmé, hodně rekonstrukcí. Tesařina, kterou k
-                  tomu potřebujete, nás dovedla k celým konstrukcím: sloupkovým stavbám, CLT a nakonec i k roubenkám.
+                  Prvních deset let jsme dělali skoro výhradně střechy — ploché i šikmé, hodně rekonstrukcí. Tesařina, kterou to
+                  vyžadovalo, nás dovedla k celým konstrukcím: sloupkovým stavbám, CLT a nakonec i roubenkám.
                 </p>
                 <p className="text-body-lg leading-body text-body">
                   Klíčové práce neděláme přes subdodavatele. Máme čtyři vlastní party a jednoho stavbyvedoucího na zakázku. Když
