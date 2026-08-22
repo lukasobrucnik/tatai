@@ -6,24 +6,24 @@ import { useNav } from "./nav-context";
 import { Button } from "./ui/button";
 import type { NAV } from "@/lib/data";
 
-export function Header({ items, phone }: { items: typeof NAV; phone: string }) {
+export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; phone: string; hrefPrefix?: string }) {
   const { active } = useNav();
   const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 bg-surface-page border-b border-border-hairline">
       <div className="container-tatai h-(--header-h) flex items-center gap-10">
-        <a href="#home" className="flex items-center no-underline flex-none" onClick={() => setOpen(false)}>
+        <a href={`${hrefPrefix}#home`} className="flex items-center no-underline flex-none" onClick={() => setOpen(false)}>
           <Image src="/logo/tatai-mark.webp" alt="TATAI" width={192} height={119} priority className="h-9 w-auto" />
         </a>
 
         <nav className="hidden lg:flex gap-8 ml-auto">
           {items.map((it) => {
-            const on = active === it.id;
+            const on = hrefPrefix === "" && active === it.id;
             return (
               <a
                 key={it.id}
-                href={`#${it.id}`}
+                href={`${hrefPrefix}#${it.id}`}
                 className={`font-mono text-eyebrow tracking-eyebrow uppercase no-underline pb-0.5 border-b transition-colors duration-150 ${
                   on ? "text-strong border-signal-500" : "text-muted border-transparent"
                 }`}
@@ -38,7 +38,7 @@ export function Header({ items, phone }: { items: typeof NAV; phone: string }) {
           <a href={`tel:${phone.replace(/\s/g, "")}`} className="hidden lg:inline font-mono text-caption text-body no-underline pl-8 border-l border-border-hairline">
             {phone}
           </a>
-          <Button size="sm" href="#kontakt" arrow className="flex-none">
+          <Button size="sm" href={`${hrefPrefix}#kontakt`} arrow className="flex-none">
             Poptávka
           </Button>
           <button
@@ -57,7 +57,7 @@ export function Header({ items, phone }: { items: typeof NAV; phone: string }) {
           {items.map((it) => (
             <a
               key={it.id}
-              href={`#${it.id}`}
+              href={`${hrefPrefix}#${it.id}`}
               onClick={() => setOpen(false)}
               className="font-display text-h3 font-medium text-strong no-underline min-h-11 flex items-center"
             >

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { FOOTER_COLUMNS } from "@/lib/data";
 
 export function Footer({
@@ -46,9 +47,17 @@ export function Footer({
             <span className="text-graphite-400 text-body-sm leading-snug">{address}</span>
           </div>
         </div>
-        <div className="flex flex-wrap gap-6 justify-between pt-8 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">
+        <div className="flex flex-wrap gap-x-8 gap-y-4 justify-between pt-8 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">
           <span>© {new Date().getFullYear()} TATAI s.r.o.{ico ? ` — IČO ${ico}` : ""}</span>
-          <span>Střechy &amp; dřevostavby</span>
+          <div className="flex flex-wrap gap-x-8 gap-y-4">
+            <Link href="/ochrana-soukromi" className="text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
+              Ochrana soukromí
+            </Link>
+            <Link href="/obchodni-podminky" className="text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
+              Obchodní podmínky
+            </Link>
+            <span>Střechy &amp; dřevostavby</span>
+          </div>
         </div>
       </div>
     </footer>

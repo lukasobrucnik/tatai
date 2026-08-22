@@ -18,6 +18,11 @@ export type Project = {
   ratio: "project" | "portrait";
 };
 
+export const PHONE = "+420 777 123 456";
+export const EMAIL = "info@tatai.cz";
+export const ADDRESS = "Valašské Meziříčí, Morava";
+export const ICO = "12345678";
+
 export const NAV = [
   { id: "strechy", label: "Střechy" },
   { id: "domy", label: "Domy" },

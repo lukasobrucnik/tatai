@@ -23,6 +23,10 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/ui/footer";
 import {
   NAV,
+  PHONE,
+  EMAIL,
+  ADDRESS,
+  ICO,
   PROJECTS,
   FLAT_ROOF,
   PITCHED_ROOF,
@@ -42,8 +46,6 @@ import {
   CONTACT_ROWS,
   FOOTER_COLUMNS,
 } from "@/lib/data";
-
-const PHONE = "+420 777 123 456";
 
 export default function Home() {
   const homeProjects = PROJECTS.slice(1, 4);
@@ -415,9 +417,9 @@ export default function Home() {
 
         <Footer
           phone={PHONE}
-          email="info@tatai.cz"
-          address="Valašské Meziříčí, Morava"
-          ico="12345678"
+          email={EMAIL}
+          address={ADDRESS}
+          ico={ICO}
           claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2008."
           columns={FOOTER_COLUMNS}
         />
