@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useNav } from "./nav-context";
 import { Button } from "./ui/button";
@@ -12,10 +13,8 @@ export function Header({ items, phone }: { items: typeof NAV; phone: string }) {
   return (
     <header className="sticky top-0 z-40 bg-surface-page border-b border-border-hairline">
       <div className="container-tatai h-(--header-h) flex items-center gap-10">
-        <a href="#home" className="flex items-center gap-3 no-underline flex-none" onClick={() => setOpen(false)}>
-          <span className="font-display font-semibold text-[22px] tracking-heading text-strong">
-            TATA<span className="text-signal-500">I</span>
-          </span>
+        <a href="#home" className="flex items-center no-underline flex-none" onClick={() => setOpen(false)}>
+          <Image src="/logo/tatai-mark.webp" alt="TATAI" width={192} height={119} priority className="h-9 w-auto" />
         </a>
 
         <nav className="hidden lg:flex gap-8 ml-auto">

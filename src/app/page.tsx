@@ -17,7 +17,6 @@ import { ProjectCard } from "@/components/ui/project-card";
 import { PillarSplit } from "@/components/ui/pillar-split";
 import { AssemblyStack } from "@/components/ui/assembly-stack";
 import { SpecTable } from "@/components/ui/spec-table";
-import { StatBand } from "@/components/ui/stat-band";
 import { ProcessTrack } from "@/components/ui/process-track";
 import { MaterialStrip } from "@/components/ui/material-strip";
 import { Button } from "@/components/ui/button";
@@ -30,15 +29,14 @@ import {
   HERO_META,
   ROOF_META,
   HOUSE_META,
-  KROV_POINTS,
   ROOF_POINTS,
   CLT_POINTS,
   FLAT_SPEC,
   PITCHED_SPEC,
   ROOF_PHOTOS,
   PROCESS,
-  STATS,
-  MATERIALS,
+  ROOF_MATERIALS,
+  HOUSE_MATERIALS,
   FAQ,
   TEAM,
   CONTACT_ROWS,
@@ -149,17 +147,6 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section density="lg">
-          <Reveal>
-            <SectionHeader
-              eyebrow="Detail"
-              title="Rozhoduje se v místech, která nikdo neuvidí."
-              lead="Atika, prostup, pozednice, spoj. Fotíme skryté vrstvy, než je zakryjeme — vy pak víte, co máte na střeše."
-            />
-          </Reveal>
-          <DetailCallout label="Krov — vaznicová soustava" caption="Rekonstrukce krovu, Valašské Meziříčí, 2024" points={KROV_POINTS} />
-        </Section>
-
         <Section tone="inverse" density="lg">
           <Reveal>
             <SectionHeader
@@ -170,21 +157,6 @@ export default function Home() {
             />
           </Reveal>
           <ProcessTrack tone="inverse" steps={PROCESS} />
-        </Section>
-
-        <Section density="md">
-          <StatBand items={STATS} />
-        </Section>
-
-        <Section tone="raised" density="lg" topRule>
-          <Reveal>
-            <SectionHeader
-              eyebrow="Materiál"
-              title="Materiál si nevybíráme podle katalogu."
-              lead="Vybíráme podle rozponu, rozpočtu a toho, co daná stavba unese. Tady je, s čím pracujeme nejčastěji."
-            />
-          </Reveal>
-          <MaterialStrip items={MATERIALS} />
         </Section>
 
         <SectionAnchor id="strechy">
@@ -200,43 +172,40 @@ export default function Home() {
         </SectionAnchor>
 
         <Section density="lg">
-          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!">
-            <Reveal>
-              <div className="grid gap-8 content-start">
-                <Eyebrow>Ploché střechy</Eyebrow>
-                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
-                  Plochá střecha, která nikam neteče.
-                </h2>
-                <p className="text-body-lg leading-body text-body">
-                  Novostavby i rekonstrukce. Hydroizolace z PVC-P nebo modifikovaného asfaltu, spádové vrstvy z EPS, atiky, vpusti,
-                  prostupy a bezpečnostní prvky. Skryté vrstvy fotíme průběžně — fotodokumentace je součástí předání.
-                </p>
-                <SpecTable rows={FLAT_SPEC} />
-              </div>
-            </Reveal>
-            <Reveal delay={0.07}>
-              <AssemblyStack title="Skladba — plochá střecha R1" layers={FLAT_ROOF} />
-            </Reveal>
+          <Reveal>
+            <SectionHeader
+              eyebrow="Konstrukce"
+              title="Dva typy střech, jedna parta."
+              lead="Nemáme jednu skladbu, kterou tlačíme na všechno. Vybíráme podle sklonu, rozpočtu a toho, co daná stavba unese."
+            />
+          </Reveal>
+          <div className="grid grid-cols-2 gap-(--grid-gap) max-sm:grid-cols-1!">
+            {[
+              { i: "01", eyebrow: "Ploché střechy", title: "Ploché střechy", label: "Plochá střecha — hydroizolace PVC-P", body: "Hydroizolace z PVC-P nebo modifikovaného asfaltu, spádové vrstvy z EPS, atiky a vpusti. Skryté vrstvy fotíme, než je zakryjeme.", spec: FLAT_SPEC },
+              { i: "02", eyebrow: "Šikmé střechy", title: "Šikmé střechy", label: "Šikmá střecha — pokládka krytiny", body: "Krovy, rekonstrukce krovů, falcovaný plech, tašky, štípaný šindel. Tesařinu děláme sami — krov a krytina si u nás nikdy neodporují.", spec: PITCHED_SPEC },
+            ].map((c) => (
+              <Reveal key={c.i}>
+                <div className="grid gap-5 content-start">
+                  <Photo ratio="project" label={c.label} hoverZoom />
+                  <Eyebrow index={c.i}>{c.eyebrow}</Eyebrow>
+                  <h3 className="text-h4 font-display font-medium tracking-heading text-strong">{c.title}</h3>
+                  <p className="text-body-md leading-body text-body">{c.body}</p>
+                  <SpecTable rows={c.spec} />
+                </div>
+              </Reveal>
+            ))}
           </div>
         </Section>
 
         <Section tone="raised" density="lg" topRule>
           <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!">
             <Reveal>
-              <PhotoGrid pattern="halves" items={ROOF_PHOTOS} />
+              <Eyebrow className="mb-4">Skladba — plochá střecha</Eyebrow>
+              <AssemblyStack title="Skladba — plochá střecha R1" layers={FLAT_ROOF} />
             </Reveal>
-            <Reveal delay={0.07} className="max-lg:row-start-1">
-              <div className="grid gap-8 content-start">
-                <Eyebrow>Šikmé střechy</Eyebrow>
-                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
-                  Krov a krytina od jedné party.
-                </h2>
-                <p className="text-body-lg leading-body text-body">
-                  Krovy, rekonstrukce krovů, falcovaný plech, tašky, štípaný šindel. Tesařinu děláme sami — proto se u nás krov a
-                  krytina nikdy nehádají o toleranci.
-                </p>
-                <SpecTable rows={PITCHED_SPEC} />
-              </div>
+            <Reveal delay={0.07}>
+              <Eyebrow className="mb-4">Skladba — šikmá střecha</Eyebrow>
+              <PhotoGrid pattern="halves" items={ROOF_PHOTOS} />
             </Reveal>
           </div>
         </Section>
@@ -250,6 +219,13 @@ export default function Home() {
             />
           </Reveal>
           <DetailCallout label="Plochá střecha — napojení atiky" caption="Výrobní hala Olomouc, 2025" points={ROOF_POINTS} />
+        </Section>
+
+        <Section tone="raised" density="lg" topRule>
+          <Reveal>
+            <SectionHeader eyebrow="Materiál" title="Krytina, na kterou se dá spolehnout." align="stack" />
+          </Reveal>
+          <MaterialStrip items={ROOF_MATERIALS} />
         </Section>
 
         <SectionAnchor id="domy">
@@ -328,6 +304,13 @@ export default function Home() {
         </Section>
 
         <Section tone="raised" density="lg" topRule>
+          <Reveal>
+            <SectionHeader eyebrow="Materiál" title="Dřevo, se kterým pracujeme." align="stack" />
+          </Reveal>
+          <MaterialStrip items={HOUSE_MATERIALS} />
+        </Section>
+
+        <Section density="lg" topRule>
           <Reveal>
             <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
           </Reveal>

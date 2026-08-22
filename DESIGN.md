@@ -299,10 +299,15 @@ row shifts its background to `surface-raised` and its index to signal-500
 — this is the component that most literally embodies "The Field Report."
 
 ### DetailCallout (signature)
-A photo with numbered circular hotspots placed by real x/y percentage
-coordinates, paired with a synced list below (hover a hotspot, its list
-row brightens; hover a list row, its hotspot brightens). This is the
-component the hero diptych's motion vocabulary was built to echo.
+A dark full-width context photo, followed by a 3-across filmstrip of
+close-up detail crops — same visual grammar as `MaterialStrip`, applied to
+a single project's technical detail instead of the material catalogue.
+Each crop carries a mono index, a title, and a one-line note; only
+interaction is the shared `Photo` hover-zoom, no hotspots, no synced
+hover state between elements. Deliberately quiet — the earlier version
+used floating numbered pin markers positioned by photo percentage
+coordinates, but that read as a generic SaaS "product tour" pattern
+rather than this system's own row/table vocabulary, so it was replaced.
 
 ### HeroDiptych (signature)
 The homepage's full-viewport (`100svh` minus header) hero: two photo panels

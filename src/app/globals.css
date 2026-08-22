@@ -136,11 +136,6 @@
   --overlay-photo: linear-gradient(180deg, rgba(10, 12, 13, 0) 15%, rgba(10, 12, 13, 0.55) 58%, rgba(10, 12, 13, 0.92) 100%),
     linear-gradient(90deg, rgba(10, 12, 13, 0.6) 0%, rgba(10, 12, 13, 0.15) 45%, rgba(10, 12, 13, 0) 72%);
   --overlay-photo-flat: rgba(14, 17, 19, 0.42);
-  /* DetailCallout's resting (non-hovered) hotspot marker — a blurred dark chip
-     on a photo, needs its own alpha step; no existing border/overlay token
-     matches these exact values. */
-  --marker-bg-rest: rgba(14, 17, 19, 0.62);
-  --marker-border-rest: rgba(250, 248, 244, 0.5);
 }
 
 html {

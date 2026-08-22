@@ -5,7 +5,7 @@ export type ProcessStep = { title: string; body: string; meta?: string };
 export type MaterialItem = { name: string; note: string };
 export type FaqItem = { title: string; body: string };
 export type TeamMember = { label: string; ratio: "portrait"; caption: string };
-export type DetailPoint = { x: number; y: number; title: string; note: string };
+export type DetailPoint = { title: string; note: string };
 export type Project = {
   slug: string;
   category: "Střecha" | "Dům";
@@ -71,23 +71,16 @@ export const HOUSE_META = [
   { label: "Tesařina", value: "Vlastní parta" },
 ];
 
-export const KROV_POINTS: DetailPoint[] = [
-  { x: 20, y: 62, title: "Pozednice 140/160", note: "Kotvení do železobetonového věnce" },
-  { x: 48, y: 40, title: "Krokev 100/200", note: "Rozteč 900 mm" },
-  { x: 74, y: 26, title: "Vaznice", note: "Spoj na rybinu, bez ocelových spojek" },
-  { x: 60, y: 74, title: "Kleštiny", note: "Šroubovaný spoj, M12" },
-];
-
 export const ROOF_POINTS: DetailPoint[] = [
-  { x: 26, y: 52, title: "Atika", note: "Poplastovaný plech, svařený spoj" },
-  { x: 56, y: 38, title: "Spádový klín", note: "EPS 150, spád 2 %" },
-  { x: 78, y: 64, title: "Vpusť", note: "Dvoustupňová, s ochranným košem" },
+  { title: "Atika", note: "Poplastovaný plech, svařený spoj" },
+  { title: "Spádový klín", note: "EPS 150, spád 2 %" },
+  { title: "Vpusť", note: "Dvoustupňová, s ochranným košem" },
 ];
 
 export const CLT_POINTS: DetailPoint[] = [
-  { x: 30, y: 44, title: "CLT panel 100 mm", note: "5 vrstev, smrk C24" },
-  { x: 58, y: 60, title: "Úhelník", note: "Kotvení do panelu, vruty 8×80" },
-  { x: 76, y: 34, title: "Těsnicí páska", note: "Vzduchotěsnost linie" },
+  { title: "CLT panel 100 mm", note: "5 vrstev, smrk C24" },
+  { title: "Úhelník", note: "Kotvení do panelu, vruty 8×80" },
+  { title: "Těsnicí páska", note: "Vzduchotěsnost linie" },
 ];
 
 export const FLAT_SPEC: SpecRow[] = [
@@ -125,9 +118,12 @@ export const STATS: StatItem[] = [
   { label: "Vlastních part", value: "4", note: "Bez subdodávek na klíčové práce" },
 ];
 
-export const MATERIALS: MaterialItem[] = [
+export const HOUSE_MATERIALS: MaterialItem[] = [
   { name: "CLT panel", note: "Křížem lepené lamely, smrk C24. Nosná stěna i strop v jednom prvku." },
   { name: "Masivní smrk", note: "Ručně tesané spoje pro roubenky. Bez ocelových spojek, kde nemusí být." },
+];
+
+export const ROOF_MATERIALS: MaterialItem[] = [
   { name: "PVC-P fólie", note: "Ploché střechy, 1,5–2,0 mm. Horkovzdušně svařované spoje." },
   { name: "Falcovaný plech", note: "Šikmé střechy a detaily. Titanzinek nebo poplastovaný plech." },
 ];

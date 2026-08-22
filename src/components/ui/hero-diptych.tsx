@@ -68,29 +68,28 @@ function Panel({
           aria-hidden
           className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-500 ease-out group-hover:scale-x-100"
         />
-
-        {/* caption is desktop-only: at 320px each half is ~160px wide and a long
-            caption ("Sloupkové, CLT, roubenky") would overflow the panel */}
-        <span className="absolute left-(--container-gutter) top-8 grid max-w-[calc(100%-var(--container-gutter))] gap-1.5 sm:top-10">
-          <span className="flex items-center gap-2 font-mono text-eyebrow tracking-eyebrow uppercase text-inverse">
-            <span className="text-signal-500">{panel.index}</span>
-            <span className="text-graphite-400">—</span>
-            {panel.label}
-            <span
-              aria-hidden
-              className="transition-transform duration-300 ease-out group-hover:translate-x-1 sm:hidden"
-            >
-              →
-            </span>
-          </span>
-          <span className="hidden items-center gap-2 font-mono text-eyebrow tracking-mono text-graphite-300 sm:flex">
-            {panel.caption}
-            <span aria-hidden className="transition-transform duration-300 ease-out group-hover:translate-x-1">
-              →
-            </span>
-          </span>
-        </span>
       </motion.a>
+    </div>
+  );
+}
+
+/** Rendered as its own top-level layer (see HeroDiptych) — not nested inside a
+ * panel's motion.a. Framer Motion puts a `transform` on every motion element,
+ * which creates a new stacking context; a label nested in there could never
+ * out-rank the section's global photo scrim no matter what z-index it got.
+ * Sitting outside fixes that; `pointer-events-none` lets hover/click still
+ * reach the real link underneath. */
+function PanelLabel({ panel }: { panel: DiptychPanel }) {
+  return (
+    <div className="grid content-start gap-1.5 pt-8 pl-(--container-gutter) sm:pt-10">
+      {/* caption is desktop-only: at 320px each half is ~160px wide and a long
+          caption ("Sloupkové, CLT, roubenky") would overflow the panel */}
+      <span className="flex items-center gap-2 font-mono text-eyebrow tracking-eyebrow uppercase text-inverse">
+        <span className="text-signal-500">{panel.index}</span>
+        <span className="text-graphite-400">—</span>
+        {panel.label}
+      </span>
+      <span className="hidden font-mono text-eyebrow tracking-mono text-graphite-300 sm:block">{panel.caption}</span>
     </div>
   );
 }
@@ -142,7 +141,17 @@ export function HeroDiptych({
         transition={{ duration: 1.1, ease: EASE, delay: 0.35 }}
       />
 
-      <span aria-hidden className="absolute inset-0 z-[1]" style={{ background: "var(--overlay-photo)" }} />
+      <span aria-hidden className="pointer-events-none absolute inset-0 z-[1]" style={{ background: "var(--overlay-photo)" }} />
+
+      {/* Střechy / Domy labels — above the panels AND above the scrim (see PanelLabel).
+          Full-bleed grid matching the (unconstrained) panels grid below, not
+          container-tatai — the panels run edge-to-edge, so a centered
+          max-width wrapper here would drift out of alignment with them on
+          wide screens. Each label insets itself by the gutter instead. */}
+      <div className="pointer-events-none absolute inset-0 z-[2] grid grid-cols-2">
+        <PanelLabel panel={left} />
+        <PanelLabel panel={right} />
+      </div>
 
       <div className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(2.5rem,6vh,5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8">
         <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0.45 }}>
