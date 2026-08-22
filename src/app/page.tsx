@@ -104,6 +104,7 @@ export default function Home() {
               body: "Ploché i šikmé. Skladba, izolace, oplechování, detail.",
               items: ["Ploché střechy", "Šikmé střechy"],
               label: "Plochá střecha — svařování fólie",
+              src: "/photos/pillar-svarovani-folie.webp",
               href: "#strechy",
             }}
             right={{
@@ -112,6 +113,7 @@ export default function Home() {
               body: "Dřevěné konstrukce od sloupku po ručně tesanou roubenku.",
               items: ["Sloupkové konstrukce", "CLT panely", "Roubenky"],
               label: "CLT panel na jeřábu",
+              src: "/photos/clt-panel-na-jerabu.webp",
               href: "#domy",
             }}
           />
@@ -181,12 +183,12 @@ export default function Home() {
           </Reveal>
           <div className="grid grid-cols-2 gap-(--grid-gap) max-sm:grid-cols-1!">
             {[
-              { i: "01", eyebrow: "Ploché střechy", title: "Ploché střechy", label: "Plochá střecha — hydroizolace PVC-P", body: "Hydroizolace z PVC-P nebo modifikovaného asfaltu, spádové vrstvy z EPS, atiky a vpusti. Skryté vrstvy fotíme, než je zakryjeme.", spec: FLAT_SPEC },
-              { i: "02", eyebrow: "Šikmé střechy", title: "Šikmé střechy", label: "Šikmá střecha — pokládka krytiny", body: "Krovy, rekonstrukce krovů, falcovaný plech, tašky, štípaný šindel. Tesařinu děláme sami — krov a krytina si u nás nikdy neodporují.", spec: PITCHED_SPEC },
+              { i: "01", eyebrow: "Ploché střechy", title: "Ploché střechy", label: "Plochá střecha — hydroizolace PVC-P", src: "/photos/strecha-plocha-pvc.webp", body: "Hydroizolace z PVC-P nebo modifikovaného asfaltu, spádové vrstvy z EPS, atiky a vpusti. Skryté vrstvy fotíme, než je zakryjeme.", spec: FLAT_SPEC },
+              { i: "02", eyebrow: "Šikmé střechy", title: "Šikmé střechy", label: "Šikmá střecha — pokládka krytiny", src: "/photos/strecha-sikma-pokladka.webp", body: "Krovy, rekonstrukce krovů, falcovaný plech, tašky, štípaný šindel. Tesařinu děláme sami — krov a krytina si u nás nikdy neodporují.", spec: PITCHED_SPEC },
             ].map((c) => (
               <Reveal key={c.i}>
                 <div className="grid gap-5 content-start">
-                  <Photo ratio="project" label={c.label} hoverZoom />
+                  <Photo src={c.src} ratio="project" label={c.label} hoverZoom />
                   <Eyebrow index={c.i}>{c.eyebrow}</Eyebrow>
                   <h3 className="text-h4 font-display font-medium tracking-heading text-strong">{c.title}</h3>
                   <p className="text-body-md leading-body text-body">{c.body}</p>
@@ -198,14 +200,25 @@ export default function Home() {
         </Section>
 
         <Section tone="raised" density="lg" topRule>
-          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Skladba"
+              title="Dvě skladby vedle sebe."
+              lead="Plochá i šikmá střecha mají úplně jinou stavbu vrstev. Obě dovedeme do posledního milimetru — tady je srovnání."
+            />
+          </Reveal>
+          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-16!">
             <Reveal>
-              <Eyebrow className="mb-4">Skladba — plochá střecha</Eyebrow>
               <AssemblyStack title="Skladba — plochá střecha R1" layers={FLAT_ROOF} />
             </Reveal>
             <Reveal delay={0.07}>
-              <Eyebrow className="mb-4">Skladba — šikmá střecha</Eyebrow>
-              <PhotoGrid pattern="halves" items={ROOF_PHOTOS} />
+              <div className="grid gap-6">
+                <div className="flex justify-between items-baseline pb-3 border-b border-border-hairline">
+                  <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-muted">Skladba — šikmá střecha</span>
+                  <span className="font-mono text-caption tabular-nums text-strong">4 detaily</span>
+                </div>
+                <PhotoGrid pattern="halves" items={ROOF_PHOTOS} />
+              </div>
             </Reveal>
           </div>
         </Section>
@@ -218,7 +231,12 @@ export default function Home() {
               lead="Tři místa, kde plochá střecha nejčastěji selže. A tři místa, kterým věnujeme nejvíc času."
             />
           </Reveal>
-          <DetailCallout label="Plochá střecha — napojení atiky" caption="Výrobní hala Olomouc, 2025" points={ROOF_POINTS} />
+          <DetailCallout
+            src="/photos/detail-atika-napojeni.webp"
+            label="Plochá střecha — napojení atiky"
+            caption="Výrobní hala Olomouc, 2025"
+            points={ROOF_POINTS}
+          />
         </Section>
 
         <Section tone="raised" density="lg" topRule>
@@ -250,13 +268,13 @@ export default function Home() {
           </Reveal>
           <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1!">
             {[
-              { i: "01", eyebrow: "Sloupkové konstrukce", title: "Sloupkové konstrukce", label: "Sloupková konstrukce — hrubá stavba", body: "Variabilní a cenově nejpříznivější. Difuzně otevřené skladby, dřevovláknitá izolace, volná dispozice." },
-              { i: "02", eyebrow: "CLT panely", title: "CLT panely", label: "CLT panel — hrubá stavba", body: "Tuhost, akustika, rychlost. Hrubá stavba stojí za dny a panel je nosná stěna i pohledový povrch." },
-              { i: "03", eyebrow: "Roubenky", title: "Roubenky", label: "Roubenka — tesaný rybinový spoj", body: "Ručně tesané spoje z masivního smrku. Nejpomalejší a nejpoctivější způsob, jak postavit dům." },
+              { i: "01", eyebrow: "Sloupkové konstrukce", title: "Sloupkové konstrukce", label: "Sloupková konstrukce — hrubá stavba", src: "/photos/domy-sloupkova-konstrukce.webp", body: "Variabilní a cenově nejpříznivější. Difuzně otevřené skladby, dřevovláknitá izolace, volná dispozice." },
+              { i: "02", eyebrow: "CLT panely", title: "CLT panely", label: "CLT panel — hrubá stavba", src: "/photos/clt-panel-hruba-stavba.webp", body: "Tuhost, akustika, rychlost. Hrubá stavba stojí za dny a panel je nosná stěna i pohledový povrch." },
+              { i: "03", eyebrow: "Roubenky", title: "Roubenky", label: "Roubenka — tesaný rybinový spoj", src: "/photos/domy-roubenka-spoj.webp", body: "Ručně tesané spoje z masivního smrku. Nejpomalejší a nejpoctivější způsob, jak postavit dům." },
             ].map((c) => (
               <Reveal key={c.i}>
                 <div className="grid gap-5 content-start">
-                  <Photo ratio="project" label={c.label} hoverZoom />
+                  <Photo src={c.src} ratio="project" label={c.label} hoverZoom />
                   <Eyebrow index={c.i}>{c.eyebrow}</Eyebrow>
                   <h3 className="text-h4 font-display font-medium tracking-heading text-strong">{c.title}</h3>
                   <p className="text-body-md leading-body text-body">{c.body}</p>
@@ -296,6 +314,7 @@ export default function Home() {
             />
           </Reveal>
           <DetailCallout
+            src="/photos/clt-panel-spoj-stena-strop.webp"
             label="CLT panel — spoj stěna / strop"
             ratio="hero"
             caption="CLT dům Frenštát pod Radhoštěm, 2024"
@@ -358,7 +377,7 @@ export default function Home() {
               </div>
             </Reveal>
             <Reveal delay={0.07}>
-              <Photo ratio="portrait" label="Stavbyvedoucí na střeše" caption="Valašské Meziříčí, 2025" />
+              <Photo src="/photos/team-stavbyvedouci.webp" ratio="portrait" label="Stavbyvedoucí na střeše" caption="Valašské Meziříčí, 2025" />
             </Reveal>
           </div>
         </Section>

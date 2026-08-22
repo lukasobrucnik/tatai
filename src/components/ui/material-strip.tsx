@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { MaterialItem } from "@/lib/data";
 
 export function MaterialStrip({ items, tone = "default" }: { items: MaterialItem[]; tone?: "default" | "inverse" }) {
@@ -17,7 +18,17 @@ export function MaterialStrip({ items, tone = "default" }: { items: MaterialItem
             aria-hidden
             className="absolute top-0 left-0 right-0 h-0.5 bg-signal-500 origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"
           />
-          <span className={`w-full aspect-3/2 relative overflow-hidden ${inv ? "bg-graphite-700" : "bg-graphite-100"}`} />
+          <span className={`w-full aspect-3/2 relative overflow-hidden ${inv ? "bg-graphite-700" : "bg-graphite-100"}`}>
+            {it.src && (
+              <Image
+                src={it.src}
+                alt={it.name}
+                fill
+                sizes="(min-width: 768px) 25vw, 50vw"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.035]"
+              />
+            )}
+          </span>
           <span className={`font-mono text-eyebrow tracking-eyebrow uppercase ${inv ? "text-graphite-400 group-hover:text-signal-500" : "text-muted group-hover:text-signal-600"}`}>
             {String(i + 1).padStart(2, "0")}
           </span>

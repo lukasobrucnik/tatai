@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Eyebrow } from "./eyebrow";
 
 export type PillarData = {
@@ -6,14 +7,25 @@ export type PillarData = {
   body: string;
   items: string[];
   label: string;
+  src?: string;
   href: string;
 };
 
-function Pillar({ eyebrow, title, body, items, label, href }: PillarData) {
+function Pillar({ eyebrow, title, body, items, label, src, href }: PillarData) {
   return (
     <a href={href} className="group grid grid-rows-[auto_1fr] no-underline text-inherit">
       <div className="relative overflow-hidden aspect-4/3 dot-grid-light">
-        <span className="absolute left-3 bottom-2.5 font-mono text-eyebrow tracking-eyebrow uppercase text-muted">{label}</span>
+        {src ? (
+          <Image
+            src={src}
+            alt={label}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.035]"
+          />
+        ) : (
+          <span className="absolute left-3 bottom-2.5 font-mono text-eyebrow tracking-eyebrow uppercase text-muted">{label}</span>
+        )}
         <span
           aria-hidden
           className="absolute left-0 right-0 bottom-0 h-0.5 bg-signal-500 origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"

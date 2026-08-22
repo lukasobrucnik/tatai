@@ -123,6 +123,10 @@
 }
 
 :root {
+  /* Belt-and-suspenders alongside viewport.colorScheme in layout.tsx: this is
+     the CSS-level signal browsers (incl. Samsung Internet / Android Chrome's
+     "force dark") check to decide whether to auto-recolor the page. */
+  color-scheme: light;
   --header-h: 76px;
   --container-max: 1440px;
   --container-gutter: clamp(20px, 5vw, 72px);

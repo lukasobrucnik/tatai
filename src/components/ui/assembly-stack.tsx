@@ -32,7 +32,7 @@ export function AssemblyStack({
             className={`group grid grid-cols-[34px_1fr_auto_72px] items-center gap-4 px-3 py-4 border-b transition-colors duration-150 ${inv ? "border-border-inverse hover:bg-graphite-800" : "border-border-hairline hover:bg-surface-raised"} ${i === 0 ? `border-t ${inv ? "border-border-inverse" : "border-border-hairline"}` : ""}`}
           >
             <span className={`font-mono text-eyebrow ${inv ? "text-graphite-400 group-hover:text-signal-500" : "text-muted group-hover:text-signal-500"}`}>
-              {String(layers.length - i).padStart(2, "0")}
+              {String(i + 1).padStart(2, "0")}
             </span>
             <span className={`text-body-md font-medium ${inv ? "text-inverse" : "text-strong"}`}>{l.name}</span>
             <span className={`text-caption text-right ${inv ? "text-graphite-400" : "text-muted"}`}>{l.material}</span>
