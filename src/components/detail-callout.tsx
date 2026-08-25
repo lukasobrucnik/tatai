@@ -16,7 +16,7 @@ export function DetailCallout({
 }) {
   return (
     <figure className="m-0 grid gap-8">
-      <Photo src={src} ratio={ratio} tone="dark" label={label} />
+      {src && <Photo src={src} ratio={ratio} tone="dark" label={label} />}
       <div className="grid grid-cols-3 gap-(--grid-gap) max-sm:grid-cols-1!">
         {points.map((p, i) => (
           <div key={i} className="grid gap-4">
@@ -29,7 +29,9 @@ export function DetailCallout({
           </div>
         ))}
       </div>
-      {caption && <figcaption className="font-mono text-caption tracking-mono text-muted">{caption}</figcaption>}
+      {/* caption attributes the band photo above — meaningless once that
+          photo is gone, so it's tied to src rather than shown on its own. */}
+      {src && caption && <figcaption className="font-mono text-caption tracking-mono text-muted">{caption}</figcaption>}
     </figure>
   );
 }

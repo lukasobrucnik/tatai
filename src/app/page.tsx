@@ -227,12 +227,7 @@ export default function Home() {
               lead="Tři místa, kde plochá střecha nejčastěji selže. A tři místa, kterým věnujeme nejvíc času."
             />
           </Reveal>
-          <DetailCallout
-            src="/photos/detail-atika-napojeni.webp"
-            label="Plochá střecha — napojení atiky"
-            caption="Výrobní hala Olomouc, 2025"
-            points={ROOF_POINTS}
-          />
+          <DetailCallout points={ROOF_POINTS} />
         </Section>
 
         <Section tone="raised" density="lg" topRule>
@@ -309,13 +304,7 @@ export default function Home() {
               lead="U dřeva rozhoduje spoj. Tesařský, šroubovaný nebo lepený — ale vždy s vědomím, co se s dřevem stane za dvacet let."
             />
           </Reveal>
-          <DetailCallout
-            src="/photos/clt-panel-spoj-stena-strop.webp"
-            label="CLT panel — spoj stěna / strop"
-            ratio="hero"
-            caption="CLT dům Frenštát pod Radhoštěm, 2024"
-            points={CLT_POINTS}
-          />
+          <DetailCallout points={CLT_POINTS} />
         </Section>
 
         <Section tone="raised" density="lg" topRule>
@@ -376,44 +365,52 @@ export default function Home() {
               <Photo src="/photos/team-stavbyvedouci.webp" ratio="portrait" label="Stavbyvedoucí na střeše" caption="Olomouc, 2025" />
             </Reveal>
           </div>
-        </Section>
 
-        <Section tone="raised" density="lg" topRule>
-          <Reveal>
-            <SectionHeader eyebrow="Lidé" title="Bez těchhle lidí by to byla jen prezentace." align="stack" />
+          <Reveal delay={0.12}>
+            <div className="grid gap-6 mt-(--section-y-sm) pt-(--section-y-sm) border-t border-border-hairline">
+              <Eyebrow>Lidé</Eyebrow>
+              <h3 className="text-h3 font-display font-medium tracking-heading leading-heading text-strong max-w-[52ch]">
+                Lidé, za kterými to stojí.
+              </h3>
+              <PhotoGrid pattern="quarters" items={TEAM} />
+            </div>
           </Reveal>
-          <PhotoGrid pattern="quarters" items={TEAM} />
         </Section>
 
         <SectionAnchor id="kontakt">
-          <Section tone="inverse" density="lg">
-            <div className="grid gap-10 max-w-[62ch]">
-              <Eyebrow tone="inverse">Kontakt</Eyebrow>
-              <h2 className="text-h1 font-display font-medium tracking-display leading-tight text-inverse">
-                Napište, co máte za stavbu. Zbytek vymyslíme.
-              </h2>
-              <p className="text-lead leading-snug max-w-[46ch] text-inverse-muted">
-                Prohlídka a návrh skladby jsou nezávazné. Ozveme se do dvou pracovních dnů.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button variant="inverse-outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
-                  {PHONE}
-                </Button>
+          <Section tone="raised" density="lg">
+            <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
+              <InquiryForm eyebrow="Poptávka" />
+              <div className="grid gap-10 content-start">
+                <SpecTable rows={CONTACT_ROWS} />
+                <Photo ratio="detail" label="Mapa — sídlo a působnost" />
               </div>
             </div>
           </Section>
         </SectionAnchor>
 
-        <Section tone="raised" density="lg">
-          <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
-            <InquiryForm eyebrow="Poptávka" />
-            <div className="grid gap-10 content-start">
-              <SpecTable rows={CONTACT_ROWS} />
-              <Photo ratio="detail" label="Mapa — sídlo a působnost" />
+        <Section tone="inverse" density="lg">
+          <div className="grid gap-10 max-w-[62ch]">
+            <Eyebrow tone="inverse">Kontakt</Eyebrow>
+            <h2 className="text-h1 font-display font-medium tracking-display leading-tight text-inverse">
+              Napište, co máte za stavbu. Zbytek vymyslíme.
+            </h2>
+            <p className="text-lead leading-snug max-w-[46ch] text-inverse-muted">
+              Prohlídka a návrh skladby jsou nezávazné. Ozveme se do dvou pracovních dnů.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Button variant="inverse-outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
+                {PHONE}
+              </Button>
             </div>
           </div>
         </Section>
         </main>
+
+        {/* Kontakt and Footer share the same dark surface — a full-bleed
+            signal-500 hairline is the only seam between them, rather than a
+            light form section sandwiched in between. */}
+        <div aria-hidden className="h-px w-full bg-signal-500" />
 
         <Footer
           phone={PHONE}
