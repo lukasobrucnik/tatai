@@ -9,10 +9,9 @@ export function MaterialStrip({ items, tone = "default" }: { items: MaterialItem
       style={{ gridTemplateColumns: `repeat(${items.length},minmax(0,1fr))` }}
     >
       {items.map((it, i) => (
-        <button
+        <div
           key={i}
-          type="button"
-          className={`group relative grid gap-4 content-start text-left px-6 py-8 border-0 font-inherit cursor-default transition-colors duration-150 ${inv ? "hover:bg-graphite-800" : "hover:bg-surface-raised"} ${i === 0 ? "border-l-0" : `border-l max-md:border-l-0 ${inv ? "border-border-inverse" : "border-border-hairline"}`}`}
+          className={`group relative grid gap-4 content-start text-left px-6 py-8 transition-colors duration-150 ${inv ? "hover:bg-graphite-800" : "hover:bg-surface-raised"} ${i === 0 ? "border-l-0" : `border-l max-md:border-l-0 ${inv ? "border-border-inverse" : "border-border-hairline"}`}`}
         >
           <span
             aria-hidden
@@ -34,7 +33,7 @@ export function MaterialStrip({ items, tone = "default" }: { items: MaterialItem
           </span>
           <span className={`font-display text-h4 font-medium tracking-heading ${inv ? "text-inverse" : "text-strong"}`}>{it.name}</span>
           {it.note && <span className={`text-body-sm leading-snug ${inv ? "text-graphite-400" : "text-muted"}`}>{it.note}</span>}
-        </button>
+        </div>
       ))}
     </div>
   );

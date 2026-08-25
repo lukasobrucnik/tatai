@@ -95,6 +95,12 @@ components:
     typography: "{typography.label}"
     rounded: "{rounded.none}"
     padding: "14px 22px"
+  button-inverse:
+    backgroundColor: "{colors.bone-100}"
+    textColor: "{colors.graphite-1000}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "14px 22px"
   tag-default:
     backgroundColor: "transparent"
     textColor: "{colors.graphite-500}"
@@ -257,6 +263,15 @@ its background tone or add a top rule before reaching for `box-shadow`.
   (or border-inverse on dark surfaces) stroke, text in the surface's
   primary ink. Hover inverts to a solid graphite-1000 (light context) or
   brightens the border to signal-500 (dark context).
+- **Inverse (solid, photo-context only):** Bone-100 fill, graphite-1000
+  text, mono label typography, same 14px/22px padding as Primary. Hover
+  swaps to signal-500 fill, mirroring Primary's hover. Reserved for the
+  single highest-priority CTA sitting directly over a photo whose
+  brightness varies across the frame (e.g. `HeroDiptych`, split between a
+  light sky and a dark wood facade) — a transparent-fill Inverse-outline
+  button can't guarantee contrast in that situation, where a solid plate
+  can. Use it only where Inverse-outline's transparency would be a
+  legibility risk, never as a default alternative to it.
 - **Arrow affordance:** An optional trailing `→` glyph that translates
   4px on hover — the only motion most buttons carry.
 

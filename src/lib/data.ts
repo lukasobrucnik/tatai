@@ -18,10 +18,10 @@ export type Project = {
   ratio: "project" | "portrait";
 };
 
-export const PHONE = "+420 777 123 456";
+export const PHONE = "+420 601 505 323";
 export const EMAIL = "info@tatai.cz";
-export const ADDRESS = "Valašské Meziříčí, Morava";
-export const ICO = "12345678";
+export const ADDRESS = "Křižíkova 965/1, 779 00 Olomouc";
+export const ICO = "05452783";
 
 export const NAV = [
   { id: "strechy", label: "Střechy" },
@@ -68,7 +68,7 @@ export const PROJECTS: Project[] = [
 ];
 
 export const HERO_META = [
-  { label: "Na trhu", value: "18 let" },
+  { label: "Na trhu", value: "10 let" },
   { label: "Realizací", value: "420+" },
   { label: "Vlastních part", value: "4" },
 ];
@@ -119,7 +119,7 @@ export const PROCESS: ProcessStep[] = [
 ];
 
 export const STATS: StatItem[] = [
-  { label: "Na trhu", value: "18", unit: "let", note: "Od roku 2008" },
+  { label: "Na trhu", value: "10", unit: "let", note: "Od roku 2016" },
   { label: "Realizací", value: "420", unit: "+" },
   { label: "Plochých střech ročně", value: "11 000", unit: "m²" },
   { label: "Vlastních part", value: "4", note: "Bez subdodávek na klíčové práce" },
@@ -150,11 +150,11 @@ export const TEAM: TeamMember[] = [
 ];
 
 export const CONTACT_ROWS: SpecRow[] = [
-  { label: "Telefon", value: "+420 777 123 456" },
+  { label: "Telefon", value: "+420 601 505 323" },
   { label: "E-mail", value: "info@tatai.cz" },
-  { label: "Sídlo", value: "Valašské Meziříčí" },
-  { label: "IČO", value: "12345678" },
-  { label: "Působnost", value: "Morava, do 120 km" },
+  { label: "Sídlo", value: "Křižíkova 965/1, Olomouc" },
+  { label: "IČO", value: "05452783" },
+  { label: "Působnost", value: "Celá ČR" },
 ];
 
 export const FOOTER_COLUMNS = [

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { FOOTER_COLUMNS } from "@/lib/data";
 
@@ -21,9 +22,7 @@ export function Footer({
       <div className="container-tatai">
         <div className="grid gap-12 pb-(--section-y-sm) border-b border-border-inverse grid-cols-[minmax(0,1.4fr)_repeat(auto-fit,minmax(150px,1fr))]">
           <div className="grid gap-6 content-start">
-            <span className="font-display font-semibold text-[28px] tracking-heading text-inverse">
-              TATA<span className="text-signal-500">I</span>
-            </span>
+            <Image src="/logo/tatai-mark.webp" alt="TATAI" width={192} height={119} className="h-10 w-auto" />
             {claim && <p className="text-body-md max-w-[34ch] leading-body">{claim}</p>}
           </div>
           {columns.map((col) => (

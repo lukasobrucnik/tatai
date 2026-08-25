@@ -26,7 +26,7 @@ export default function ObchodniPodminky() {
       <div className="grid gap-4">
         <H>Úvodní ustanovení</H>
         <P>
-          Tyto podmínky vydává TATAI s.r.o., IČO {ICO}, se sídlem Valašské Meziříčí (dále jen „zhotovitel“), a
+          Tyto podmínky vydává TATAI s.r.o., IČO {ICO}, se sídlem Křižíkova 965/1, 779 00 Olomouc (dále jen „zhotovitel“), a
           upravují obecný postup při vyřizování poptávek a realizaci zakázek v oblasti střech a dřevěných
           konstrukcí. Konkrétní práva a povinnosti k jednotlivé zakázce upravuje vždy individuální nabídka nebo
           smlouva mezi zhotovitelem a zákazníkem.

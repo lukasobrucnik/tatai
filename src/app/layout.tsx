@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import { CookieConsent } from "@/components/cookie-consent";
 import "./globals.css";
 
@@ -25,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "TATAI — Střechy a dřevěné konstrukce",
   description:
-    "Ploché a šikmé střechy, sloupkové konstrukce, CLT panely a roubenky. Od skladby a detailu po předání. Valašské Meziříčí a okolí.",
+    "Ploché a šikmé střechy, sloupkové konstrukce, CLT panely a roubenky. Od skladby a detailu po předání. Olomouc a celá ČR.",
 };
 
 // The site is light-only by design (no dark variant). Without this, Samsung
@@ -43,6 +44,20 @@ export default function RootLayout({
   return (
     <html lang="cs" className={`${archivo.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}>
       <body>
+        {/* `html { scroll-behavior: smooth }` (globals.css) also governs the
+            browser's native initial scroll-to-fragment. On a deep link like
+            /#realizace that turns first paint into a multi-second animated
+            scroll down the whole page instead of landing instantly. Force
+            "auto" for that one native scroll, then hand behavior back to the
+            CSS rule so in-page nav clicks stay smooth. */}
+        <Script id="hash-scroll-instant" strategy="beforeInteractive">
+          {`if (location.hash) {
+            document.documentElement.style.scrollBehavior = "auto";
+            window.addEventListener("load", function () {
+              document.documentElement.style.scrollBehavior = "";
+            }, { once: true });
+          }`}
+        </Script>
         {children}
         <CookieConsent />
       </body>

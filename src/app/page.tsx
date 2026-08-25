@@ -145,7 +145,7 @@ export default function Home() {
           <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1!">
             {homeProjects.map((p) => (
               <Reveal key={p.slug}>
-                <ProjectCard project={p} index={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")} />
+                <ProjectCard project={p} index={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")} ratio="project" />
               </Reveal>
             ))}
           </div>
@@ -349,7 +349,7 @@ export default function Home() {
             height="66svh"
             eyebrow="O nás"
             title="Parta, která zvedá krovy a svařuje fólie."
-            lead="Od roku 2008. Valašské Meziříčí a okolí do 120 km."
+            lead="Od roku 2016. Působíme po celé ČR."
             label="Parta na stavbě — ráno"
           />
         </SectionAnchor>
@@ -373,7 +373,7 @@ export default function Home() {
               </div>
             </Reveal>
             <Reveal delay={0.07}>
-              <Photo src="/photos/team-stavbyvedouci.webp" ratio="portrait" label="Stavbyvedoucí na střeše" caption="Valašské Meziříčí, 2025" />
+              <Photo src="/photos/team-stavbyvedouci.webp" ratio="portrait" label="Stavbyvedoucí na střeše" caption="Olomouc, 2025" />
             </Reveal>
           </div>
         </Section>
@@ -420,7 +420,7 @@ export default function Home() {
           email={EMAIL}
           address={ADDRESS}
           ico={ICO}
-          claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2008."
+          claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2016."
           columns={FOOTER_COLUMNS}
         />
       </div>

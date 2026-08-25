@@ -25,7 +25,7 @@ export default function OchranaSoukromi() {
       <div className="grid gap-4">
         <H>Kdo je správcem údajů</H>
         <P>
-          Správcem osobních údajů je společnost TATAI s.r.o., se sídlem Valašské Meziříčí, IČO {ICO}. Ve věcech
+          Správcem osobních údajů je společnost TATAI s.r.o., se sídlem Křižíkova 965/1, 779 00 Olomouc, IČO {ICO}. Ve věcech
           ochrany osobních údajů nás můžete kontaktovat na e-mailu {EMAIL}.
         </P>
       </div>

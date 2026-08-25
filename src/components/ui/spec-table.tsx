@@ -24,6 +24,13 @@ export function SpecTable({
           <dd className={`m-0 text-body-md font-medium text-right tabular-nums ${inv ? "text-inverse" : "text-strong"}`}>{r.value}</dd>
         </div>
       ))}
+      {/* Closing tick, not another row: two side-by-side tables rarely have
+          equal row counts, and a table that just stops after its last border
+          reads as truncated. This reuses the Eyebrow rule mark to give every
+          table — long or short — the same deliberate full stop. */}
+      <div aria-hidden className="py-4" style={{ gridColumn: `span ${columns}` }}>
+        <span className={`block h-px w-[22px] ${inv ? "bg-border-inverse" : "bg-border-strong"}`} />
+      </div>
     </dl>
   );
 }

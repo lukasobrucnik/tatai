@@ -48,7 +48,7 @@ export function LegalPage({
           email={EMAIL}
           address={ADDRESS}
           ico={ICO}
-          claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2008."
+          claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2016."
           columns={FOOTER_COLUMNS}
         />
       </div>
