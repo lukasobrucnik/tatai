@@ -37,6 +37,20 @@ export function Hero({
         <div aria-hidden className={`absolute inset-0 ${inv ? "dot-grid-dark" : "dot-grid-light"}`} style={{ backgroundSize: "32px 32px" }} />
       )}
       {inv && <span aria-hidden className="absolute inset-0" style={{ background: "var(--overlay-photo)" }} />}
+      {/* overlay-photo's dark ramp only reaches full strength near the
+          bottom, so on short viewports where the content block grows taller
+          than `height` (min-height, not fixed) and items-end no longer has
+          room to push it down, the eyebrow/heading can land on a still-bright
+          top of the photo. Same top scrim HeroDiptych already uses for its
+          top-anchored labels — cheap insurance, not visible where the top of
+          the photo is already dark. */}
+      {inv && src && (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-40"
+          style={{ background: "linear-gradient(180deg, rgba(10,12,13,.6) 0%, rgba(10,12,13,0) 100%)" }}
+        />
+      )}
       {!src && (
         <span className={`absolute right-(--container-gutter) top-10 font-mono text-eyebrow tracking-eyebrow uppercase ${inv ? "text-graphite-300" : "text-muted"}`}>
           {label || "Hero foto"}

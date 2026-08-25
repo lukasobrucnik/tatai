@@ -22,7 +22,7 @@ export function SectionHeader({
   const stacked = align === "stack";
   return (
     <header
-      className={`grid gap-8 items-end pb-12 border-b mb-16 ${inv ? "border-border-inverse" : "border-border-hairline"} ${stacked ? "grid-cols-1" : "grid-cols-[minmax(0,1fr)_auto]"}`}
+      className={`grid gap-8 items-end pb-12 border-b mb-16 ${inv ? "border-border-inverse" : "border-border-hairline"} ${stacked ? "grid-cols-1" : "grid-cols-[minmax(0,1fr)_auto] max-sm:grid-cols-1!"}`}
     >
       <div className={`grid gap-5 ${stacked ? "max-w-none" : "max-w-[52ch]"}`}>
         {eyebrow && (
