@@ -230,3 +230,57 @@ html {
     scroll-behavior: auto;
   }
 }
+
+/* ---- Custom scrollbar ----
+   Same grammar as the rest of the site: square (no radius), hairline-thin,
+   graphite on bone, signal-cyan only on interaction. Firefox via
+   scrollbar-color/-width, Chromium/Safari/Edge via the ::-webkit-* pseudo
+   elements below. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-graphite-400) var(--color-surface-page);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-page);
+  border-left: 1px solid var(--color-border-hairline);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-graphite-400);
+  border: 3px solid var(--color-surface-page);
+  border-radius: 0;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-signal-500);
+}
+
+/* ---- Custom cursor ----
+   The visual mark itself lives in components/custom-cursor.tsx (it needs to
+   track the pointer and react to hover, which is beyond CSS). This just
+   hides the native arrow on the same fine-pointer/no-reduced-motion
+   condition that component checks before it mounts anything, and keeps a
+   real caret over text — CustomCursor never renders above text inputs.
+   The wildcard + !important is deliberate: several interactive components
+   (Button, Tag, checkbox label…) set an explicit `cursor-pointer` utility
+   directly on the element, which otherwise still shows the system hand
+   alongside our own mark. */
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: none !important;
+  }
+
+  html.custom-cursor-active input,
+  html.custom-cursor-active textarea,
+  html.custom-cursor-active [contenteditable="true"] {
+    cursor: text !important;
+  }
+}

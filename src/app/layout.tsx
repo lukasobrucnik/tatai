@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { CookieConsent } from "@/components/cookie-consent";
+import { CustomCursor } from "@/components/custom-cursor";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -18,7 +19,10 @@ const instrumentSans = Instrument_Sans({
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
+  // 600 added so the active-nav-item weight bump (header.tsx) is a real font
+  // file, not a browser-synthesized "faux bold" — synthetic bolding on a
+  // mono face at this size renders visibly blurry.
+  weight: ["400", "500", "600"],
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
@@ -60,6 +64,7 @@ export default function RootLayout({
         </Script>
         {children}
         <CookieConsent />
+        <CustomCursor />
       </body>
     </html>
   );

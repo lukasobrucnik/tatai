@@ -11,6 +11,7 @@ export function MaterialStrip({ items, tone = "default" }: { items: MaterialItem
       {items.map((it, i) => (
         <div
           key={i}
+          data-cursor-hover
           className={`group relative grid gap-4 content-start text-left px-6 py-8 transition-colors duration-150 ${inv ? "hover:bg-graphite-800" : "hover:bg-surface-raised"} ${i === 0 ? "border-l-0" : `border-l max-md:border-l-0 ${inv ? "border-border-inverse" : "border-border-hairline"}`}`}
         >
           <span

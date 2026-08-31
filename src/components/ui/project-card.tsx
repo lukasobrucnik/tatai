@@ -19,7 +19,7 @@ export function ProjectCard({
 }) {
   const ratioCls = (ratio ?? project.ratio) === "portrait" ? "aspect-3/4" : "aspect-4/3";
   return (
-    <div className="grid gap-5">
+    <div className="group grid gap-5" data-cursor-hover>
       <div className={`relative overflow-hidden dot-grid-light ${ratioCls} ${src ? "" : "border border-border-hairline"}`}>
         {src ? (
           <Image
@@ -27,7 +27,7 @@ export function ProjectCard({
             alt={project.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.035]"
           />
         ) : (
           // Same "no photo" caption convention as Photo (ui/photo.tsx) — the
@@ -39,6 +39,11 @@ export function ProjectCard({
         <span className="absolute bottom-0 right-0 px-2.5 py-1.5 bg-graphite-1000 text-bone-100 font-mono text-eyebrow tracking-eyebrow uppercase">
           {project.category}
         </span>
+        {/* Same accent-line hover language as Pillar (ui/pillar-split.tsx) — keeps the card's hover consistent with the rest of the site instead of sitting static. */}
+        <span
+          aria-hidden
+          className="absolute left-0 right-0 bottom-0 h-0.5 bg-signal-500 origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"
+        />
       </div>
       <div className="grid gap-3">
         <div className="flex items-baseline justify-between gap-4 pb-3 border-b border-border-hairline">

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNav } from "./nav-context";
 import { Button } from "./ui/button";
@@ -24,10 +25,20 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
               <a
                 key={it.id}
                 href={`${hrefPrefix}#${it.id}`}
-                className={`font-mono text-eyebrow tracking-eyebrow uppercase no-underline pb-0.5 border-b transition-colors duration-150 ${
-                  on ? "text-strong border-signal-500" : "text-muted border-transparent"
+                // Active section is a frankly-visible pill, not a hinted glow —
+                // it shares a layoutId so it physically slides between items
+                // as the active section changes, instead of popping.
+                className={`relative font-mono text-eyebrow tracking-eyebrow uppercase no-underline transition-colors duration-200 ${
+                  on ? "text-strong font-semibold" : "text-muted font-medium"
                 }`}
               >
+                {on && (
+                  <motion.span
+                    layoutId="nav-active-pill"
+                    className="absolute -inset-x-3 -inset-y-2 bg-surface-accent-soft rounded-pill -z-10"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  />
+                )}
                 {it.label}
               </a>
             );
