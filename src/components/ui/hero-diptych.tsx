@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { Eyebrow } from "./eyebrow";
 
@@ -22,21 +22,24 @@ function Panel({
   delay,
   y,
   priority,
+  onSettled,
 }: {
   panel: DiptychPanel;
   delay: number;
   y?: MotionValue<number>;
   priority?: boolean;
+  onSettled?: () => void;
 }) {
   return (
-    <div className="relative overflow-hidden">
+    <div className="group relative overflow-hidden">
       <motion.a
         href={panel.href}
         aria-label={`${panel.label} — ${panel.caption}`}
-        className="group absolute inset-0 block no-underline"
+        className="absolute inset-0 block no-underline"
         initial={{ y: "101%" }}
         animate={{ y: 0 }}
         transition={{ duration: 1.1, ease: EASE, delay }}
+        onAnimationComplete={onSettled}
       >
         <motion.div className="absolute inset-0" style={y ? { y } : undefined}>
           {/* -inset-y stretches the frame so parallax never exposes a bare edge */}
@@ -51,12 +54,6 @@ function Panel({
             />
           </div>
         </motion.div>
-
-        {/* resting tint, lifts on hover so the hovered half reads as "focused" */}
-        <span
-          aria-hidden
-          className="absolute inset-0 bg-graphite-1000/25 transition-opacity duration-500 group-hover:opacity-0"
-        />
         {/* top scrim: the sky in these photos is bright, the label sits on it */}
         <span
           aria-hidden
@@ -69,6 +66,18 @@ function Panel({
           className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-500 ease-out group-hover:scale-x-100"
         />
       </motion.a>
+
+      {/* Tint lives OUTSIDE the sliding curtain entirely — a static layer over
+          the panel's own (real, final) box, present from the first frame,
+          never transformed. It can't lag or bleed-mismatch the photo because
+          it isn't part of that animation at all: the curtain simply slides a
+          photo in underneath an already-dark pane of glass. pointer-events-
+          none so it doesn't block the link/hover beneath it; group-hover
+          still fires off the wrapper (now the `group`), not the link. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-graphite-1000/25 transition-opacity duration-500 group-hover:opacity-0"
+      />
     </div>
   );
 }
@@ -118,19 +127,28 @@ export function HeroDiptych({
   const yLeft = useTransform(scrollYProgress, [0, 1], [0, -24]);
   const yRight = useTransform(scrollYProgress, [0, 1], [0, 24]);
 
+  // Text block waits until BOTH panels report their curtain slide actually
+  // finished — a real completion event, not a guessed wall-clock delay — so
+  // it never starts rising while a photo is still visibly sliding in. The
+  // tint itself no longer depends on this: it's baked into each panel (see
+  // Panel below), so it can't fall out of sync with anything.
+  const [settledCount, setSettledCount] = useState(0);
+  const settled = !!reduce || settledCount >= 2;
+  const onPanelSettled = () => setSettledCount((n) => n + 1);
+
   const rise = reduce
     ? {}
     : {
         initial: { opacity: 0, y: 16 },
-        animate: { opacity: 1, y: 0 },
+        animate: { opacity: settled ? 1 : 0, y: settled ? 0 : 16 },
       };
 
   return (
     <section ref={ref} className="hero-viewport relative isolate flex items-end overflow-hidden bg-graphite-900">
       {/* not aria-hidden: these panels contain the two real navigation links */}
       <div className="absolute inset-0 grid grid-cols-2">
-        <Panel panel={left} delay={reduce ? 0 : 0.05} y={reduce ? undefined : yLeft} priority />
-        <Panel panel={right} delay={reduce ? 0 : 0.17} y={reduce ? undefined : yRight} priority />
+        <Panel panel={left} delay={reduce ? 0 : 0.05} y={reduce ? undefined : yLeft} priority onSettled={onPanelSettled} />
+        <Panel panel={right} delay={reduce ? 0 : 0.17} y={reduce ? undefined : yRight} priority onSettled={onPanelSettled} />
       </div>
 
       <motion.span
@@ -154,13 +172,13 @@ export function HeroDiptych({
       </div>
 
       <div className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(2.5rem,6vh,5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8">
-        <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0.45 }}>
+        <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0 }}>
           <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
         </motion.div>
 
         <motion.h1
           {...rise}
-          transition={{ duration: 0.8, ease: EASE, delay: 0.55 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}
           className="max-w-[18ch] font-display font-medium tracking-display text-inverse"
           style={{ fontSize: "clamp(2.25rem, 5.6vw, 5.25rem)", lineHeight: 1.02 }}
         >
@@ -169,7 +187,7 @@ export function HeroDiptych({
 
         <motion.p
           {...rise}
-          transition={{ duration: 0.8, ease: EASE, delay: 0.63 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.16 }}
           className="max-w-[46ch] text-lead leading-snug text-inverse-muted"
         >
           {lead}
@@ -178,7 +196,7 @@ export function HeroDiptych({
         {actions && (
           <motion.div
             {...rise}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.71 }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.24 }}
             className="flex flex-wrap gap-3 sm:gap-4"
           >
             {actions}
@@ -188,8 +206,8 @@ export function HeroDiptych({
         {meta.length > 0 && (
           <motion.dl
             {...rise}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.79 }}
-            className="m-0 hidden flex-wrap gap-8 border-t border-border-inverse pt-6 sm:flex sm:gap-12 sm:pt-8"
+            transition={{ duration: 0.8, ease: EASE, delay: 0.32 }}
+            className="m-0 flex flex-wrap gap-x-8 gap-y-4 border-t border-border-inverse pt-6 sm:gap-x-12 sm:pt-8"
           >
             {meta.map((m) => (
               <div key={m.label} className="grid gap-1.5">

@@ -283,4 +283,8 @@ html {
   html.custom-cursor-active [contenteditable="true"] {
     cursor: text !important;
   }
+
+  html.custom-cursor-active select {
+    cursor: default !important;
+  }
 }

@@ -15,8 +15,8 @@ const sizes = {
   lg: "text-body-sm px-[30px] py-[18px] min-h-[58px]",
 } as const;
 
-type Variant = keyof typeof variants;
-type Size = keyof typeof sizes;
+export type Variant = keyof typeof variants;
+export type Size = keyof typeof sizes;
 
 const base =
   "group inline-flex items-center justify-center gap-3 font-mono tracking-eyebrow uppercase border rounded-none cursor-pointer no-underline transition-colors duration-150 whitespace-nowrap disabled:opacity-38 disabled:cursor-not-allowed";

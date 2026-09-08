@@ -4,8 +4,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNav } from "./nav-context";
-import { Button } from "./ui/button";
+import { InquiryTriggerButton } from "./inquiry-trigger-button";
 import type { NAV } from "@/lib/data";
+
+// Same "things settle, they never bounce" token as the rest of the site's
+// motion (hero-diptych.tsx) — the active-nav indicator used to run on an
+// underdamped spring (stiffness 420, damping 34, below its ~41 critical
+// damping) and visibly overshot when it slid between items.
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; phone: string; hrefPrefix?: string }) {
   const { active } = useNav();
@@ -25,18 +31,22 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
               <a
                 key={it.id}
                 href={`${hrefPrefix}#${it.id}`}
-                // Active section is a frankly-visible pill, not a hinted glow —
-                // it shares a layoutId so it physically slides between items
-                // as the active section changes, instead of popping.
+                // Active section reuses the site's own hover motif (project
+                // card / material strip / pillar split all reveal a signal
+                // underline on hover) instead of a standalone pill — it's a
+                // shape the visitor has already been trained on elsewhere,
+                // just held permanently open here rather than on :hover.
+                // Font weight stays fixed (no medium→semibold jump) so the
+                // label never changes width as the indicator moves.
                 className={`relative font-mono text-eyebrow tracking-eyebrow uppercase no-underline transition-colors duration-200 ${
-                  on ? "text-strong font-semibold" : "text-muted font-medium"
+                  on ? "text-strong" : "text-muted"
                 }`}
               >
                 {on && (
                   <motion.span
-                    layoutId="nav-active-pill"
-                    className="absolute -inset-x-3 -inset-y-2 bg-surface-accent-soft rounded-pill -z-10"
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    layoutId="nav-active-line"
+                    className="absolute -inset-x-1 -bottom-2 h-0.5 bg-signal-500"
+                    transition={{ duration: 0.35, ease: EASE }}
                   />
                 )}
                 {it.label}
@@ -49,9 +59,9 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
           <a href={`tel:${phone.replace(/\s/g, "")}`} className="hidden lg:inline font-mono text-caption text-body no-underline pl-8 border-l border-border-hairline">
             {phone}
           </a>
-          <Button size="sm" href={`${hrefPrefix}#kontakt`} arrow className="flex-none">
+          <InquiryTriggerButton size="sm" arrow className="flex-none">
             Poptávka
-          </Button>
+          </InquiryTriggerButton>
           <button
             aria-label="Menu"
             onClick={() => setOpen((o) => !o)}

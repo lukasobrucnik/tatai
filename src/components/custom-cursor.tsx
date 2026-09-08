@@ -3,12 +3,24 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-// Clickable — the square frame gets the looping spin inside it.
+// Clickable — becomes a small filled dot.
 const CLICK_SELECTOR = 'a, button, [role="button"], input[type="submit"], label[for], summary, [data-cursor-interactive]';
 // Reacts to hover (image zoom, row tint, accent line…) but isn't itself
-// clickable — same square frame, held still, no spin. Opt in per component
-// via `data-cursor-hover` (project-card.tsx, assembly-stack.tsx, material-strip.tsx).
+// clickable — a hollow ring, no fill. Opt in per component via
+// `data-cursor-hover` (project-card.tsx, assembly-stack.tsx, material-strip.tsx).
 const HOVER_SELECTOR = "[data-cursor-hover]";
+// Elements with their own native cursor (text caret, OS select popup) — the
+// mark hides here entirely rather than sitting on top of it. Two cursors
+// drawn at once is what reads as "broken", not the native one alone.
+const NATIVE_SELECTOR = 'input, textarea, select, [contenteditable="true"]';
+
+// Same token as the rest of the site's motion (see hero-diptych.tsx): things
+// settle, they never bounce. The cursor previously used underdamped springs
+// for its shape changes, which overshot and read as playful/showy — this
+// keeps position tracking on a spring (that one's fine, it's critically
+// damped, just following the pointer) but every shape/opacity change now
+// runs on this plain ease instead.
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 const NEAR_BLACK = "#0e1113"; // --color-graphite-1000
 const NEAR_WHITE = "#faf8f4"; // --color-bone-100
@@ -42,17 +54,23 @@ function backgroundLuminanceAt(x: number, y: number): number {
 }
 
 /**
- * Replaces the system arrow with a small precision mark, three states:
- *  - idle: a thin crosshair
- *  - hover (reacts, can't be clicked): an open corner-bracket frame, static
- *  - click (can be clicked): the same frame with a small cross spinning
- *    inside it on a loop — the one clearly "this does something" signal
+ * Replaces the system arrow with a small dot, three states:
+ *  - idle: a quiet 5px dot
+ *  - hover (reacts, can't be clicked): the dot opens into a hollow ring
+ *  - click (can be clicked): a slightly larger, filled dot
  *
- * The mark's color itself continuously reads the background under the
- * pointer (sampled via elementFromPoint) and eases between near-black and
+ * No shape morphing, no loop, no spring-bounce — the mark just eases
+ * between three sizes of the same circle, deliberately understated.
+ *
+ * The mark's color continuously reads the background under the pointer
+ * (sampled via elementFromPoint) and eases between near-black and
  * near-bone so it stays visible over both the dark sections and the light
- * ones — a smooth crossfade, never an instant swap, so a mid-transition
- * frame never reads as a rendering glitch.
+ * ones — a smooth crossfade, never an instant swap.
+ *
+ * Hides itself (rather than drawing on top) over anything with a real
+ * native cursor of its own — text fields and <select> — and pre-emptively
+ * fades out before the pointer reaches the browser's own scrollbar, which
+ * lives outside the document and can never be told to hide its cursor.
  *
  * Desktop-with-a-mouse only: bails out entirely under touch/coarse pointers
  * and prefers-reduced-motion, leaving the native cursor (and its own
@@ -61,12 +79,15 @@ function backgroundLuminanceAt(x: number, y: number): number {
 export function CustomCursor() {
   const [eligible, setEligible] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [suppressed, setSuppressed] = useState(false);
   const [state, setState] = useState<CursorState>("idle");
   const [markColor, setMarkColor] = useState(NEAR_BLACK);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   // Tight, low-mass spring: reads as a precise instrument tracking the
-  // pointer, not a floaty/playful trailing effect.
+  // pointer, not a floaty/playful trailing effect. Overdamped on purpose
+  // (damping > critical) so this is the one motion in the component that's
+  // still a spring — it can't overshoot.
   const springX = useSpring(x, { stiffness: 900, damping: 45, mass: 0.35 });
   const springY = useSpring(y, { stiffness: 900, damping: 45, mass: 0.35 });
   const framePending = useRef(false);
@@ -96,6 +117,15 @@ export function CustomCursor() {
       y.set(e.clientY);
       setVisible(true);
 
+      // The native scrollbar lives outside the document — the pointer just
+      // stops generating events over it, so a mark left mid-transition (or
+      // in "hover"/"click" state) would sit there as a frozen ghost. Fade
+      // out a little before the actual edge instead of waiting to find out.
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      if (scrollbarWidth > 0 && e.clientX >= document.documentElement.clientWidth - 16) {
+        setVisible(false);
+      }
+
       // elementFromPoint + a computed-style walk isn't free — cap it at
       // once per animation frame rather than once per raw mousemove.
       if (framePending.current) return;
@@ -108,6 +138,14 @@ export function CustomCursor() {
     };
     const onOver = (e: MouseEvent) => {
       const target = e.target as Element;
+
+      if (target.closest?.(NATIVE_SELECTOR)) {
+        setSuppressed(true);
+        setState("idle");
+        return;
+      }
+      setSuppressed(false);
+
       const clickable = target.closest?.(CLICK_SELECTOR);
       if (clickable && !(clickable as HTMLButtonElement).disabled) {
         setState("click");
@@ -132,78 +170,35 @@ export function CustomCursor() {
 
   if (!eligible) return null;
 
-  const framed = state !== "idle";
   const colorTransition = { duration: 0.35, ease: "easeInOut" as const };
+  const shapeTransition = { duration: 0.2, ease: EASE };
+
+  // radius + fill/stroke read straight off state — one circle, three sizes,
+  // never more than one property group changing shape at once.
+  const radius = state === "hover" ? 10 : state === "click" ? 6 : 2.5;
+  const filled = state !== "hover";
 
   return (
     <motion.div
       aria-hidden
       className="fixed left-0 top-0 z-[999] pointer-events-none"
-      style={{ x: springX, y: springY, opacity: visible ? 1 : 0, translateX: "-50%", translateY: "-50%" }}
+      style={{ x: springX, y: springY, translateX: "-50%", translateY: "-50%" }}
+      animate={{ opacity: visible && !suppressed ? 1 : 0 }}
       transition={{ opacity: { duration: 0.15 } }}
     >
-      <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
-        <motion.g
-          strokeWidth="1.25"
-          style={{ transformOrigin: "16px 16px" }}
-          animate={{
-            opacity: framed ? 0 : 0.85,
-            scale: framed ? 0.8 : 1,
-            stroke: markColor,
-          }}
-          transition={{ opacity: { type: "spring", stiffness: 500, damping: 30 }, scale: { type: "spring", stiffness: 500, damping: 30 }, stroke: colorTransition }}
-        >
-          <line x1="16" y1="3" x2="16" y2="11" />
-          <line x1="16" y1="21" x2="16" y2="29" />
-          <line x1="3" y1="16" x2="11" y2="16" />
-          <line x1="21" y1="16" x2="29" y2="16" />
-        </motion.g>
-
-        <motion.g
-          strokeWidth="1.5"
-          strokeLinecap="square"
-          style={{ transformOrigin: "16px 16px" }}
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <motion.circle
+          cx="14"
+          cy="14"
           initial={false}
           animate={{
-            opacity: framed ? 1 : 0,
-            scale: framed ? 1 : 0.7,
-            rotate: framed ? 0 : -8,
+            r: radius,
+            fill: filled ? markColor : "transparent",
             stroke: markColor,
           }}
-          transition={{
-            opacity: { type: "spring", stiffness: 480, damping: 26 },
-            scale: { type: "spring", stiffness: 480, damping: 26 },
-            rotate: { type: "spring", stiffness: 480, damping: 26 },
-            stroke: colorTransition,
-          }}
-        >
-          <path d="M6 12 V6 H12" />
-          <path d="M20 6 H26 V12" />
-          <path d="M26 20 V26 H20" />
-          <path d="M12 26 H6 V20" />
-        </motion.g>
-
-        {/* Loop only runs in the "click" state — the frame alone (hover
-            state) stays still, so the spin reads as "you can act on this"
-            rather than as generic decoration. */}
-        {state === "click" && (
-          <motion.g
-            strokeWidth="1.25"
-            style={{ transformOrigin: "16px 16px" }}
-            initial={{ opacity: 0, rotate: 0 }}
-            animate={{ opacity: 1, rotate: 360, stroke: markColor }}
-            transition={{
-              opacity: { duration: 0.15 },
-              rotate: { repeat: Infinity, ease: "linear", duration: 1.8 },
-              stroke: colorTransition,
-            }}
-          >
-            <line x1="16" y1="10" x2="16" y2="14" />
-            <line x1="16" y1="18" x2="16" y2="22" />
-            <line x1="10" y1="16" x2="14" y2="16" />
-            <line x1="18" y1="16" x2="22" y2="16" />
-          </motion.g>
-        )}
+          strokeWidth="1.25"
+          transition={{ r: shapeTransition, fill: colorTransition, stroke: colorTransition }}
+        />
       </svg>
     </motion.div>
   );

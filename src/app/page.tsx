@@ -5,6 +5,8 @@ import { Header } from "@/components/header";
 import { Accordion } from "@/components/accordion";
 import { DetailCallout } from "@/components/detail-callout";
 import { InquiryForm } from "@/components/inquiry-form";
+import { InquiryModalProvider } from "@/components/inquiry-modal-context";
+import { InquiryTriggerButton } from "@/components/inquiry-trigger-button";
 import { RealizaceExplorer } from "@/components/realizace-explorer";
 import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
@@ -52,6 +54,7 @@ export default function Home() {
 
   return (
     <NavProvider>
+    <InquiryModalProvider>
       <div className="min-h-screen bg-surface-page">
         <Header items={NAV} phone={PHONE} />
 
@@ -59,8 +62,8 @@ export default function Home() {
         <SectionAnchor id="home">
           <HeroDiptych
             eyebrow="Střechy a dřevěné konstrukce"
-            title="Stavíme to, co drží."
-            lead="Ploché a šikmé střechy, sloupkové konstrukce, CLT panely a roubenky. Od skladby a detailu po předání."
+            title="Dva obory, jedna firma."
+            lead="Ploché i šikmé střechy, sloupkové konstrukce, CLT panely, roubenky — od skladby a detailu po předání."
             meta={HERO_META}
             left={{
               src: "/photos/pillar-strechy.webp",
@@ -80,11 +83,11 @@ export default function Home() {
             }}
             actions={
               <>
-                <Button variant="inverse" size="lg" arrow href="#realizace">
-                  Realizace
-                </Button>
-                <Button variant="inverse-outline" size="lg" href="#kontakt">
+                <InquiryTriggerButton variant="inverse" size="lg" arrow>
                   Poptávka
+                </InquiryTriggerButton>
+                <Button variant="inverse-outline" size="lg" href="#realizace">
+                  Realizace
                 </Button>
               </>
             }
@@ -421,6 +424,7 @@ export default function Home() {
           columns={FOOTER_COLUMNS}
         />
       </div>
+    </InquiryModalProvider>
     </NavProvider>
   );
 }
