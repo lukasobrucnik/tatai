@@ -2,11 +2,16 @@
 
 import Image from "next/image";
 import { useRef, useState, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform, cubicBezier, easeIn, type MotionValue } from "framer-motion";
 import { Eyebrow } from "./eyebrow";
 
 /** DS motion: "things reveal, they never bounce" — --ease-out from the token set. */
 const EASE = [0.16, 1, 0.3, 1] as const;
+// Same curve as a scroll-linked easing function (framer's `ease` option on
+// useTransform wants an actual function, not the bezier array used above
+// for time-based `transition`s) — reused so the exit fade shares the
+// site's one motion signature instead of inventing a second curve.
+const EASE_OUT_FN = cubicBezier(...EASE);
 
 export type DiptychPanel = {
   src: string;
@@ -21,12 +26,14 @@ function Panel({
   panel,
   delay,
   y,
+  opacity,
   priority,
   onSettled,
 }: {
   panel: DiptychPanel;
   delay: number;
   y?: MotionValue<number>;
+  opacity?: MotionValue<number>;
   priority?: boolean;
   onSettled?: () => void;
 }) {
@@ -41,9 +48,10 @@ function Panel({
         transition={{ duration: 1.1, ease: EASE, delay }}
         onAnimationComplete={onSettled}
       >
-        <motion.div className="absolute inset-0" style={y ? { y } : undefined}>
-          {/* -inset-y stretches the frame so parallax never exposes a bare edge */}
-          <div className="absolute -inset-y-8 inset-x-0">
+        <motion.div className="absolute inset-0" style={y || opacity ? { y, opacity } : undefined}>
+          {/* -inset-y stretches the frame so parallax never exposes a bare edge —
+              sized for the ±100px drift range in HeroDiptych, with headroom left over */}
+          <div className="absolute -inset-y-[130px] inset-x-0">
             <Image
               src={panel.src}
               alt={panel.alt}
@@ -123,9 +131,42 @@ export function HeroDiptych({
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  // counter-drifting halves: transform-only, cheap enough to keep on mobile
-  const yLeft = useTransform(scrollYProgress, [0, 1], [0, -24]);
-  const yRight = useTransform(scrollYProgress, [0, 1], [0, 24]);
+  // Depth read built from plain 2D layers moving at different rates off the
+  // same scroll progress — no real 3D, just the classic parallax trick:
+  // the "farthest" layer (photos) moves least, the "nearest" ones (divider
+  // line, then text) move fastest. Transform/opacity only, cheap on mobile.
+  //
+  // Every one of these maps the FULL [0, 1] scroll range (start of hero to
+  // the moment it's completely scrolled past) — never a truncated window
+  // like [0, 0.3]. That's not just tidiness: a transform that reaches its
+  // end value before progress hits 1 is *clamped* flat from that point on,
+  // and ordinary scroll (trackpad momentum, `scroll-behavior: smooth`
+  // easing each wheel tick) is not perfectly monotonic — it can wobble a
+  // few pixels backwards mid-gesture. Wobbling back across a clamp boundary
+  // un-clamps the value and it visibly jumps back toward its start, then
+  // clamps again on the next forward tick — exactly the "disappears,
+  // partly reappears, disappears again" flicker. Spread across the full
+  // range, that same wobble is too small a fraction of the distance to see,
+  // and the only clamp boundary left sits at progress 1, where the hero has
+  // physically left the viewport anyway.
+  //
+  // Depth is instead read from magnitude and easing shape, not timing:
+  // the divider fades on the site's own ease-out curve (drops early, so it
+  // *feels* like the first to go, without ever actually going flat before
+  // the end), the text trails it on an ease-in curve, and the photos get
+  // the largest, steady linear drift plus a slow dim.
+  const yLeft = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const yRight = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const photoDim = useTransform(scrollYProgress, [0, 1], [1, 0.55]);
+  // Divider line is the nearest layer — it's also the one whose entrance
+  // gesture (scaleY 0→1, "opening") is most visible, so its exit mirrors
+  // that same gesture: fast to fade, read as "closing" first.
+  const dividerExitOpacity = useTransform(scrollYProgress, [0, 1], [1, 0], { ease: EASE_OUT_FN });
+  // Text block: nearer than the photos, farther than the divider line —
+  // an ease-IN curve makes it linger before picking up speed, so it reads
+  // as leaving after the line but well before the photos have dimmed out.
+  const textExitY = useTransform(scrollYProgress, [0, 1], [0, -180]);
+  const textExitOpacity = useTransform(scrollYProgress, [0, 1], [1, 0], { ease: easeIn });
 
   // Text block waits until BOTH panels report their curtain slide actually
   // finished — a real completion event, not a guessed wall-clock delay — so
@@ -147,8 +188,22 @@ export function HeroDiptych({
     <section ref={ref} className="hero-viewport relative isolate flex items-end overflow-hidden bg-graphite-900">
       {/* not aria-hidden: these panels contain the two real navigation links */}
       <div className="absolute inset-0 grid grid-cols-2">
-        <Panel panel={left} delay={reduce ? 0 : 0.05} y={reduce ? undefined : yLeft} priority onSettled={onPanelSettled} />
-        <Panel panel={right} delay={reduce ? 0 : 0.17} y={reduce ? undefined : yRight} priority onSettled={onPanelSettled} />
+        <Panel
+          panel={left}
+          delay={reduce ? 0 : 0.05}
+          y={reduce ? undefined : yLeft}
+          opacity={reduce ? undefined : photoDim}
+          priority
+          onSettled={onPanelSettled}
+        />
+        <Panel
+          panel={right}
+          delay={reduce ? 0 : 0.17}
+          y={reduce ? undefined : yRight}
+          opacity={reduce ? undefined : photoDim}
+          priority
+          onSettled={onPanelSettled}
+        />
       </div>
 
       <motion.span
@@ -157,6 +212,7 @@ export function HeroDiptych({
         initial={reduce ? undefined : { scaleY: 0 }}
         animate={reduce ? undefined : { scaleY: 1 }}
         transition={{ duration: 1.1, ease: EASE, delay: 0.35 }}
+        style={reduce ? undefined : { opacity: dividerExitOpacity }}
       />
 
       <span aria-hidden className="pointer-events-none absolute inset-0 z-[1]" style={{ background: "var(--overlay-photo)" }} />
@@ -167,11 +223,22 @@ export function HeroDiptych({
           max-width wrapper here would drift out of alignment with them on
           wide screens. Each label insets itself by the gutter instead. */}
       <div className="pointer-events-none absolute inset-0 z-[2] grid grid-cols-2">
-        <PanelLabel panel={left} />
-        <PanelLabel panel={right} />
+        <motion.div style={reduce ? undefined : { y: yLeft }}>
+          <PanelLabel panel={left} />
+        </motion.div>
+        <motion.div style={reduce ? undefined : { y: yRight }}>
+          <PanelLabel panel={right} />
+        </motion.div>
       </div>
 
-      <div className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(2.5rem,6vh,5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8">
+      {/* Scroll-driven exit wrapper — separate from the entrance `rise`
+          animations on the children below, so the two never fight over the
+          same transform. This is the fastest-moving content layer after the
+          divider line: it's gone well before the photos are. */}
+      <motion.div
+        className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(2.5rem,6vh,5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8"
+        style={reduce ? undefined : { y: textExitY, opacity: textExitOpacity }}
+      >
         <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0 }}>
           <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
         </motion.div>
@@ -217,7 +284,7 @@ export function HeroDiptych({
             ))}
           </motion.dl>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { NavProvider } from "@/components/nav-context";
+import { InquiryModalProvider } from "@/components/inquiry-modal-context";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/ui/footer";
 import { Section } from "@/components/ui/section";
@@ -20,6 +21,7 @@ export function LegalPage({
 }) {
   return (
     <NavProvider>
+    <InquiryModalProvider>
       <div className="min-h-screen bg-surface-page">
         <Header items={NAV} phone={PHONE} hrefPrefix="/" />
 
@@ -52,6 +54,7 @@ export function LegalPage({
           columns={FOOTER_COLUMNS}
         />
       </div>
+    </InquiryModalProvider>
     </NavProvider>
   );
 }
