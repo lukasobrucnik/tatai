@@ -378,7 +378,10 @@ export default function Home() {
             numbers belong to the four chapters that present the work, and
             this one is the way out rather than part of the tour. */}
         <SectionAnchor id="kontakt">
-          <StatementPlate name="Kontakt" lead="Napište, co máte za stavbu. Zbytek vymyslíme." />
+          <StatementPlate
+            name="Kontakt"
+            lead="Napište, co máte za stavbu — klidně jen to, co zatím víte. Přijedeme se podívat, změříme a nafotíme stav, a teprve potom od nás dostanete návrh skladby a položkový rozpočet. Prohlídka i nabídka jsou nezávazné. Sídlíme v Olomouci a jezdíme po celé ČR."
+          />
         </SectionAnchor>
 
           <Section tone="raised" density="lg">
@@ -407,7 +410,7 @@ export default function Home() {
                   Nenašli jste odpověď? Zavolejte nám.
                 </h3>
                 <p className="text-body-md leading-body text-body">
-                  Prohlídka i návrh skladby jsou nezávazné. Ozveme se do dvou pracovních dnů.
+                  Na poptávku se ozveme do dvou pracovních dnů. Když to spěchá, zavolejte rovnou — poradíme i po telefonu.
                 </p>
               </div>
               <Button variant="outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
