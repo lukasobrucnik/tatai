@@ -21,6 +21,7 @@ import { PhotoGrid } from "@/components/ui/photo-grid";
 import { PillarSplit } from "@/components/ui/pillar-split";
 import { AssemblyStack } from "@/components/ui/assembly-stack";
 import { SpecTable } from "@/components/ui/spec-table";
+import { StatementPlate } from "@/components/ui/statement-plate";
 import { ProcessScroll } from "@/components/ui/process-scroll";
 import { MaterialStrip } from "@/components/ui/material-strip";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ import {
   PITCHED_ROOF,
   CLT_WALL,
   HERO_META,
+  STATS,
   ROOF_META,
   HOUSE_META,
   ROOF_POINTS,
@@ -315,12 +317,15 @@ export default function Home() {
         </SectionAnchor>
 
         <ChapterLayer index="04" label="O nás">
+        {/* Opens on a statement rather than a photo plate — see StatementPlate.
+            Coming off the bone-white wall of projects, an inverted screen with
+            nothing moving on it is the clearest possible "you're somewhere
+            else", and it doesn't cost the page a fifth scroll mechanic. */}
         <SectionAnchor id="o-nas">
-          <Hero
-            height="66svh"
+          <StatementPlate
             title="Parta, která zvedá krovy a svařuje fólie."
             lead="Od roku 2016. Působíme po celé ČR."
-            label="Parta na stavbě — ráno"
+            stats={STATS}
           />
         </SectionAnchor>
 
