@@ -236,7 +236,9 @@ export function HeroDiptych({
           same transform. This is the fastest-moving content layer after the
           divider line: it's gone well before the photos are. */}
       <motion.div
-        className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(2.5rem,6vh,5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8"
+        // pb clears the 48px the first ChapterLayer overlaps the hero by, so
+        // the stats row is never tucked under the incoming sheet
+        className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(4rem,7vh,5.5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8"
         style={reduce ? undefined : { y: textExitY, opacity: textExitOpacity }}
       >
         <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0 }}>

@@ -11,6 +11,7 @@ import { RealizaceExplorer } from "@/components/realizace-explorer";
 import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
 import { Section } from "@/components/ui/section";
+import { ChapterLayer } from "@/components/ui/chapter-layer";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Photo } from "@/components/ui/photo";
@@ -94,6 +95,13 @@ export default function Home() {
           />
         </SectionAnchor>
 
+        {/* Everything below the hero is a stack of sheets — see ChapterLayer.
+            One sheet per chapter, and from here down a chapter means exactly
+            what the menu means: Střechy, Domy, Realizace, O nás, Kontakt.
+            This first sheet is the front matter (co děláme → ukázka → proces),
+            so it's the one sheet with no tab. Shallower overlap so it can
+            never reach the hero's stats row, which sits near its bottom. */}
+        <ChapterLayer overlap={48}>
         <Section density="lg">
           <Reveal>
             <SectionHeader
@@ -165,11 +173,12 @@ export default function Home() {
           </Reveal>
           <ProcessTrack tone="inverse" steps={PROCESS} />
         </Section>
+        </ChapterLayer>
 
+        <ChapterLayer index="01" label="Střechy">
         <SectionAnchor id="strechy">
           <Hero
             height="66svh"
-            eyebrow="Střechy"
             title="Střecha je skladba, ne krytina."
             lead="Ploché a šikmé střechy pro rodinné domy, bytové domy i průmyslové objekty. Od návrhu skladby po fotodokumentaci skrytých vrstev."
             src="/photos/hero-strechy.webp"
@@ -239,11 +248,12 @@ export default function Home() {
           </Reveal>
           <MaterialStrip items={ROOF_MATERIALS} />
         </Section>
+        </ChapterLayer>
 
+        <ChapterLayer index="02" label="Domy">
         <SectionAnchor id="domy">
           <Hero
             height="66svh"
-            eyebrow="Domy"
             title="Dřevo unese víc, než si myslíte."
             lead="Sloupkové konstrukce, CLT panely a ručně tesané roubenky. Tři technologie, jedna parta a jeden odpovědný stavbyvedoucí."
             src="/photos/hero-domy.webp"
@@ -316,18 +326,12 @@ export default function Home() {
           </Reveal>
           <MaterialStrip items={HOUSE_MATERIALS} />
         </Section>
+        </ChapterLayer>
 
-        <Section density="lg" topRule>
-          <Reveal>
-            <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
-          </Reveal>
-          <Accordion items={FAQ} />
-        </Section>
-
+        <ChapterLayer index="03" label="Realizace">
         <SectionAnchor id="realizace">
           <Section density="md">
             <div className="grid gap-8 max-w-[56ch] pt-10">
-              <Eyebrow>Realizace</Eyebrow>
               <h2 className="text-h1 font-display font-medium tracking-display leading-tight text-strong">
                 Každá stavba má skladbu, fotky a jméno stavbyvedoucího.
               </h2>
@@ -335,11 +339,12 @@ export default function Home() {
             <RealizaceExplorer projects={PROJECTS} />
           </Section>
         </SectionAnchor>
+        </ChapterLayer>
 
+        <ChapterLayer index="04" label="O nás">
         <SectionAnchor id="o-nas">
           <Hero
             height="66svh"
-            eyebrow="O nás"
             title="Parta, která zvedá krovy a svařuje fólie."
             lead="Od roku 2016. Působíme po celé ČR."
             label="Parta na stavbě — ráno"
@@ -379,6 +384,21 @@ export default function Home() {
             </div>
           </Reveal>
         </Section>
+        </ChapterLayer>
+
+        {/* Last sheet — the footer deliberately shares its dark surface with
+            only the signal hairline between, so nothing slides over it. */}
+        <ChapterLayer index="05" label="Kontakt" veiled={false}>
+        {/* FAQ opens this chapter rather than tailing the Domy one, where it
+            had nothing to do with the content around it. Answering the usual
+            objections immediately above the form is also where it earns the
+            most. The #kontakt anchor still points at the form itself. */}
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
+          </Reveal>
+          <Accordion items={FAQ} />
+        </Section>
 
         <SectionAnchor id="kontakt">
           <Section tone="raised" density="lg">
@@ -408,6 +428,7 @@ export default function Home() {
             </div>
           </div>
         </Section>
+        </ChapterLayer>
         </main>
 
         {/* Kontakt and Footer share the same dark surface — a full-bleed
