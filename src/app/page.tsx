@@ -178,21 +178,17 @@ export default function Home() {
         </PlateChapter>
         </SectionAnchor>
 
+        <ChapterLayer index="01" label="Střechy">
         <SectionAnchor id="strechy">
-        <PlateChapter
-          index="01"
-          label="Střechy"
-          plate={
-            <Hero
-              height="100%"
-              title="Střecha je skladba, ne krytina."
-              lead="Ploché a šikmé střechy pro rodinné domy, bytové domy i průmyslové objekty. Od návrhu skladby po fotodokumentaci skrytých vrstev."
-              src="/photos/hero-strechy.webp"
-              label="Plochá střecha — detail atiky"
-              meta={ROOF_META}
-            />
-          }
-        >
+          <Hero
+            height="66svh"
+            title="Střecha je skladba, ne krytina."
+            lead="Ploché a šikmé střechy pro rodinné domy, bytové domy i průmyslové objekty. Od návrhu skladby po fotodokumentaci skrytých vrstev."
+            src="/photos/hero-strechy.webp"
+            label="Plochá střecha — detail atiky"
+            meta={ROOF_META}
+          />
+        </SectionAnchor>
 
         <Section density="lg">
           <Reveal>
@@ -255,8 +251,7 @@ export default function Home() {
           </Reveal>
           <MaterialStrip items={ROOF_MATERIALS} />
         </Section>
-        </PlateChapter>
-        </SectionAnchor>
+        </ChapterLayer>
 
         <ChapterLayer index="02" label="Domy">
         <SectionAnchor id="domy">

@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useRef, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { ChapterTab } from "./chapter-tab";
 
 /**
  * A chapter built from two planes: a full-screen **plate** that pins itself
@@ -43,14 +42,10 @@ export function usePlateProgress() {
 export function PlateChapter({
   plate,
   children,
-  index,
-  label,
 }: {
   /** The full-screen opening plane. Pins, then recedes as the body covers it. */
   plate: ReactNode;
   children: ReactNode;
-  index?: string;
-  label?: string;
 }) {
   const bodyRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
@@ -69,8 +64,13 @@ export function PlateChapter({
     // stacking context that could out-rank the sticky header's z-40. The
     // plate/body z-indices below stay local to this shell.
     <section className="relative">
+      {/* The plate's own dark ground. Scaling the content down uncovers a
+          margin around it, and without this the page background showed
+          through and the dim veil turned it into a pale grey band. Matching
+          the hero's own bg-graphite-900 instead makes that margin read as
+          the plate receding into its own shadow. */}
       <div
-        className="sticky z-0 overflow-hidden"
+        className="sticky z-0 overflow-hidden bg-graphite-900"
         style={{ top: "var(--header-h)", height: "calc(100svh - var(--header-h))" }}
       >
         <motion.div className="h-full" style={reduce ? undefined : { scale: plateScale }}>
@@ -94,7 +94,6 @@ export function PlateChapter({
         className="relative z-10 bg-surface-page"
         style={{ boxShadow: "0 -24px 56px rgba(14, 17, 19, 0.14)" }}
       >
-        {label && <ChapterTab index={index} label={label} />}
         {children}
       </div>
     </section>
