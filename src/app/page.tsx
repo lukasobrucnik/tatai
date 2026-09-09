@@ -17,7 +17,6 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Photo } from "@/components/ui/photo";
 import { PhotoGrid } from "@/components/ui/photo-grid";
-import { ProjectCard } from "@/components/ui/project-card";
 import { PillarSplit } from "@/components/ui/pillar-split";
 import { AssemblyStack } from "@/components/ui/assembly-stack";
 import { SpecTable } from "@/components/ui/spec-table";
@@ -52,7 +51,6 @@ import {
 } from "@/lib/data";
 
 export default function Home() {
-  const homeProjects = PROJECTS.slice(1, 4);
 
   return (
     <NavProvider>
@@ -132,36 +130,6 @@ export default function Home() {
               href: "#domy",
             }}
           />
-        </Section>
-
-        <Section tone="raised" density="lg" topRule>
-          <Reveal>
-            <SectionHeader
-              eyebrow="Realizace"
-              title="Zakázky, které stojí za podpisem."
-              action={
-                <Button variant="outline" arrow href="#realizace">
-                  Všechny realizace
-                </Button>
-              }
-            />
-          </Reveal>
-          <Reveal>
-            <a href="#realizace" className="block mb-12">
-              <Photo src="/photos/feature-hala-olomouc.webp" ratio="band" label="Plochá střecha — 4 200 m², Olomouc" index="01 / 06" hoverZoom />
-              <div className="flex flex-wrap items-baseline justify-between gap-6 pt-5 mt-5 border-t border-border-hairline">
-                <span className="font-display text-h3 font-medium tracking-heading text-strong">Výrobní hala Olomouc</span>
-                <span className="font-mono text-caption tracking-eyebrow uppercase text-signal-500">Plochá střecha — 2025 →</span>
-              </div>
-            </a>
-          </Reveal>
-          <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1!">
-            {homeProjects.map((p) => (
-              <Reveal key={p.slug}>
-                <ProjectCard project={p} index={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")} ratio="project" />
-              </Reveal>
-            ))}
-          </div>
         </Section>
 
         {/* The heading lives inside ProcessScroll rather than above it: it has
