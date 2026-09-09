@@ -99,7 +99,9 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
       }
       front={
         <div className="absolute inset-0">
-          <span className="absolute left-(--container-gutter) top-10 flex items-baseline gap-3 font-mono text-eyebrow tracking-eyebrow uppercase">
+          {/* A notch up from eyebrow size: legible to anyone who looks for it,
+              still quiet enough not to pull against the word behind it. */}
+          <span className="absolute left-(--container-gutter) top-10 flex items-baseline gap-3 font-mono text-body-sm tracking-eyebrow uppercase">
             <span className="text-signal-500">03</span>
             <span className="text-bone-200">Realizace</span>
           </span>

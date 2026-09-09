@@ -33,18 +33,30 @@ export function StatementPlate({
   stats?: StatItem[];
   actions?: ReactNode;
 }) {
+  // A full screen of quiet is the point where there are numbers to hold it —
+  // without them the plate is a heading and a line, and the same height is
+  // just an empty screen.
   return (
-    <section className="flex min-h-[80svh] items-center bg-surface-inverse py-(--section-y-lg)">
+    <section
+      className={`flex items-center bg-surface-inverse py-(--section-y-lg) ${stats ? "min-h-[80svh]" : "min-h-[38svh]"}`}
+    >
       <div className="container-tatai grid w-full gap-(--section-y-sm)">
         {/* The chapter names itself at the largest size on the plate. This one
             has no photograph and no line to compete with, so the name can take
             the space a headline takes elsewhere — the same mono-and-signal
             device the photo chapters use, just given the whole stage. */}
         <div className="grid gap-6">
-          <h2 className="flex flex-wrap items-baseline gap-x-6 gap-y-2 font-mono text-display-2 font-medium uppercase tracking-wide leading-display">
-            {index && <span className="text-signal-500">{index}</span>}
-            <span className="text-inverse">{name}</span>
-          </h2>
+          {/* The number sits above the name at label scale rather than beside
+              it at heading scale. Set the same size, it competed with the word
+              it was supposed to be annotating. */}
+          <div className="grid gap-3">
+            {index && (
+              <span className="font-mono text-body-sm tabular-nums tracking-eyebrow text-signal-500">{index}</span>
+            )}
+            <h2 className="font-mono text-display-2 font-medium uppercase tracking-wide leading-display text-inverse">
+              {name}
+            </h2>
+          </div>
           {lead && <p className="max-w-[52ch] text-lead leading-snug text-inverse-muted">{lead}</p>}
           {actions && <div className="flex flex-wrap gap-4 pt-2">{actions}</div>}
         </div>
