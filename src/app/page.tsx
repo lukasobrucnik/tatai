@@ -8,6 +8,7 @@ import { InquiryForm } from "@/components/inquiry-form";
 import { InquiryModalProvider } from "@/components/inquiry-modal-context";
 import { InquiryTriggerButton } from "@/components/inquiry-trigger-button";
 import { RealizaceExplorer } from "@/components/realizace-explorer";
+import { RealizacePortal } from "@/components/realizace-portal";
 import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
 import { Section } from "@/components/ui/section";
@@ -299,18 +300,19 @@ export default function Home() {
         </Section>
         </ChapterLayer>
 
-        <ChapterLayer index="03" label="Realizace">
+        {/* This chapter opens through its own title rather than behind a sheet
+            and a tab — see RealizacePortal — so it carries its own "03" and
+            skips ChapterLayer. The chapters after it go back to the usual. */}
         <SectionAnchor id="realizace">
-          <Section density="md">
-            <div className="grid gap-8 max-w-[56ch] pt-10">
-              <h2 className="text-h1 font-display font-medium tracking-display leading-tight text-strong">
+          <RealizacePortal>
+            <div className="container-tatai grid gap-12">
+              <h2 className="max-w-[56ch] text-h1 font-display font-medium tracking-display leading-tight text-strong">
                 Každá stavba má skladbu, fotky a jméno stavbyvedoucího.
               </h2>
+              <RealizaceExplorer projects={PROJECTS} />
             </div>
-            <RealizaceExplorer projects={PROJECTS} />
-          </Section>
+          </RealizacePortal>
         </SectionAnchor>
-        </ChapterLayer>
 
         <ChapterLayer index="04" label="O nás">
         <SectionAnchor id="o-nas">
