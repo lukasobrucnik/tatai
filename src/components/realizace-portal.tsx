@@ -115,8 +115,19 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
       {/* The portal makes its content transparent so the field shows behind it
           during the reveal, and the section's own ground is the dark opening
           frame. Neither is a surface to read project cards on once the pin
-          releases, so the chapter brings its own. */}
-      <div className="bg-surface-page py-(--section-y-md)">{children}</div>
+          releases, so the chapter brings its own.
+          It fades in rather than starting flat: an opaque ground meeting the
+          field left a hard horizontal seam across the screen, which read as a
+          rendering fault rather than as the edge of anything. The gradient
+          holds its last stop, so everything below the fade is solid page. */}
+      <div
+        className="py-(--section-y-md)"
+        style={{
+          background: "linear-gradient(to bottom, transparent, var(--color-surface-page) min(38vh, 360px))",
+        }}
+      >
+        {children}
+      </div>
     </GlyphPortal>
   );
 }
