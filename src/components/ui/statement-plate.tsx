@@ -16,22 +16,29 @@ import type { StatItem } from "@/lib/data";
  * here as an image would elsewhere.
  */
 export function StatementPlate({
-  title,
+  index,
+  name,
   lead,
   stats,
 }: {
-  title: string;
+  index: string;
+  name: string;
   lead?: string;
   stats: StatItem[];
 }) {
   return (
     <section className="flex min-h-[80svh] items-center bg-surface-inverse py-(--section-y-lg)">
       <div className="container-tatai grid w-full gap-(--section-y-sm)">
+        {/* The chapter names itself at the largest size on the plate. This one
+            has no photograph and no line to compete with, so the name can take
+            the space a headline takes elsewhere — the same mono-and-signal
+            device the photo chapters use, just given the whole stage. */}
         <div className="grid gap-6">
-          <h2 className="max-w-[20ch] font-display text-display-2 font-medium tracking-display leading-display text-inverse">
-            {title}
+          <h2 className="flex flex-wrap items-baseline gap-x-6 gap-y-2 font-mono text-display-2 font-medium uppercase tracking-wide leading-display">
+            <span className="text-signal-500">{index}</span>
+            <span className="text-inverse">{name}</span>
           </h2>
-          {lead && <p className="max-w-[46ch] text-lead leading-snug text-inverse-muted">{lead}</p>}
+          {lead && <p className="max-w-[52ch] text-lead leading-snug text-inverse-muted">{lead}</p>}
         </div>
 
         <dl className="m-0 grid grid-cols-4 gap-(--grid-gap) max-lg:grid-cols-2! max-lg:gap-y-10!">

@@ -23,7 +23,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * gesture ProjectCard, MaterialStrip and PillarSplit already use on hover,
  * here held permanently as a chapter marker.
  */
-export function ChapterTab({ index, label }: { index?: string; label: string }) {
+export function ChapterTab({ index, label }: { index?: string; label?: string }) {
   const reduce = useReducedMotion();
 
   return (
@@ -36,16 +36,22 @@ export function ChapterTab({ index, label }: { index?: string; label: string }) 
         viewport={{ once: true, amount: 0 }}
         transition={{ duration: 0.9, ease: EASE }}
       />
-      <motion.div
-        className="container-tatai flex items-baseline gap-3 py-5"
-        initial={reduce ? undefined : { opacity: 0, y: 8 }}
-        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0 }}
-        transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-      >
-        {index && <span className="font-mono text-body-sm tabular-nums text-signal-500">{index}</span>}
-        <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-strong">{label}</span>
-      </motion.div>
+      {/* Chapters that open on a plate name themselves there, at heading
+          scale, and pass no label — the rule alone is then the sheet's
+          leading edge. Only a chapter opening straight into a section still
+          needs the strip to say where you are. */}
+      {label && (
+        <motion.div
+          className="container-tatai flex items-baseline gap-3 py-5"
+          initial={reduce ? undefined : { opacity: 0, y: 8 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+        >
+          {index && <span className="font-mono text-body-sm tabular-nums text-signal-500">{index}</span>}
+          <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-strong">{label}</span>
+        </motion.div>
+      )}
     </div>
   );
 }

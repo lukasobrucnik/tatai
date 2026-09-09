@@ -149,10 +149,13 @@ export default function Home() {
         </PlateChapter>
         </SectionAnchor>
 
-        <ChapterLayer index="01" label="Střechy">
+        {/* No label on the layer: the chapter names itself on its plate below,
+            at heading scale. The rule stays as the sheet's leading edge. */}
+        <ChapterLayer>
         <SectionAnchor id="strechy">
           <Hero
             height="66svh"
+            marker={{ index: "01", name: "Střechy" }}
             title="Střecha je skladba, ne krytina."
             lead="Ploché a šikmé střechy pro rodinné domy, bytové domy i průmyslové objekty. Od návrhu skladby po fotodokumentaci skrytých vrstev."
             src="/photos/hero-strechy.webp"
@@ -224,10 +227,11 @@ export default function Home() {
         </Section>
         </ChapterLayer>
 
-        <ChapterLayer index="02" label="Domy">
+        <ChapterLayer>
         <SectionAnchor id="domy">
           <Hero
             height="66svh"
+            marker={{ index: "02", name: "Domy" }}
             title="Dřevo unese víc, než si myslíte."
             lead="Sloupkové konstrukce, CLT panely a ručně tesané roubenky. Tři technologie, jedna parta a jeden odpovědný stavbyvedoucí."
             src="/photos/hero-domy.webp"
@@ -316,15 +320,16 @@ export default function Home() {
           </RealizacePortal>
         </SectionAnchor>
 
-        <ChapterLayer index="04" label="O nás">
+        <ChapterLayer>
         {/* Opens on a statement rather than a photo plate — see StatementPlate.
             Coming off the bone-white wall of projects, an inverted screen with
             nothing moving on it is the clearest possible "you're somewhere
             else", and it doesn't cost the page a fifth scroll mechanic. */}
         <SectionAnchor id="o-nas">
           <StatementPlate
-            title="Parta, která zvedá krovy a svařuje fólie."
-            lead="Od roku 2016. Působíme po celé ČR."
+            index="04"
+            name="O nás"
+            lead="Parta, která zvedá krovy a svařuje fólie. Od roku 2016, po celé ČR."
             stats={STATS}
           />
         </SectionAnchor>

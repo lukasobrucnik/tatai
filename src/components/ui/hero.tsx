@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Eyebrow } from "./eyebrow";
 
 export function Hero({
+  marker,
   eyebrow,
   title,
   lead,
@@ -14,6 +15,10 @@ export function Hero({
   height = "90vh",
   priority = false,
 }: {
+  /** Names the chapter this hero opens, at heading scale rather than as a
+   *  caption — the visitor's answer to "where am I" shouldn't be the
+   *  smallest type on the screen. The title below stays the chapter's line. */
+  marker?: { index: string; name: string };
   eyebrow?: string;
   title: string;
   lead?: string;
@@ -57,6 +62,12 @@ export function Hero({
         </span>
       )}
       <div className="relative w-full container-tatai py-(--section-y-md) grid gap-8">
+        {marker && (
+          <span className="flex items-baseline gap-4 font-mono text-h2 font-medium uppercase tracking-wide">
+            <span className="text-signal-500">{marker.index}</span>
+            <span className={inv ? "text-inverse" : "text-strong"}>{marker.name}</span>
+          </span>
+        )}
         {eyebrow && <Eyebrow tone={inv ? "inverse" : "default"}>{eyebrow}</Eyebrow>}
         <h1
           className={`font-display text-display-2 font-medium tracking-display leading-display max-w-[20ch] ${inv ? "text-inverse" : "text-strong"}`}

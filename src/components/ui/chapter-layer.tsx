@@ -76,7 +76,7 @@ export function ChapterLayer({
         ...(reduce ? null : { y: lift }),
       }}
     >
-      {label && <ChapterTab index={index} label={label} />}
+      <ChapterTab index={index} label={label} />
 
       {children}
       {veiled && !reduce && (
