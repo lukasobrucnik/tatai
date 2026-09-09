@@ -373,29 +373,13 @@ export default function Home() {
             only the signal hairline between, so nothing slides over it. */}
         <ChapterLayer veiled={false}>
         {/* Opens on its own plate like every other chapter, so it can name
-            itself at heading scale — then answers the usual objections, then
-            asks. The invitation that used to close the page is the opening
-            line here; putting the ask first and the form last is the order
-            the chapter argues in. */}
+            itself at heading scale — then hands over the form, and only then
+            answers the questions that are left. Unnumbered on purpose: the
+            numbers belong to the four chapters that present the work, and
+            this one is the way out rather than part of the tour. */}
         <SectionAnchor id="kontakt">
-          <StatementPlate
-            index="05"
-            name="Kontakt"
-            lead="Napište, co máte za stavbu. Zbytek vymyslíme. Prohlídka a návrh skladby jsou nezávazné a ozveme se do dvou pracovních dnů."
-            actions={
-              <Button variant="inverse-outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
-                {PHONE}
-              </Button>
-            }
-          />
+          <StatementPlate name="Kontakt" lead="Napište, co máte za stavbu. Zbytek vymyslíme." />
         </SectionAnchor>
-
-        <Section density="lg">
-          <Reveal>
-            <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
-          </Reveal>
-          <Accordion items={FAQ} />
-        </Section>
 
           <Section tone="raised" density="lg">
             <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
@@ -406,10 +390,36 @@ export default function Home() {
               </div>
             </div>
           </Section>
+
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
+          </Reveal>
+          <Accordion items={FAQ} />
+
+          {/* The phone belongs here rather than on the plate: by this point
+              the reader has had the form and read the answers, so the only
+              people still going are the ones who'd rather just ask someone. */}
+          <Reveal>
+            <div className="mt-(--section-y-sm) flex flex-wrap items-center justify-between gap-8 border-t border-border-hairline pt-(--section-y-sm)">
+              <div className="grid max-w-[46ch] gap-2">
+                <h3 className="font-display text-h3 font-medium tracking-heading text-strong">
+                  Nenašli jste odpověď? Zavolejte nám.
+                </h3>
+                <p className="text-body-md leading-body text-body">
+                  Prohlídka i návrh skladby jsou nezávazné. Ozveme se do dvou pracovních dnů.
+                </p>
+              </div>
+              <Button variant="outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
+                {PHONE}
+              </Button>
+            </div>
+          </Reveal>
+        </Section>
         </ChapterLayer>
         </main>
 
-        {/* The chapter now closes on the form rather than on a dark block, so
+        {/* The chapter closes on the questions rather than on a dark block, so
             this hairline is carrying the whole light-to-footer seam on its
             own. */}
         <div aria-hidden className="h-px w-full bg-signal-500" />

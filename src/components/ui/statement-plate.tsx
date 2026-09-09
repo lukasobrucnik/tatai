@@ -23,7 +23,10 @@ export function StatementPlate({
   stats,
   actions,
 }: {
-  index: string;
+  /** Omitted by the closing chapter: the numbers belong to the four that
+   *  present the work, and Kontakt is the way out rather than part of the
+   *  tour. */
+  index?: string;
   name: string;
   lead?: string;
   /** Evidence for the claim, where the chapter has any. */
@@ -39,7 +42,7 @@ export function StatementPlate({
             device the photo chapters use, just given the whole stage. */}
         <div className="grid gap-6">
           <h2 className="flex flex-wrap items-baseline gap-x-6 gap-y-2 font-mono text-display-2 font-medium uppercase tracking-wide leading-display">
-            <span className="text-signal-500">{index}</span>
+            {index && <span className="text-signal-500">{index}</span>}
             <span className="text-inverse">{name}</span>
           </h2>
           {lead && <p className="max-w-[52ch] text-lead leading-snug text-inverse-muted">{lead}</p>}
