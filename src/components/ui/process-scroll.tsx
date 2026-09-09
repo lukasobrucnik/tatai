@@ -87,6 +87,19 @@ function stepRange(index: number, total: number) {
   return { start: index / total, end: (index + 1) / total };
 }
 
+/**
+ * How far before its own slice a step starts lighting up / fading in.
+ *
+ * Every input range built from this MUST stay inside [0, 1] and keep
+ * increasing. Motion hands scroll-linked opacity to the browser through
+ * WAAPI against a scroll timeline, and those keyframe offsets are only legal
+ * within [0, 1] — a range that reaches back past the start of the track (the
+ * first step's `start - LEAD` is negative) throws "Offsets must be
+ * monotonically non-decreasing" at runtime. Hence the first and last steps
+ * anchoring to the ends of the track instead of running off them.
+ */
+const LEAD = 0.05;
+
 function StepRow({
   step,
   index,
@@ -105,8 +118,15 @@ function StepRow({
   // input range, so earlier steps stay full and later ones stay empty.
   const fill = useTransform(progress, [start, end], ["0%", "100%"]);
   // Lights up just before its slice begins, so the step you're arriving at is
-  // already legible rather than brightening once you're past its start.
-  const lit = useTransform(progress, [start - 0.04, start], [0.35, 1]);
+  // already legible rather than brightening once you're past its start. The
+  // first step has no room to lead in and is simply lit from the top of the
+  // track — see LEAD for why that can't just be a negative offset.
+  const isFirst = index === 0;
+  const lit = useTransform(
+    progress,
+    isFirst ? [0, 1] : [start - LEAD, start],
+    isFirst ? [1, 1] : [0.35, 1],
+  );
 
   return (
     <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-5">
@@ -147,13 +167,26 @@ function StepPhoto({
 }) {
   const { start, end } = stepRange(index, total);
   // Cross-fade inside the step's own slice: up as it begins, down as the next
-  // one takes over. The first photo starts already visible, and the last one
-  // stays rather than fading to an empty frame at the end of the track.
-  const fade = useTransform(
-    progress,
-    [start - 0.06, start, end - 0.06, end],
-    [0, 1, 1, index === total - 1 ? 1 : 0],
-  );
+  // one takes over. The first photo is already visible at the top of the
+  // track and the last one holds to the bottom, so neither range reaches
+  // outside [0, 1] — see LEAD.
+  const input: number[] = [];
+  const output: number[] = [];
+  if (index === 0) {
+    input.push(0);
+    output.push(1);
+  } else {
+    input.push(start - LEAD, start);
+    output.push(0, 1);
+  }
+  if (index === total - 1) {
+    input.push(1);
+    output.push(1);
+  } else {
+    input.push(end - LEAD, end);
+    output.push(1, 0);
+  }
+  const fade = useTransform(progress, input, output);
 
   return (
     <motion.div
