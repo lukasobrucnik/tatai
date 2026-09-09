@@ -72,18 +72,32 @@ export function ProcessScroll({
         className={
           reduce
             ? ""
-            : "lg:sticky lg:top-(--header-h) lg:flex lg:h-[calc(100svh-var(--header-h))] lg:items-stretch lg:py-14"
+            : "lg:sticky lg:top-(--header-h) lg:flex lg:h-[calc(100svh-var(--header-h))] lg:items-stretch lg:py-10"
         }
       >
-        <div className="grid w-full gap-12 lg:h-full lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-(--grid-gap)">
-          <div className="grid content-center gap-10">
-            <header className="grid gap-4">
-              <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
-              <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-inverse">{title}</h2>
-              {lead && <p className="max-w-[46ch] text-body-lg leading-snug text-inverse-muted">{lead}</p>}
+        <div className="grid w-full gap-12 lg:h-full lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-(--grid-gap)">
+          {/* Everything in this column is sized in `em` off this one font-size,
+              so the whole block scales as a unit and its proportions stay
+              locked — enlarging it is one number, not twenty.
+              On desktop that number follows the viewport *height*, because
+              height is what the pinned panel has to fit into: a width-based
+              scale would set the same size on a 1440x900 laptop as on a tall
+              monitor and overflow the short one. Phones don't pin, so there is
+              no height to fit and they take a fixed base instead. */}
+          <div className="grid content-center gap-[3.2em] text-[0.9rem] lg:text-[clamp(0.68rem,1.35svh,1.1rem)]">
+            <header className="grid gap-[1.1em]">
+              <Eyebrow tone="inverse" className="text-[0.85em]!">
+                {eyebrow}
+              </Eyebrow>
+              <h2 className="font-display text-[2.4em] font-medium tracking-heading leading-heading text-inverse lg:text-[3.4em]">
+                {title}
+              </h2>
+              {lead && (
+                <p className="max-w-[42ch] text-[1.3em] leading-snug text-inverse-muted lg:text-[1.45em]">{lead}</p>
+              )}
             </header>
 
-            <ol className="m-0 grid list-none gap-6 p-0">
+            <ol className="m-0 grid list-none gap-[1.9em] p-0">
               {steps.map((step, i) => (
                 <StepRow
                   key={step.title}
@@ -152,19 +166,20 @@ function StepRow({
   // exactly and steps already passed hold a full rail (useTransform clamps
   // outside its input range).
   const scrubbedFill = useTransform(progress, [index / total, (index + 1) / total], ["0%", "100%"]);
-  const glow = active ? "0 0 14px rgba(0, 168, 224, 0.65)" : "none";
+  // em so the glow grows with the block rather than staying a fixed halo.
+  const glow = active ? "0 0 1.1em rgba(0, 168, 224, 0.65)" : "none";
 
   return (
-    <li ref={rowRef} className="grid grid-cols-[auto_minmax(0,1fr)] gap-5">
-      <div className="flex flex-col items-center gap-3">
+    <li ref={rowRef} className="grid grid-cols-[auto_minmax(0,1fr)] gap-[1.6em]">
+      <div className="flex flex-col items-center gap-[0.9em]">
         <span
-          className={`font-mono text-eyebrow tracking-eyebrow tabular-nums transition-colors duration-500 ${
+          className={`font-mono text-[0.92em] tracking-eyebrow tabular-nums transition-colors duration-500 ${
             active ? "text-signal-500" : "text-graphite-500"
           }`}
         >
           {String(index + 1).padStart(2, "0")}
         </span>
-        <div className="relative w-0.5 flex-1 bg-border-inverse">
+        <div className="relative w-[0.16em] flex-1 bg-border-inverse">
           {pinned || reduce ? (
             <motion.span
               aria-hidden
@@ -187,10 +202,14 @@ function StepRow({
         </div>
       </div>
 
-      <div className={`grid gap-1.5 pb-1 transition-opacity duration-500 ${active ? "opacity-100" : "opacity-40"}`}>
-        <h3 className="font-display text-h4 font-medium tracking-heading text-inverse">{step.title}</h3>
-        <p className="max-w-[44ch] text-body-sm leading-body text-inverse-muted">{step.body}</p>
-        {step.meta && <span className="font-mono text-caption text-graphite-300">{step.meta}</span>}
+      <div
+        className={`grid gap-[0.45em] pb-[0.2em] transition-opacity duration-500 ${active ? "opacity-100" : "opacity-40"}`}
+      >
+        <h3 className="font-display text-[1.45em] font-medium tracking-heading text-inverse lg:text-[1.55em]">
+          {step.title}
+        </h3>
+        <p className="max-w-[44ch] text-[1.02em] leading-body text-inverse-muted lg:text-[1.05em]">{step.body}</p>
+        {step.meta && <span className="font-mono text-[0.88em] text-graphite-300">{step.meta}</span>}
       </div>
     </li>
   );
