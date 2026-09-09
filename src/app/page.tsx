@@ -371,11 +371,25 @@ export default function Home() {
 
         {/* Last sheet — the footer deliberately shares its dark surface with
             only the signal hairline between, so nothing slides over it. */}
-        <ChapterLayer index="05" label="Kontakt" veiled={false}>
-        {/* FAQ opens this chapter rather than tailing the Domy one, where it
-            had nothing to do with the content around it. Answering the usual
-            objections immediately above the form is also where it earns the
-            most. The #kontakt anchor still points at the form itself. */}
+        <ChapterLayer veiled={false}>
+        {/* Opens on its own plate like every other chapter, so it can name
+            itself at heading scale — then answers the usual objections, then
+            asks. The invitation that used to close the page is the opening
+            line here; putting the ask first and the form last is the order
+            the chapter argues in. */}
+        <SectionAnchor id="kontakt">
+          <StatementPlate
+            index="05"
+            name="Kontakt"
+            lead="Napište, co máte za stavbu. Zbytek vymyslíme. Prohlídka a návrh skladby jsou nezávazné a ozveme se do dvou pracovních dnů."
+            actions={
+              <Button variant="inverse-outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
+                {PHONE}
+              </Button>
+            }
+          />
+        </SectionAnchor>
+
         <Section density="lg">
           <Reveal>
             <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
@@ -383,7 +397,6 @@ export default function Home() {
           <Accordion items={FAQ} />
         </Section>
 
-        <SectionAnchor id="kontakt">
           <Section tone="raised" density="lg">
             <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
               <InquiryForm eyebrow="Poptávka" />
@@ -393,30 +406,12 @@ export default function Home() {
               </div>
             </div>
           </Section>
-        </SectionAnchor>
-
-        <Section tone="inverse" density="lg">
-          <div className="grid gap-10 max-w-[62ch]">
-            <Eyebrow tone="inverse">Kontakt</Eyebrow>
-            <h2 className="text-h1 font-display font-medium tracking-display leading-tight text-inverse">
-              Napište, co máte za stavbu. Zbytek vymyslíme.
-            </h2>
-            <p className="text-lead leading-snug max-w-[46ch] text-inverse-muted">
-              Prohlídka a návrh skladby jsou nezávazné. Ozveme se do dvou pracovních dnů.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="inverse-outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
-                {PHONE}
-              </Button>
-            </div>
-          </div>
-        </Section>
         </ChapterLayer>
         </main>
 
-        {/* Kontakt and Footer share the same dark surface — a full-bleed
-            signal-500 hairline is the only seam between them, rather than a
-            light form section sandwiched in between. */}
+        {/* The chapter now closes on the form rather than on a dark block, so
+            this hairline is carrying the whole light-to-footer seam on its
+            own. */}
         <div aria-hidden className="h-px w-full bg-signal-500" />
 
         <Footer

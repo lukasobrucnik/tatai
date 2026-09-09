@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { StatItem } from "@/lib/data";
 
 /**
@@ -20,11 +21,14 @@ export function StatementPlate({
   name,
   lead,
   stats,
+  actions,
 }: {
   index: string;
   name: string;
   lead?: string;
-  stats: StatItem[];
+  /** Evidence for the claim, where the chapter has any. */
+  stats?: StatItem[];
+  actions?: ReactNode;
 }) {
   return (
     <section className="flex min-h-[80svh] items-center bg-surface-inverse py-(--section-y-lg)">
@@ -39,8 +43,10 @@ export function StatementPlate({
             <span className="text-inverse">{name}</span>
           </h2>
           {lead && <p className="max-w-[52ch] text-lead leading-snug text-inverse-muted">{lead}</p>}
+          {actions && <div className="flex flex-wrap gap-4 pt-2">{actions}</div>}
         </div>
 
+        {stats && (
         <dl className="m-0 grid grid-cols-4 gap-(--grid-gap) max-lg:grid-cols-2! max-lg:gap-y-10!">
           {stats.map((stat) => (
             <div key={stat.label} className="relative grid content-start gap-3 border-t border-border-inverse pt-6">
@@ -58,6 +64,7 @@ export function StatementPlate({
             </div>
           ))}
         </dl>
+        )}
       </div>
     </section>
   );
