@@ -56,6 +56,10 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
 
   return (
     <GlyphPortal
+      // Zeroes the portal's own content padding (globals.css) so the ground
+      // below can run to the edges and the chapter keeps the site's section
+      // rhythm instead of the component's.
+      className="portal-flush"
       word="REALIZACE"
       fontFamily={fontFamily}
       fontWeight={700}
@@ -73,6 +77,26 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
           "--gp-foreground": "var(--color-graphite-1000)",
         } as GlyphPortalStyle
       }
+      // Without this the component falls back to its own green gradient, which
+      // paints over whatever --gp-field is set to. This is the thing that
+      // shows through the letters and that the camera lands on, so it has to
+      // work twice: brand-tinted enough to be worth flying into, and calm
+      // enough to sit under a wall of project cards. Signal cyan bloomed into
+      // the page's own bone reads as light coming through the word up close,
+      // and as very nearly the normal page ground once you're inside it.
+      background={
+        <div
+          className="absolute inset-0"
+          style={{
+            transform: "scale(var(--gp-field-scale,1))",
+            background: [
+              "radial-gradient(circle at 22% 18%, color-mix(in oklab, var(--color-signal-500) 22%, transparent), transparent 48%)",
+              "radial-gradient(circle at 78% 72%, color-mix(in oklab, var(--color-signal-400) 16%, transparent), transparent 44%)",
+              "var(--color-bone-200)",
+            ].join(","),
+          }}
+        />
+      }
       front={
         <div className="absolute inset-0">
           <span className="absolute left-(--container-gutter) top-10 flex items-baseline gap-3 font-mono text-eyebrow tracking-eyebrow uppercase">
@@ -88,7 +112,11 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
         </div>
       }
     >
-      {children}
+      {/* The portal makes its content transparent so the field shows behind it
+          during the reveal, and the section's own ground is the dark opening
+          frame. Neither is a surface to read project cards on once the pin
+          releases, so the chapter brings its own. */}
+      <div className="bg-surface-page py-(--section-y-md)">{children}</div>
     </GlyphPortal>
   );
 }

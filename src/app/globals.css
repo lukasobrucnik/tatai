@@ -206,6 +206,14 @@
   min-height: calc(100svh - var(--header-h));
 }
 
+/* GlyphPortal pads its own content area, which would inset the Realizace
+   chapter's ground and leave the portal's dark frame showing at the edges.
+   The chapter supplies its own full-bleed surface and the site's section
+   rhythm instead — see components/realizace-portal.tsx. */
+.portal-flush [data-gp-content] {
+  padding: 0;
+}
+
 .container-tatai {
   width: 100%;
   max-width: var(--container-max);
