@@ -21,7 +21,7 @@ import { ProjectCard } from "@/components/ui/project-card";
 import { PillarSplit } from "@/components/ui/pillar-split";
 import { AssemblyStack } from "@/components/ui/assembly-stack";
 import { SpecTable } from "@/components/ui/spec-table";
-import { ProcessTrack } from "@/components/ui/process-track";
+import { ProcessScroll } from "@/components/ui/process-scroll";
 import { MaterialStrip } from "@/components/ui/material-strip";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/ui/footer";
@@ -173,7 +173,7 @@ export default function Home() {
               lead="Pět kroků, jeden odpovědný člověk. Žádné „to se uvidí na stavbě“."
             />
           </Reveal>
-          <ProcessTrack tone="inverse" steps={PROCESS} />
+          <ProcessScroll steps={PROCESS} />
         </Section>
         </PlateChapter>
         </SectionAnchor>

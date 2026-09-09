@@ -1,7 +1,7 @@
 export type AssemblyLayer = { name: string; material: string; thickness?: number };
 export type SpecRow = { label: string; value: string };
 export type StatItem = { label: string; value: string; unit?: string; note?: string };
-export type ProcessStep = { title: string; body: string; meta?: string };
+export type ProcessStep = { title: string; body: string; meta?: string; src?: string; alt?: string };
 export type MaterialItem = { name: string; note: string; src?: string };
 export type FaqItem = { title: string; body: string };
 export type TeamMember = { label: string; ratio: "portrait"; caption: string };
@@ -110,12 +110,42 @@ export const PITCHED_SPEC: SpecRow[] = [
   { label: "Tesařina", value: "Vlastní parta" },
 ];
 
+// Photos are stand-ins picked from the existing library so the step-by-step
+// section has something real to show — they are not shot for these steps and
+// are expected to be replaced once the owner supplies proper ones.
 export const PROCESS: ProcessStep[] = [
-  { title: "Prohlídka", body: "Přijedeme, změříme, nafotíme stav. Bez poplatku a bez závazku.", meta: "do 5 dnů" },
-  { title: "Návrh skladby", body: "Navrhneme skladbu, detaily a materiál. Vysvětlíme, proč právě takhle.", meta: "1–2 týdny" },
-  { title: "Cenová nabídka", body: "Položkový rozpočet. Žádné schované položky, žádné „upřesníme na stavbě“." },
-  { title: "Realizace", body: "Vlastní parta, jeden odpovědný stavbyvedoucí, jeden telefon." },
-  { title: "Předání", body: "Předávací protokol, fotodokumentace skrytých vrstev, záruka." },
+  {
+    title: "Prohlídka",
+    body: "Přijedeme, změříme, nafotíme stav. Bez poplatku a bez závazku.",
+    meta: "do 5 dnů",
+    src: "/photos/roof-krov-pohled.webp",
+    alt: "Pohled do krovu při obhlídce stavby",
+  },
+  {
+    title: "Návrh skladby",
+    body: "Navrhneme skladbu, detaily a materiál. Vysvětlíme, proč právě takhle.",
+    meta: "1–2 týdny",
+    src: "/photos/roof-spadovy-klin.webp",
+    alt: "Spádové klíny připravené ve skladbě ploché střechy",
+  },
+  {
+    title: "Cenová nabídka",
+    body: "Položkový rozpočet. Žádné schované položky, žádné „upřesníme na stavbě“.",
+    src: "/photos/material-pvc-folie.webp",
+    alt: "Role hydroizolační PVC fólie",
+  },
+  {
+    title: "Realizace",
+    body: "Vlastní parta, jeden odpovědný stavbyvedoucí, jeden telefon.",
+    src: "/photos/pillar-svarovani-folie.webp",
+    alt: "Svařování hydroizolační fólie na ploché střeše",
+  },
+  {
+    title: "Předání",
+    body: "Předávací protokol, fotodokumentace skrytých vrstev, záruka.",
+    src: "/photos/feature-hala-olomouc.webp",
+    alt: "Dokončená plochá střecha výrobní haly",
+  },
 ];
 
 export const STATS: StatItem[] = [
