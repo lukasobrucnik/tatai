@@ -1,78 +1,106 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { Eyebrow } from "./eyebrow";
 import type { ProcessStep } from "@/lib/data";
 
 /**
  * The five process steps, read as one scroll.
  *
- * A tall track holds a pinned panel: the steps sit on the left, the photo of
- * whichever step you're on sits on the right, and each step's rail fills with
- * signal cyan as its share of the scroll goes by. So the section doesn't just
- * list a sequence — you travel through it, and the accent line doubles as the
- * progress indicator, which is the same signal rule that marks every chapter
- * opening elsewhere on the page.
+ * A tall track holds a pinned panel: the heading and the steps on the left,
+ * the photo of the step you're on beside them, and each step's rail filling
+ * with signal cyan as its share of the scroll goes by. The accent line doubles
+ * as the progress indicator — the same signal rule that marks every chapter
+ * opening elsewhere, so the page keeps one vocabulary for "you are here".
  *
- * Everything is driven straight off MotionValues rather than React state.
- * Pushing scroll progress through `useState` (as the pattern this is based on
- * does) re-renders the whole section on every scroll frame; `useTransform`
- * writes to the DOM outside React entirely, so a five-step panel with five
- * photos costs nothing per frame.
+ * Two different kinds of state on purpose:
  *
- * Under prefers-reduced-motion the track collapses to its natural height, the
- * panel stops pinning, and every step renders complete and lit — the sequence
- * still reads, it just doesn't animate.
+ * - The rail fill is **continuous**, straight off a MotionValue. It's the
+ *   progress read-out, so it has to track the scrollbar exactly, and driving
+ *   it through useTransform writes to the DOM outside React — no re-render
+ *   per frame.
+ * - Which step is **active** is discrete, and only that drives the photo and
+ *   the highlight. Cross-fading the photos on scroll position meant stopping
+ *   mid-fade left two photos half-visible, which looks broken rather than
+ *   deliberate. Keyed to an index instead, the fade is a fixed half-second
+ *   triggered when the index changes, so wherever the reader stops they land
+ *   on exactly one photo and exactly one lit step. It re-renders five times
+ *   across the whole section, not once a frame.
+ *
+ * Below lg the panel doesn't pin at all: the heading plus five steps won't sit
+ * on a phone screen at once, so it flows normally with every step lit and the
+ * photos dropped. Same under prefers-reduced-motion.
  */
-export function ProcessScroll({ steps }: { steps: ProcessStep[] }) {
+export function ProcessScroll({
+  steps,
+  eyebrow,
+  title,
+  lead,
+}: {
+  steps: ProcessStep[];
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref });
+  const [active, setActive] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    const next = Math.min(steps.length - 1, Math.max(0, Math.floor(value * steps.length)));
+    // React bails out when the value is unchanged, so this is a no-op on all
+    // but the four frames where the step actually turns over.
+    setActive(next);
+  });
 
   return (
-    <div
-      ref={ref}
-      // Scroll budget for the whole sequence. The pinned panel is one screen,
-      // so the travel is this minus one screen — roughly half a screen of
-      // scroll per step. Shorter on phones, where the same distance drags.
-      className={reduce ? "" : "h-[280vh] lg:h-[420vh]"}
-    >
+    <div ref={ref} className={reduce ? "" : "lg:h-[320vh]"}>
       <div
         className={
           reduce
-            ? "grid gap-12"
-            : "sticky top-(--header-h) flex h-[calc(100svh-var(--header-h))] items-center overflow-hidden"
+            ? ""
+            : "lg:sticky lg:top-(--header-h) lg:flex lg:h-[calc(100svh-var(--header-h))] lg:items-stretch lg:py-14"
         }
       >
-        <div className="grid w-full gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-(--grid-gap)">
-          <ol className="m-0 grid list-none gap-8 p-0 lg:gap-10">
-            {steps.map((step, i) => (
-              <StepRow
-                key={step.title}
-                step={step}
-                index={i}
-                total={steps.length}
-                progress={scrollYProgress}
-                reduce={!!reduce}
-              />
-            ))}
-          </ol>
+        <div className="grid w-full gap-12 lg:h-full lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-(--grid-gap)">
+          <div className="grid content-center gap-10">
+            <header className="grid gap-4">
+              <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
+              <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-inverse">{title}</h2>
+              {lead && <p className="max-w-[46ch] text-body-lg leading-snug text-inverse-muted">{lead}</p>}
+            </header>
 
-          {/* Photos only above lg: below it the panel is already tight with
-              five steps, and a stacked image would push the sequence off the
-              screen it's pinned to. */}
-          <div className="relative hidden h-full lg:block">
-            {steps.map((step, i) =>
-              step.src ? (
-                <StepPhoto
+            <ol className="m-0 grid list-none gap-6 p-0">
+              {steps.map((step, i) => (
+                <StepRow
                   key={step.title}
                   step={step}
                   index={i}
                   total={steps.length}
                   progress={scrollYProgress}
+                  active={!!reduce || i === active}
                   reduce={!!reduce}
                 />
+              ))}
+            </ol>
+          </div>
+
+          <div className="relative hidden lg:block lg:h-full">
+            {steps.map((step, i) =>
+              step.src ? (
+                <motion.div
+                  key={step.title}
+                  className="absolute inset-0"
+                  initial={false}
+                  animate={{ opacity: (reduce ? i === 0 : i === active) ? 1 : 0 }}
+                  transition={{ duration: reduce ? 0 : 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <Image src={step.src} alt={step.alt ?? ""} fill sizes="(min-width: 1024px) 45vw, 0px" className="object-cover" />
+                  <span aria-hidden className="pointer-events-none absolute inset-0 bg-graphite-1000/20" />
+                </motion.div>
               ) : null,
             )}
           </div>
@@ -82,125 +110,56 @@ export function ProcessScroll({ steps }: { steps: ProcessStep[] }) {
   );
 }
 
-/** The slice of overall progress belonging to one step. */
-function stepRange(index: number, total: number) {
-  return { start: index / total, end: (index + 1) / total };
-}
-
-/**
- * How far before its own slice a step starts lighting up / fading in.
- *
- * Every input range built from this MUST stay inside [0, 1] and keep
- * increasing. Motion hands scroll-linked opacity to the browser through
- * WAAPI against a scroll timeline, and those keyframe offsets are only legal
- * within [0, 1] — a range that reaches back past the start of the track (the
- * first step's `start - LEAD` is negative) throws "Offsets must be
- * monotonically non-decreasing" at runtime. Hence the first and last steps
- * anchoring to the ends of the track instead of running off them.
- */
-const LEAD = 0.05;
-
 function StepRow({
   step,
   index,
   total,
   progress,
+  active,
   reduce,
 }: {
   step: ProcessStep;
   index: number;
   total: number;
   progress: MotionValue<number>;
+  active: boolean;
   reduce: boolean;
 }) {
-  const { start, end } = stepRange(index, total);
-  // Rail fills across the step's own slice. useTransform clamps outside the
-  // input range, so earlier steps stay full and later ones stay empty.
-  const fill = useTransform(progress, [start, end], ["0%", "100%"]);
-  // Lights up just before its slice begins, so the step you're arriving at is
-  // already legible rather than brightening once you're past its start. The
-  // first step has no room to lead in and is simply lit from the top of the
-  // track — see LEAD for why that can't just be a negative offset.
-  const isFirst = index === 0;
-  const lit = useTransform(
-    progress,
-    isFirst ? [0, 1] : [start - LEAD, start],
-    isFirst ? [1, 1] : [0.35, 1],
-  );
+  // The step's own slice of the track. useTransform clamps outside its input
+  // range, so steps already passed hold a full rail and later ones stay empty.
+  const fill = useTransform(progress, [index / total, (index + 1) / total], ["0%", "100%"]);
 
   return (
     <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-5">
       <div className="flex flex-col items-center gap-3">
-        <span className="font-mono text-eyebrow tracking-eyebrow tabular-nums text-signal-500">
+        <span
+          className={`font-mono text-eyebrow tracking-eyebrow tabular-nums transition-colors duration-500 ${
+            active ? "text-signal-500" : "text-graphite-500"
+          }`}
+        >
           {String(index + 1).padStart(2, "0")}
         </span>
-        <div className="relative w-0.5 flex-1 bg-border-inverse">
+        {/* Below lg the track itself is the accent, so the rail reads as
+            complete without the scroll-linked fill, which is hidden there. */}
+        <div className="relative w-0.5 flex-1 bg-signal-500 lg:bg-border-inverse">
           <motion.span
             aria-hidden
-            className="absolute inset-x-0 top-0 block bg-signal-500"
-            style={reduce ? { height: "100%" } : { height: fill }}
+            className="absolute inset-x-0 top-0 hidden bg-signal-500 lg:block"
+            style={{
+              height: reduce ? "100%" : fill,
+              boxShadow: active ? "0 0 14px rgba(0, 168, 224, 0.65)" : "none",
+            }}
           />
         </div>
       </div>
 
-      <motion.div className="grid gap-2 pb-2" style={reduce ? undefined : { opacity: lit }}>
+      <div
+        className={`grid gap-1.5 pb-1 transition-opacity duration-500 ${active ? "opacity-100" : "lg:opacity-40"}`}
+      >
         <h3 className="font-display text-h4 font-medium tracking-heading text-inverse">{step.title}</h3>
-        <p className="max-w-[46ch] text-body-md leading-body text-inverse-muted">{step.body}</p>
+        <p className="max-w-[44ch] text-body-sm leading-body text-inverse-muted">{step.body}</p>
         {step.meta && <span className="font-mono text-caption text-graphite-300">{step.meta}</span>}
-      </motion.div>
+      </div>
     </li>
-  );
-}
-
-function StepPhoto({
-  step,
-  index,
-  total,
-  progress,
-  reduce,
-}: {
-  step: ProcessStep;
-  index: number;
-  total: number;
-  progress: MotionValue<number>;
-  reduce: boolean;
-}) {
-  const { start, end } = stepRange(index, total);
-  // Cross-fade inside the step's own slice: up as it begins, down as the next
-  // one takes over. The first photo is already visible at the top of the
-  // track and the last one holds to the bottom, so neither range reaches
-  // outside [0, 1] — see LEAD.
-  const input: number[] = [];
-  const output: number[] = [];
-  if (index === 0) {
-    input.push(0);
-    output.push(1);
-  } else {
-    input.push(start - LEAD, start);
-    output.push(0, 1);
-  }
-  if (index === total - 1) {
-    input.push(1);
-    output.push(1);
-  } else {
-    input.push(end - LEAD, end);
-    output.push(1, 0);
-  }
-  const fade = useTransform(progress, input, output);
-
-  return (
-    <motion.div
-      className="absolute inset-0"
-      style={reduce ? { opacity: index === 0 ? 1 : 0 } : { opacity: fade }}
-    >
-      <Image
-        src={step.src!}
-        alt={step.alt ?? ""}
-        fill
-        sizes="(min-width: 1024px) 45vw, 0px"
-        className="object-cover"
-      />
-      <span aria-hidden className="pointer-events-none absolute inset-0 bg-graphite-1000/20" />
-    </motion.div>
   );
 }

@@ -164,16 +164,16 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section tone="inverse" density="lg">
-          <Reveal>
-            <SectionHeader
-              tone="inverse"
-              eyebrow="Proces"
-              title="Jak to u nás probíhá."
-              lead="Pět kroků, jeden odpovědný člověk. Žádné „to se uvidí na stavbě“."
-            />
-          </Reveal>
-          <ProcessScroll steps={PROCESS} />
+        {/* The heading lives inside ProcessScroll rather than above it: it has
+            to stay on screen with the steps while you scroll through them,
+            which it can't do from outside the pinned panel. */}
+        <Section tone="inverse" density="md">
+          <ProcessScroll
+            steps={PROCESS}
+            eyebrow="Proces"
+            title="Jak to u nás probíhá."
+            lead="Pět kroků, jeden odpovědný člověk. Žádné „to se uvidí na stavbě“."
+          />
         </Section>
         </PlateChapter>
         </SectionAnchor>
