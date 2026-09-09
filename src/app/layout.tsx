@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Instrument_Sans, JetBrains_Mono } from "next/font/google";
-import Script from "next/script";
 import { CookieConsent } from "@/components/cookie-consent";
 import { CustomCursor } from "@/components/custom-cursor";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -48,21 +48,14 @@ export default function RootLayout({
   return (
     <html lang="cs" className={`${archivo.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}>
       <body>
-        {/* `html { scroll-behavior: smooth }` (globals.css) also governs the
-            browser's native initial scroll-to-fragment. On a deep link like
-            /#realizace that turns first paint into a multi-second animated
-            scroll down the whole page instead of landing instantly. Force
-            "auto" for that one native scroll, then hand behavior back to the
-            CSS rule so in-page nav clicks stay smooth. */}
-        <Script id="hash-scroll-instant" strategy="beforeInteractive">
-          {`if (location.hash) {
-            document.documentElement.style.scrollBehavior = "auto";
-            window.addEventListener("load", function () {
-              document.documentElement.style.scrollBehavior = "";
-            }, { once: true });
-          }`}
-        </Script>
-        {children}
+        {/* The old hash-scroll-instant script lived here to stop
+            `html { scroll-behavior: smooth }` from turning a deep link like
+            /#realizace into a multi-second animated scroll on first paint.
+            That CSS rule is gone (Lenis owns smoothing now), so the native
+            fragment landing is instant again on its own. */}
+        <SmoothScroll>{children}</SmoothScroll>
+        {/* Outside SmoothScroll: these are fixed to the viewport and have no
+            business inside the scrolled content. */}
         <CookieConsent />
         <CustomCursor />
       </body>

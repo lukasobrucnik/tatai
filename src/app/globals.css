@@ -142,9 +142,11 @@
   --overlay-photo-flat: rgba(14, 17, 19, 0.42);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* No `scroll-behavior: smooth` here on purpose: Lenis (components/smooth-scroll.tsx)
+   owns smoothing now, and the two fight — CSS animates the scroll position at
+   the same time Lenis is easing toward its own target, which reads as rubber
+   banding. Lenis also handles in-page anchors itself, and it disables its own
+   smoothing under prefers-reduced-motion. */
 
 /* Everything below MUST live in Tailwind's "base" layer. Unlayered CSS always
    wins over @layer content regardless of selector specificity — so an

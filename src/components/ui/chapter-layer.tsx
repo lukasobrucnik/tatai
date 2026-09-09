@@ -2,6 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { ChapterTab } from "./chapter-tab";
 
 /**
  * One sheet in the page's layer stack.
@@ -75,19 +76,7 @@ export function ChapterLayer({
         ...(reduce ? null : { y: lift }),
       }}
     >
-      {/* The sheet's leading edge, and the reason the stack means something:
-          a numbered tab naming the chapter you've just entered, the way an
-          index tab names a divider in a folder. The hairline gives the sheet
-          a crisp edge where two same-coloured chapters meet and the shadow
-          alone would be doing all the work. */}
-      {label && (
-        <div className="border-t border-border-hairline bg-surface-page">
-          <div className="container-tatai flex items-baseline gap-3 py-4">
-            {index && <span className="font-mono text-eyebrow tracking-eyebrow text-signal-500">{index}</span>}
-            <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-muted">{label}</span>
-          </div>
-        </div>
-      )}
+      {label && <ChapterTab index={index} label={label} />}
 
       {children}
       {veiled && !reduce && (

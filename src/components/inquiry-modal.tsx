@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useLenis } from "lenis/react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -26,6 +27,7 @@ const cardVariants = {
 
 export function InquiryModal({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
   const reduce = useReducedMotion();
+  const lenis = useLenis();
   const cardRef = useRef<HTMLDivElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
 
@@ -35,6 +37,12 @@ export function InquiryModal({ open, onClose, children }: { open: boolean; onClo
     if (!open) return;
 
     restoreFocusRef.current = document.activeElement as HTMLElement | null;
+    // Two locks, because they cover different things. Lenis intercepts wheel
+    // and touch and drives window.scrollTo itself, so it sails straight past
+    // an overflow lock — it has to be stopped by hand. The overflow lock
+    // still earns its place for the path Lenis isn't on (reduced motion,
+    // keyboard scrolling, JS not yet hydrated).
+    lenis?.stop();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -50,11 +58,12 @@ export function InquiryModal({ open, onClose, children }: { open: boolean; onClo
     document.addEventListener("keydown", onKeyDown);
 
     return () => {
+      lenis?.start();
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKeyDown);
       restoreFocusRef.current?.focus();
     };
-  }, [open, onClose]);
+  }, [open, onClose, lenis]);
 
   return (
     <AnimatePresence>

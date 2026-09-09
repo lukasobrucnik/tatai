@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, cubicBezier, easeIn, type MotionValue } from "framer-motion";
 import { Eyebrow } from "./eyebrow";
+import { usePlateProgress } from "./plate-chapter";
 
 /** DS motion: "things reveal, they never bounce" — --ease-out from the token set. */
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -130,7 +131,14 @@ export function HeroDiptych({
 }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  // When this hero is a PlateChapter's plate it gets pinned, and a pinned
+  // element's rect stops moving — its own useScroll would freeze halfway
+  // through. In that case the parent hands down the progress of the sheet
+  // covering it, and the whole exit choreography below runs off that
+  // instead, unchanged. Standalone, it measures itself as before.
+  const plateProgress = usePlateProgress();
+  const { scrollYProgress: ownProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const scrollYProgress = plateProgress ?? ownProgress;
   // Depth read built from plain 2D layers moving at different rates off the
   // same scroll progress — no real 3D, just the classic parallax trick:
   // the "farthest" layer (photos) moves least, the "nearest" ones (divider

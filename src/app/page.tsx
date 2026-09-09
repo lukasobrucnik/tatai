@@ -12,6 +12,7 @@ import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
 import { Section } from "@/components/ui/section";
 import { ChapterLayer } from "@/components/ui/chapter-layer";
+import { PlateChapter } from "@/components/ui/plate-chapter";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Photo } from "@/components/ui/photo";
@@ -60,7 +61,13 @@ export default function Home() {
         <Header items={NAV} phone={PHONE} />
 
         <main>
+        {/* Chapters are two planes: a full-screen plate that pins itself, and
+            the chapter body that slides up and covers it (see PlateChapter).
+            Piloted here and on Střechy; the rest of the page still runs on
+            ChapterLayer's shallower strip-overlap until this is signed off. */}
         <SectionAnchor id="home">
+        <PlateChapter
+          plate={
           <HeroDiptych
             eyebrow="Střechy a dřevěné konstrukce"
             title="Dva obory, jedna firma."
@@ -93,15 +100,10 @@ export default function Home() {
               </>
             }
           />
-        </SectionAnchor>
-
-        {/* Everything below the hero is a stack of sheets — see ChapterLayer.
-            One sheet per chapter, and from here down a chapter means exactly
-            what the menu means: Střechy, Domy, Realizace, O nás, Kontakt.
-            This first sheet is the front matter (co děláme → ukázka → proces),
-            so it's the one sheet with no tab. Shallower overlap so it can
-            never reach the hero's stats row, which sits near its bottom. */}
-        <ChapterLayer overlap={48}>
+          }
+        >
+        {/* Front matter — co děláme → ukázka → proces. The one chapter with
+            no tab: the numbered tabs mark the five sections in the menu. */}
         <Section density="lg">
           <Reveal>
             <SectionHeader
@@ -173,19 +175,24 @@ export default function Home() {
           </Reveal>
           <ProcessTrack tone="inverse" steps={PROCESS} />
         </Section>
-        </ChapterLayer>
-
-        <ChapterLayer index="01" label="Střechy">
-        <SectionAnchor id="strechy">
-          <Hero
-            height="66svh"
-            title="Střecha je skladba, ne krytina."
-            lead="Ploché a šikmé střechy pro rodinné domy, bytové domy i průmyslové objekty. Od návrhu skladby po fotodokumentaci skrytých vrstev."
-            src="/photos/hero-strechy.webp"
-            label="Plochá střecha — detail atiky"
-            meta={ROOF_META}
-          />
+        </PlateChapter>
         </SectionAnchor>
+
+        <SectionAnchor id="strechy">
+        <PlateChapter
+          index="01"
+          label="Střechy"
+          plate={
+            <Hero
+              height="100%"
+              title="Střecha je skladba, ne krytina."
+              lead="Ploché a šikmé střechy pro rodinné domy, bytové domy i průmyslové objekty. Od návrhu skladby po fotodokumentaci skrytých vrstev."
+              src="/photos/hero-strechy.webp"
+              label="Plochá střecha — detail atiky"
+              meta={ROOF_META}
+            />
+          }
+        >
 
         <Section density="lg">
           <Reveal>
@@ -248,7 +255,8 @@ export default function Home() {
           </Reveal>
           <MaterialStrip items={ROOF_MATERIALS} />
         </Section>
-        </ChapterLayer>
+        </PlateChapter>
+        </SectionAnchor>
 
         <ChapterLayer index="02" label="Domy">
         <SectionAnchor id="domy">
