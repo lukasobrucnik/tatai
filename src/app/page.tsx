@@ -9,6 +9,7 @@ import { InquiryModalProvider } from "@/components/inquiry-modal-context";
 import { InquiryTriggerButton } from "@/components/inquiry-trigger-button";
 import { RealizaceExplorer } from "@/components/realizace-explorer";
 import { RealizacePortal } from "@/components/realizace-portal";
+import { HallGalleries } from "@/components/hall-galleries";
 import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
 import { Section } from "@/components/ui/section";
@@ -47,6 +48,7 @@ import {
   PROCESS,
   ROOF_MATERIALS,
   HOUSE_MATERIALS,
+  HALLS,
   FAQ,
   TEAM,
   CONTACT_ROWS,
@@ -303,6 +305,23 @@ export default function Home() {
             <SectionHeader eyebrow="Materiál" title="Dřevo, se kterým pracujeme." align="stack" />
           </Reveal>
           <MaterialStrip items={HOUSE_MATERIALS} />
+        </Section>
+
+        {/* Kapitola končí tím, kde ty domy vznikají. Bez čísla a bez položky
+            v menu: není to šestý obor, je to zázemí toho druhého — a fotky
+            jsou tu bez popisků schválně, protože k nim žádný technický
+            kontext od firmy nemáme. */}
+        <Section density="lg">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Výroba"
+              title="Kde to vzniká."
+              lead="Rodinné domy vyrábíme ve vlastní dílně — ve dvou halách."
+            />
+          </Reveal>
+          <Reveal delay={0.07}>
+            <HallGalleries halls={HALLS} />
+          </Reveal>
         </Section>
         </ChapterLayer>
 

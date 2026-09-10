@@ -6,6 +6,12 @@ export type MaterialItem = { name: string; note: string; src?: string };
 export type FaqItem = { title: string; body: string };
 export type TeamMember = { label: string; ratio: "portrait"; caption: string };
 export type DetailPoint = { title: string; note: string; src?: string };
+/** Jedna fotka z dílny. Rozměry drží lightbox — podle nich volí object-contain
+ *  box, aby fotka na výšku nepřetekla obrazovku. */
+export type HallPhoto = { src: string; w: number; h: number };
+/** Hala výroby. Vědomě bez popisků: k fotkám jsme od majitele žádný technický
+ *  kontext nedostali a web stojí na tom, že co je napsané, sedí. */
+export type Hall = { id: string; name: string; photos: HallPhoto[] };
 export type Project = {
   slug: string;
   category: "Střecha" | "Dům";
@@ -191,4 +197,43 @@ export const FOOTER_COLUMNS = [
   { title: "Střechy", links: [{ label: "Ploché střechy", href: "#strechy" }, { label: "Šikmé střechy", href: "#strechy" }] },
   { title: "Domy", links: [{ label: "Sloupkové konstrukce", href: "#domy" }, { label: "CLT panely", href: "#domy" }, { label: "Roubenky", href: "#domy" }] },
   { title: "Firma", links: [{ label: "O nás", href: "#o-nas" }, { label: "Realizace", href: "#realizace" }, { label: "Kontakt", href: "#kontakt" }] },
+];
+
+/** Pořadí je záměrné, ne abecední: [0] je vedoucí záběr haly, [1..3] filmstrip,
+ *  zbytek padá do kontaktního listu za tlačítkem. */
+export const HALLS: Hall[] = [
+  {
+    id: "sever",
+    name: "Hala sever",
+    photos: [
+      { src: "/photos/vyroba/sever-01.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/sever-02.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/sever-03.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/sever-04.webp", w: 1126, h: 2000 },
+      { src: "/photos/vyroba/sever-05.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/sever-06.webp", w: 1126, h: 2000 },
+      { src: "/photos/vyroba/sever-07.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/sever-08.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/sever-09.webp", w: 1126, h: 2000 },
+      { src: "/photos/vyroba/sever-10.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/sever-11.webp", w: 2000, h: 1126 },
+    ],
+  },
+  {
+    id: "jih",
+    name: "Hala jih",
+    photos: [
+      { src: "/photos/vyroba/jih-01.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-02.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-03.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-04.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-05.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-06.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-07.webp", w: 1126, h: 2000 },
+      { src: "/photos/vyroba/jih-08.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-09.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-10.webp", w: 2000, h: 1126 },
+      { src: "/photos/vyroba/jih-11.webp", w: 1126, h: 2000 },
+    ],
+  },
 ];
