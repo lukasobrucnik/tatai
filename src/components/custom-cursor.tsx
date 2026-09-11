@@ -38,10 +38,23 @@ function luminance(rgb: string): number {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-/** Walks up from the element under the cursor to the nearest opaque background. */
+/**
+ * Walks up from the element under the cursor to the nearest opaque background.
+ *
+ * `data-cursor-ground="light" | "dark"` short-circuits the walk for the rare
+ * element whose painted ground is not its own background colour. The glyph
+ * portal is the case that forced it: its section is painted near-black, but
+ * once the camera is inside the letter the whole screen is the light field,
+ * drawn by a pointer-events-none layer the walk never reaches — so the mark
+ * stayed bone-white on bone-white paper. The portal sets the attribute as it
+ * crosses that point and clears it on the way back out.
+ */
 function backgroundLuminanceAt(x: number, y: number): number {
   let node = document.elementFromPoint(x, y) as Element | null;
   while (node) {
+    const declared = (node as HTMLElement).dataset?.cursorGround;
+    if (declared === "light") return 1;
+    if (declared === "dark") return 0;
     const bg = getComputedStyle(node).backgroundColor;
     const nums = bg.match(/[\d.]+/g);
     if (nums) {

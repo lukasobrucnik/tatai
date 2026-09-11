@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SignalRule } from "./signal-rule";
 
 const tones = {
   page: "bg-surface-page text-body",
@@ -26,9 +27,12 @@ export function Section({
   topRule?: boolean;
   className?: string;
 }) {
-  const ruleCls = topRule ? `border-t ${tone === "inverse" ? "border-border-inverse" : "border-border-hairline"}` : "";
+  // Absolute rather than a border: the rule has to sit on the section's very
+  // top edge, and the section's own vertical padding would otherwise push a
+  // flow child a hundred-odd pixels down from it.
   return (
-    <section className={`${tones[tone]} ${densities[density]} ${ruleCls} ${className}`}>
+    <section className={`relative ${tones[tone]} ${densities[density]} ${className}`}>
+      {topRule && <SignalRule className="absolute inset-x-0 top-0" />}
       <div className="container-tatai">{children}</div>
     </section>
   );

@@ -30,7 +30,7 @@ export function ChapterTab({ index, label }: { index?: string; label?: string })
     <div className="bg-surface-page">
       <motion.span
         aria-hidden
-        className="block h-0.5 w-full origin-left bg-signal-500"
+        className="signal-rule block h-0.5 w-full origin-left"
         initial={reduce ? undefined : { scaleX: 0 }}
         whileInView={reduce ? undefined : { scaleX: 1 }}
         viewport={{ once: true, amount: 0 }}

@@ -206,12 +206,41 @@
   min-height: calc(100svh - var(--header-h));
 }
 
-/* GlyphPortal pads its own content area, which would inset the Realizace
-   chapter's ground and leave the portal's dark frame showing at the edges.
-   The chapter supplies its own full-bleed surface and the site's section
-   rhythm instead — see components/realizace-portal.tsx. */
+/* GlyphPortal pads its own content area, which would inset the chapter's
+   ground and leave the portal's dark frame showing at the edges. The chapter
+   supplies its own full-bleed surface and the site's section rhythm instead
+   — see components/chapter-portal.tsx.
+
+   The ground belongs on this box rather than on the chapter's own wrapper
+   inside it. The box is at least a screen tall and centres what it holds, so
+   whenever the chapter body is shorter than a screen the leftover space sat
+   transparent — and the portal's field, still pinned behind it, showed
+   through as a cyan band with a hard edge along the bottom of the copy. On a
+   tall window that band was a couple of hundred pixels of what looked like a
+   rendering fault right above the next section.
+
+   The class is doubled to out-specify the component's own
+   [data-gp-motion=on] [data-gp-content] background rule, which is written
+   with the same weight but injected after this file. */
 .portal-flush [data-gp-content] {
   padding: 0;
+}
+
+.portal-flush.portal-flush [data-gp-content] {
+  background: linear-gradient(to bottom, transparent, var(--color-surface-page) min(38vh, 360px));
+}
+
+/* The seam between sections (see components/ui/signal-rule.tsx) and the
+   leading edge of every chapter. A hairline of signal cyan with a weak bloom
+   of the same colour under it — two shadows, one tight and one wide, both
+   mixed well down, so the line reads as lit rather than printed without
+   turning into a neon tube. Mixed against transparent rather than a surface
+   so the same rule works on bone and on graphite. */
+.signal-rule {
+  background-color: var(--color-signal-500);
+  box-shadow:
+    0 0 6px color-mix(in oklab, var(--color-signal-500) 45%, transparent),
+    0 0 20px color-mix(in oklab, var(--color-signal-400) 20%, transparent);
 }
 
 .container-tatai {

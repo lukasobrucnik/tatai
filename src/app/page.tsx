@@ -102,7 +102,7 @@ export default function Home() {
         >
         {/* Front matter — co děláme → proces. The one chapter with no tab:
             the numbered tabs mark the sections in the menu. */}
-        <Section density="lg">
+        <Section density="lg" topRule>
           <Reveal>
             <SectionHeader
               eyebrow="Co děláme"
@@ -135,7 +135,7 @@ export default function Home() {
         {/* The heading lives inside ProcessScroll rather than above it: it has
             to stay on screen with the steps while you scroll through them,
             which it can't do from outside the pinned panel. */}
-        <Section tone="inverse" density="md">
+        <Section tone="inverse" density="md" topRule>
           <ProcessScroll
             steps={PROCESS}
             eyebrow="Proces"
@@ -165,7 +165,7 @@ export default function Home() {
             vrstev, detaily atiky a přehled krytin šly pryč — na marketingové
             onepage je to katalog, ne argument. Co z nich zbylo, drží ty dvě
             krátké tabulky pod fotkami. */}
-        <Section density="lg">
+        <Section density="lg" topRule>
           <Reveal>
             <SectionHeader
               eyebrow="Konstrukce"
@@ -205,7 +205,7 @@ export default function Home() {
           />
         </SectionAnchor>
 
-        <Section density="lg">
+        <Section density="lg" topRule>
           <Reveal>
             <SectionHeader
               eyebrow="Konstrukce"
@@ -242,7 +242,7 @@ export default function Home() {
           <DetailCallout points={CLT_POINTS} />
         </Section>
 
-        <Section density="lg">
+        <Section density="lg" topRule>
           <Reveal>
             <SectionHeader eyebrow="Materiál" title="Dřevo, se kterým pracujeme." align="stack" />
           </Reveal>
@@ -345,7 +345,7 @@ export default function Home() {
           </Section>
         </SectionAnchor>
 
-        <Section density="lg">
+        <Section density="lg" topRule>
           <Reveal>
             <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
           </Reveal>
@@ -376,7 +376,7 @@ export default function Home() {
         {/* The chapter closes on the questions rather than on a dark block, so
             this hairline is carrying the whole light-to-footer seam on its
             own. */}
-        <div aria-hidden className="h-px w-full bg-signal-500" />
+        <div aria-hidden className="signal-rule h-px w-full" />
 
         <Footer
           phone={PHONE}

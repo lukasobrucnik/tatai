@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import GlyphPortal, { type GlyphPortalStyle } from "./ui/glyph-portal";
 import { ChapterTab } from "./ui/chapter-tab";
 
@@ -24,6 +24,15 @@ import { ChapterTab } from "./ui/chapter-tab";
  * if *any* requested family fails its check, and generic names like
  * `sans-serif` can't be checked reliably.
  */
+/**
+ * Progress at which the letter's interior owns the screen. Before it the dark
+ * paper still frames the word and the cursor belongs bone-white; after it the
+ * page is the light field and the mark has to go dark or it disappears. The
+ * camera's zoom is a function of progress alone, so this holds whatever the
+ * scroll length is.
+ */
+const FIELD_OWNS_SCREEN = 0.4;
+
 export function ChapterPortal({
   word,
   index,
@@ -45,6 +54,21 @@ export function ChapterPortal({
   children: ReactNode;
 }) {
   const [fontFamily, setFontFamily] = useState<string | null>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
+  const litRef = useRef(false);
+
+  // Fires once per rendered frame, so it touches the DOM directly rather than
+  // going through state — a re-render per scroll frame would cost more than
+  // the whole portal.
+  const handleProgress = useCallback((progress: number) => {
+    const lit = progress >= FIELD_OWNS_SCREEN;
+    if (lit === litRef.current) return;
+    litRef.current = lit;
+    const section = hostRef.current?.querySelector<HTMLElement>(".portal-flush");
+    if (!section) return;
+    if (lit) section.dataset.cursorGround = "light";
+    else delete section.dataset.cursorGround;
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -73,7 +97,9 @@ export function ChapterPortal({
   }
 
   return (
+    <div ref={hostRef}>
     <GlyphPortal
+      onProgress={handleProgress}
       // Zeroes the portal's own content padding (globals.css) so the ground
       // below can run to the edges and the chapter keeps the site's section
       // rhythm instead of the component's.
@@ -141,19 +167,14 @@ export function ChapterPortal({
       {/* The portal makes its content transparent so the field shows behind it
           during the reveal, and the section's own ground is the dark opening
           frame. Neither is a surface to read on once the pin releases, so the
-          chapter brings its own.
-          It fades in rather than starting flat: an opaque ground meeting the
-          field left a hard horizontal seam across the screen, which read as a
-          rendering fault rather than as the edge of anything. The gradient
-          holds its last stop, so everything below the fade is solid page. */}
-      <div
-        className="py-(--section-y-md)"
-        style={{
-          background: "linear-gradient(to bottom, transparent, var(--color-surface-page) min(38vh, 360px))",
-        }}
-      >
-        {children}
-      </div>
+          chapter brings its own — see .portal-flush in globals.css, which
+          paints it across the whole content box rather than only behind this
+          wrapper. It fades in from the top rather than starting flat: an
+          opaque ground meeting the field left a hard horizontal seam across
+          the screen, which read as a rendering fault rather than as the edge
+          of anything. */}
+      <div className="py-(--section-y-md)">{children}</div>
     </GlyphPortal>
+    </div>
   );
 }
