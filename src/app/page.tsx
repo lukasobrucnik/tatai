@@ -314,9 +314,9 @@ export default function Home() {
         <Section density="lg">
           <Reveal>
             <SectionHeader
-              eyebrow="Výroba"
-              title="Kde to vzniká."
-              lead="Rodinné domy vyrábíme ve vlastní dílně — ve dvou halách."
+              eyebrow="Dílna"
+              title="Výroba RD v TATAI dílně."
+              lead="Ukázka fotek z našich dvou hal, kde to všechno vzniká."
             />
           </Reveal>
           <Reveal delay={0.07}>

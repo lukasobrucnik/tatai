@@ -76,12 +76,15 @@ function HallGallery({
 
   return (
     <div className={`grid gap-(--grid-gap) ${separated ? "border-t border-border-hairline pt-(--section-y-sm)" : ""}`}>
-      {/* Hlavička haly: číslo, jméno, počet snímků. Signal tick značí, kde
-          měřená věc začíná — stejné gesto jako u statistik na plátně O nás. */}
-      <div className="relative flex items-baseline justify-between gap-6 border-t border-border-strong pt-4">
+      {/* Hlavička haly. Jméno haly je podnadpis, ne metadata — proto Archivo
+          v titulkové velikosti, a ne mono jako popisky kolem. Číslo a počet
+          snímků kolem něj metadata zůstávají, takže mono nesou dál ony.
+          Signal tick značí, kde měřená věc začíná — stejné gesto jako
+          u statistik na plátně O nás. */}
+      <div className="relative flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-border-strong pt-5">
         <span aria-hidden className="absolute -top-px left-0 h-px w-[22px] bg-signal-500" />
-        <h3 className="flex items-baseline gap-4 font-mono text-body-sm uppercase tracking-eyebrow text-strong">
-          <span className="tabular-nums text-signal-600">{index}</span>
+        <h3 className="flex items-baseline gap-4 font-display text-h4 font-medium tracking-heading text-strong">
+          <span className="font-mono text-caption tabular-nums tracking-eyebrow text-signal-600">{index}</span>
           {hall.name}
         </h3>
         <span className="font-mono text-eyebrow tabular-nums tracking-eyebrow uppercase text-muted">
