@@ -82,7 +82,13 @@ export function ChapterPortal({
       fontFamily={fontFamily}
       fontWeight={700}
       interactive={false}
-      scrollLength={2.6}
+      scrollLength={1.9}
+      // Bez tohohle okna se obsah drží až do 0.78 (viz GlyphPortal): pole
+      // vyplní obrazovku někde kolem 0.42 a pak se skoro celou další
+      // obrazovku neděje nic — čtenář si stihne myslet, že stránka končí.
+      // 0.56 je první moment, kdy je nadpis vůbec pod ohybem, takže se
+      // vynořuje rovnou, jak se pole dovře.
+      reveal={[0.48, 0.64]}
       enterLabel={enterLabel}
       style={
         {

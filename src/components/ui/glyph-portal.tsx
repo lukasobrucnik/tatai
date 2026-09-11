@@ -27,6 +27,13 @@ export type GlyphPortalProps = {
   children?: ReactNode;
   /** Scroll travel in visible container heights, clamped to 1–8. */
   scrollLength?: number;
+  /** Local addition, not upstream. Progress window over which the content
+   *  fades in, as [start, end]. Upstream holds the content back until the
+   *  camera has all but landed ([0.78, 0.9]), which reads as a held beat
+   *  when the field is a flat colour: the screen goes blank the moment the
+   *  ink fills it and stays blank for the rest of the flight. Pass an
+   *  earlier window to bring the content up as soon as it clears the fold. */
+  reveal?: [number, number];
   fontFamily?: string;
   fontWeight?: number;
   annotations?: boolean;
@@ -107,6 +114,7 @@ export default function GlyphPortal({
   front,
   children,
   scrollLength = 2.4,
+  reveal = [0.78, 0.9],
   fontFamily = DEFAULT_FONT,
   fontWeight = 900,
   annotations = false,
@@ -133,6 +141,11 @@ export default function GlyphPortal({
     index: glyphs.slice(0, i).reduce((sum, previous) => sum + previous.length, 0),
   }));
   const length = Number.isFinite(scrollLength) ? clamp(scrollLength, 1, 8) : 2.4;
+  // The content sits one container height short of the full travel, so it is
+  // still below the fold before (length - 1) / length — revealing it earlier
+  // than that would only fade in something nobody can see yet.
+  const revealFrom = clamp(reveal[0], (length - 1) / length, 1);
+  const revealTo = clamp(reveal[1], revealFrom + 0.02, 1);
   const weight = Number.isFinite(fontWeight) ? clamp(fontWeight, 1, 1000) : 900;
   const hasFront = front != null;
   const q = `:where(#${uid})`;
@@ -289,10 +302,10 @@ export default function GlyphPortal({
       // Drop the clip only after the camera has already filled the viewport with ink.
       field.style.clipPath = t >= 1 ? "none" : `url(#${clipId})`;
       section.style.setProperty("--gp-caption", String(1 - smooth(0.01, 0.16, p)));
-      section.style.setProperty("--gp-reveal", String(isStatic ? 1 : smooth(0.78, 0.9, p)));
+      section.style.setProperty("--gp-reveal", String(isStatic ? 1 : smooth(revealFrom, revealTo, p)));
       section.style.setProperty("--gp-field-scale", String(1 + 0.16 * smooth(0, 0.82, p)));
       section.style.setProperty("--gp-caption-hit", p < 0.08 ? "auto" : "none");
-      section.dataset.gpEntered = String(p >= 0.9);
+      section.dataset.gpEntered = String(p >= revealTo);
       section.dataset.gpProgress = p.toFixed(5);
       if (p !== lastProgress) {
         lastProgress = p;
@@ -430,7 +443,7 @@ export default function GlyphPortal({
       choices.removeEventListener("keydown", navigate);
       picker.removeEventListener("change", pick);
     };
-  }, [text, focusChar, interactive, fontFamily, weight, length, clipId, hasFront]);
+  }, [text, focusChar, interactive, fontFamily, weight, length, revealFrom, revealTo, clipId, hasFront]);
 
   return (
     <section
