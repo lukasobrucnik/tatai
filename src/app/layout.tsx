@@ -50,7 +50,7 @@ export default function RootLayout({
       <body>
         {/* The old hash-scroll-instant script lived here to stop
             `html { scroll-behavior: smooth }` from turning a deep link like
-            /#realizace into a multi-second animated scroll on first paint.
+            /#o-nas into a multi-second animated scroll on first paint.
             That CSS rule is gone (Lenis owns smoothing now), so the native
             fragment landing is instant again on its own. */}
         <SmoothScroll>{children}</SmoothScroll>

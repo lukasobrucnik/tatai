@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 const CLICK_SELECTOR = 'a, button, [role="button"], input[type="submit"], label[for], summary, [data-cursor-interactive]';
 // Reacts to hover (image zoom, row tint, accent line…) but isn't itself
 // clickable — a hollow ring, no fill. Opt in per component via
-// `data-cursor-hover` (project-card.tsx, assembly-stack.tsx, material-strip.tsx).
+// `data-cursor-hover` (material-strip.tsx, pillar-split.tsx).
 const HOVER_SELECTOR = "[data-cursor-hover]";
 // Elements with their own native cursor (text caret, OS select popup) — the
 // mark hides here entirely rather than sitting on top of it. Two cursors

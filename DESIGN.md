@@ -306,13 +306,6 @@ its background tone or add a top rule before reaching for `box-shadow`.
   underline. Below `lg` the nav collapses to a two-line hamburger that
   reveals a full-height mono/display link stack.
 
-### AssemblyStack (signature)
-A row-per-layer material breakdown: index (counting down from the layer
-count), material name, material description, and thickness in mm,
-right-aligned tabular numerals. A Σ total sits in the header. Hovering a
-row shifts its background to `surface-raised` and its index to signal-500
-— this is the component that most literally embodies "The Field Report."
-
 ### DetailCallout (signature)
 A dark full-width context photo, followed by a 3-across filmstrip of
 close-up detail crops — same visual grammar as `MaterialStrip`, applied to

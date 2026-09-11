@@ -5,17 +5,16 @@ import GlyphPortal, { type GlyphPortalStyle } from "./ui/glyph-portal";
 import { ChapterTab } from "./ui/chapter-tab";
 
 /**
- * The way into the Realizace chapter: the word itself is the doorway. The
- * page goes dark, REALIZACE stands cut out of it with the work showing
- * through the letters, and scrolling flies the camera into one of them until
- * that letter fills the screen and you're inside the chapter. Scrolling back
- * up reverses it.
+ * A chapter opening you fly into: the page goes dark, a word stands cut out
+ * of it with light showing through the letters, and scrolling flies the
+ * camera into one of them until that letter fills the screen and you're
+ * inside the chapter. Scrolling back up reverses it.
  *
  * Střechy and Domy both open the same way — a photo plate with a heading —
- * which is right for two chapters that are siblings. Realizace isn't a third
- * sibling, it's the point the other two have been arguing for, so it gets a
- * threshold instead of another plate. Everything after it (O nás, Kontakt)
- * goes back to the normal chapter treatment.
+ * which is right for two chapters that are siblings. The chapter this opens
+ * isn't a third sibling, it's the point the other two have been arguing for,
+ * so it gets a threshold instead of another plate. Exactly one chapter on the
+ * page may use it; a second one would turn the site into a showreel.
  *
  * Mounting waits for fonts because the portal measures the glyph off canvas
  * and freezes whichever face is available at mount: a face that arrives
@@ -25,7 +24,26 @@ import { ChapterTab } from "./ui/chapter-tab";
  * if *any* requested family fails its check, and generic names like
  * `sans-serif` can't be checked reliably.
  */
-export function RealizacePortal({ children }: { children: ReactNode }) {
+export function ChapterPortal({
+  word,
+  index,
+  label,
+  caption,
+  enterLabel,
+  children,
+}: {
+  /** The word you fly through. Uppercase, and short enough to stand at
+   *  display scale on a phone. */
+  word: string;
+  /** Chapter number, shown top-left over the word. */
+  index: string;
+  /** Chapter name — what the menu calls this section. */
+  label: string;
+  /** One line under the word, the chapter's promise. */
+  caption: string;
+  enterLabel: string;
+  children: ReactNode;
+}) {
   const [fontFamily, setFontFamily] = useState<string | null>(null);
 
   useEffect(() => {
@@ -48,7 +66,7 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
   if (!fontFamily) {
     return (
       <div className="bg-surface-page">
-        <ChapterTab index="03" label="Realizace" />
+        <ChapterTab index={index} label={label} />
         <div className="py-(--section-y-md)">{children}</div>
       </div>
     );
@@ -60,17 +78,17 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
       // below can run to the edges and the chapter keeps the site's section
       // rhythm instead of the component's.
       className="portal-flush"
-      word="REALIZACE"
+      word={word}
       fontFamily={fontFamily}
       fontWeight={700}
       interactive={false}
       scrollLength={2.6}
-      enterLabel="Přejít na realizace"
+      enterLabel={enterLabel}
       style={
         {
-          // Dark page, the work showing through the letters, opening onto the
-          // chapter's own bone ground — so the camera lands exactly on the
-          // colour the wall of projects already sits on.
+          // Dark page, light showing through the letters, opening onto the
+          // chapter's own ground — so the camera lands exactly on the colour
+          // the section below already sits on.
           "--gp-paper": "var(--color-graphite-900)",
           "--gp-ink": "var(--color-bone-200)",
           "--gp-field": "var(--color-surface-page)",
@@ -81,7 +99,7 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
       // paints over whatever --gp-field is set to. This is the thing that
       // shows through the letters and that the camera lands on, so it has to
       // work twice: brand-tinted enough to be worth flying into, and calm
-      // enough to sit under a wall of project cards. Signal cyan bloomed into
+      // enough to sit under the section that follows. Signal cyan bloomed into
       // the page's own bone reads as light coming through the word up close,
       // and as very nearly the normal page ground once you're inside it.
       background={
@@ -102,22 +120,22 @@ export function RealizacePortal({ children }: { children: ReactNode }) {
           {/* A notch up from eyebrow size: legible to anyone who looks for it,
               still quiet enough not to pull against the word behind it. */}
           <span className="absolute left-(--container-gutter) top-10 flex items-baseline gap-3 font-mono text-body-sm tracking-eyebrow uppercase">
-            <span className="text-signal-500">03</span>
-            <span className="text-bone-200">Realizace</span>
+            <span className="text-signal-500">{index}</span>
+            <span className="text-bone-200">{label}</span>
           </span>
           <p
             className="absolute inset-x-(--container-gutter) m-0 text-center font-mono text-caption tracking-mono text-graphite-300"
             style={{ top: "calc(var(--gp-word-bottom, 55%) + 2.5rem)" }}
           >
-            Šest staveb. Skladba, fotky a jméno stavbyvedoucího u každé.
+            {caption}
           </p>
         </div>
       }
     >
       {/* The portal makes its content transparent so the field shows behind it
           during the reveal, and the section's own ground is the dark opening
-          frame. Neither is a surface to read project cards on once the pin
-          releases, so the chapter brings its own.
+          frame. Neither is a surface to read on once the pin releases, so the
+          chapter brings its own.
           It fades in rather than starting flat: an opaque ground meeting the
           field left a hard horizontal seam across the screen, which read as a
           rendering fault rather than as the edge of anything. The gradient

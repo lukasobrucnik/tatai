@@ -7,8 +7,7 @@ import { DetailCallout } from "@/components/detail-callout";
 import { InquiryForm } from "@/components/inquiry-form";
 import { InquiryModalProvider } from "@/components/inquiry-modal-context";
 import { InquiryTriggerButton } from "@/components/inquiry-trigger-button";
-import { RealizaceExplorer } from "@/components/realizace-explorer";
-import { RealizacePortal } from "@/components/realizace-portal";
+import { ChapterPortal } from "@/components/chapter-portal";
 import { HallGalleries } from "@/components/hall-galleries";
 import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
@@ -18,11 +17,9 @@ import { PlateChapter } from "@/components/ui/plate-chapter";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Photo } from "@/components/ui/photo";
-import { PhotoGrid } from "@/components/ui/photo-grid";
 import { PillarSplit } from "@/components/ui/pillar-split";
-import { AssemblyStack } from "@/components/ui/assembly-stack";
 import { SpecTable } from "@/components/ui/spec-table";
-import { StatementPlate } from "@/components/ui/statement-plate";
+import { StatGrid } from "@/components/ui/stat-grid";
 import { ProcessScroll } from "@/components/ui/process-scroll";
 import { MaterialStrip } from "@/components/ui/material-strip";
 import { Button } from "@/components/ui/button";
@@ -33,24 +30,17 @@ import {
   EMAIL,
   ADDRESS,
   ICO,
-  PROJECTS,
-  FLAT_ROOF,
-  PITCHED_ROOF,
-  CLT_WALL,
   HERO_META,
   STATS,
   ROOF_META,
   HOUSE_META,
-  ROOF_POINTS,
   CLT_POINTS,
   FLAT_SPEC,
   PITCHED_SPEC,
   PROCESS,
-  ROOF_MATERIALS,
   HOUSE_MATERIALS,
   HALLS,
   FAQ,
-  TEAM,
   CONTACT_ROWS,
   FOOTER_COLUMNS,
 } from "@/lib/data";
@@ -97,16 +87,20 @@ export default function Home() {
                 <InquiryTriggerButton variant="inverse" size="lg" arrow>
                   Poptávka
                 </InquiryTriggerButton>
-                <Button variant="inverse-outline" size="lg" href="#realizace">
-                  Realizace
+                {/* Druhé tlačítko mířilo na Realizace, které na stránce už
+                    nejsou. Telefon je jediná další věc, kterou po člověku v
+                    hero chceme — a obě cesty do obsahu už drží ty dva panely
+                    nad tlačítky. */}
+                <Button variant="inverse-outline" size="lg" href={`tel:${PHONE.replace(/\s/g, "")}`}>
+                  {PHONE}
                 </Button>
               </>
             }
           />
           }
         >
-        {/* Front matter — co děláme → ukázka → proces. The one chapter with
-            no tab: the numbered tabs mark the five sections in the menu. */}
+        {/* Front matter — co děláme → proces. The one chapter with no tab:
+            the numbered tabs mark the sections in the menu. */}
         <Section density="lg">
           <Reveal>
             <SectionHeader
@@ -166,6 +160,10 @@ export default function Home() {
           />
         </SectionAnchor>
 
+        {/* Kapitola je teď jedna sekce: dva typy střech a konec. Skladby
+            vrstev, detaily atiky a přehled krytin šly pryč — na marketingové
+            onepage je to katalog, ne argument. Co z nich zbylo, drží ty dvě
+            krátké tabulky pod fotkami. */}
         <Section density="lg">
           <Reveal>
             <SectionHeader
@@ -190,42 +188,6 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-        </Section>
-
-        <Section tone="raised" density="lg" topRule>
-          <Reveal>
-            <SectionHeader
-              eyebrow="Skladba"
-              title="Dvě skladby vedle sebe."
-              lead="Plochá i šikmá střecha mají úplně jinou stavbu vrstev. Obě dovedeme do posledního milimetru — tady je srovnání."
-            />
-          </Reveal>
-          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-16!">
-            <Reveal>
-              <AssemblyStack title="Skladba — plochá střecha R1" layers={FLAT_ROOF} />
-            </Reveal>
-            <Reveal delay={0.07}>
-              <AssemblyStack title="Skladba — šikmá střecha" layers={PITCHED_ROOF} />
-            </Reveal>
-          </div>
-        </Section>
-
-        <Section density="lg">
-          <Reveal>
-            <SectionHeader
-              eyebrow="Detail"
-              title="Atika, vpusť, prostup."
-              lead="Tři místa, kde plochá střecha nejčastěji selže. A tři místa, kterým věnujeme nejvíc času."
-            />
-          </Reveal>
-          <DetailCallout points={ROOF_POINTS} />
-        </Section>
-
-        <Section tone="raised" density="lg" topRule>
-          <Reveal>
-            <SectionHeader eyebrow="Materiál" title="Krytina, na kterou se dá spolehnout." align="stack" />
-          </Reveal>
-          <MaterialStrip items={ROOF_MATERIALS} />
         </Section>
         </ChapterLayer>
 
@@ -269,27 +231,6 @@ export default function Home() {
         </Section>
 
         <Section tone="raised" density="lg" topRule>
-          <div className="grid grid-cols-2 gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!">
-            <Reveal>
-              <div className="grid gap-8 content-start">
-                <Eyebrow>Skladba</Eyebrow>
-                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
-                  Stěna, kterou vidíte zevnitř.
-                </h2>
-                <p className="text-body-lg leading-body text-body">
-                  U CLT je nosná konstrukce zároveň interiérovým povrchem. Skladba proto musí být dořešená do milimetru — od
-                  difuzní fólie po brus panelu.
-                </p>
-                <p className="font-mono text-caption tracking-mono text-muted">U = 0,15 W/m²K · difuzně otevřená skladba</p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.07}>
-              <AssemblyStack title="Skladba — obvodová stěna CLT" layers={CLT_WALL} />
-            </Reveal>
-          </div>
-        </Section>
-
-        <Section density="lg">
           <Reveal>
             <SectionHeader
               eyebrow="Detail"
@@ -300,7 +241,7 @@ export default function Home() {
           <DetailCallout points={CLT_POINTS} />
         </Section>
 
-        <Section tone="raised" density="lg" topRule>
+        <Section density="lg">
           <Reveal>
             <SectionHeader eyebrow="Materiál" title="Dřevo, se kterým pracujeme." align="stack" />
           </Reveal>
@@ -308,10 +249,11 @@ export default function Home() {
         </Section>
 
         {/* Kapitola končí tím, kde ty domy vznikají. Bez čísla a bez položky
-            v menu: není to šestý obor, je to zázemí toho druhého — a fotky
+            v menu: není to třetí obor, je to zázemí toho druhého — a fotky
             jsou tu bez popisků schválně, protože k nim žádný technický
-            kontext od firmy nemáme. */}
-        <Section density="lg">
+            kontext od firmy nemáme. Po zrušení Realizací je to zároveň jediné
+            místo, kde je vidět opravdová práce, takže nese víc než dřív. */}
+        <Section tone="raised" density="lg" topRule>
           <Reveal>
             <SectionHeader
               eyebrow="Dílna"
@@ -325,84 +267,66 @@ export default function Home() {
         </Section>
         </ChapterLayer>
 
-        {/* This chapter opens through its own title rather than behind a sheet
-            and a tab — see RealizacePortal — so it carries its own "03" and
-            skips ChapterLayer. The chapters after it go back to the usual. */}
-        <SectionAnchor id="realizace">
-          <RealizacePortal>
-            <div className="container-tatai grid gap-12">
-              <h2 className="max-w-[56ch] text-h1 font-display font-medium tracking-display leading-tight text-strong">
-                Každá stavba má skladbu, fotky a jméno stavbyvedoucího.
-              </h2>
-              <RealizaceExplorer projects={PROJECTS} />
-            </div>
-          </RealizacePortal>
-        </SectionAnchor>
-
-        <ChapterLayer>
-        {/* Opens on a statement rather than a photo plate — see StatementPlate.
-            Coming off the bone-white wall of projects, an inverted screen with
-            nothing moving on it is the clearest possible "you're somewhere
-            else", and it doesn't cost the page a fifth scroll mechanic. */}
+        {/* Portál — prolet slovem — dřív otevíral Realizace. Ty jsou pryč,
+            ale ta animace je nejsilnější věc na stránce, tak ji dostala
+            kapitola, která po nich zůstala jako pointa: O nás. Proto tahle
+            kapitola nemá ChapterLayer ani tab, otevírá se sama sebou.
+            Slovo je TATAI, ne „O NÁS“ — do jména firmy se lítá líp než do
+            předložky a kamera potřebuje písmeno s dírou uprostřed. */}
         <SectionAnchor id="o-nas">
-          <StatementPlate
-            index="04"
-            name="O nás"
-            lead="Parta, která zvedá krovy a svařuje fólie. Od roku 2016, po celé ČR."
-            stats={STATS}
-          />
-        </SectionAnchor>
+          <ChapterPortal
+            word="TATAI"
+            index="03"
+            label="O nás"
+            caption="Čtyři vlastní party. Jeden stavbyvedoucí na zakázku. Jedno číslo, na které voláte."
+            enterLabel="Přejít na O nás"
+          >
+            <div className="container-tatai grid gap-(--section-y-sm)">
+              <h2 className="max-w-[56ch] text-h1 font-display font-medium tracking-display leading-tight text-strong">
+                Parta, která zvedá krovy a svařuje fólie. Od roku 2016, po celé ČR.
+              </h2>
 
-        <Section density="lg">
-          <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
-            <Reveal>
-              <div className="grid gap-6 max-w-[62ch] content-start">
-                <Eyebrow>Firma</Eyebrow>
-                <h2 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
-                  Začali jsme střechami. U dřeva jsme zůstali.
-                </h2>
-                <p className="text-body-lg leading-body text-body">
-                  Prvních deset let jsme dělali skoro výhradně střechy — ploché i šikmé, hodně rekonstrukcí. Tesařina, kterou to
-                  vyžadovalo, nás dovedla k celým konstrukcím: sloupkovým stavbám, CLT a nakonec i roubenkám.
-                </p>
-                <p className="text-body-lg leading-body text-body">
-                  Klíčové práce neděláme přes subdodavatele. Máme čtyři vlastní party a jednoho stavbyvedoucího na zakázku. Když
-                  se něco pokazí, víte, komu volat.
-                </p>
+              {/* Čísla nesou to, co dřív nesla mřížka realizací: důkaz. Sedí
+                  hned pod nadpisem, aby první obrazovka po proletu nebyla jen
+                  věta. */}
+              <Reveal>
+                <StatGrid items={STATS} />
+              </Reveal>
+
+              <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
+                <Reveal>
+                  <div className="grid gap-6 max-w-[62ch] content-start">
+                    <Eyebrow>Firma</Eyebrow>
+                    <h3 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
+                      Začali jsme střechami. U dřeva jsme zůstali.
+                    </h3>
+                    <p className="text-body-lg leading-body text-body">
+                      Prvních deset let jsme dělali skoro výhradně střechy — ploché i šikmé, hodně rekonstrukcí. Tesařina, kterou to
+                      vyžadovalo, nás dovedla k celým konstrukcím: sloupkovým stavbám, CLT a nakonec i roubenkám.
+                    </p>
+                    <p className="text-body-lg leading-body text-body">
+                      Klíčové práce neděláme přes subdodavatele. Máme čtyři vlastní party a jednoho stavbyvedoucího na zakázku. Když
+                      se něco pokazí, víte, komu volat.
+                    </p>
+                  </div>
+                </Reveal>
+                <Reveal delay={0.07}>
+                  <Photo src="/photos/team-stavbyvedouci.webp" ratio="portrait" label="Stavbyvedoucí na střeše" caption="Olomouc, 2025" />
+                </Reveal>
               </div>
-            </Reveal>
-            <Reveal delay={0.07}>
-              <Photo src="/photos/team-stavbyvedouci.webp" ratio="portrait" label="Stavbyvedoucí na střeše" caption="Olomouc, 2025" />
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.12}>
-            <div className="grid gap-6 mt-(--section-y-sm) pt-(--section-y-sm) border-t border-border-hairline">
-              <Eyebrow>Lidé</Eyebrow>
-              <h3 className="text-h3 font-display font-medium tracking-heading leading-heading text-strong max-w-[52ch]">
-                Lidé, za kterými to stojí.
-              </h3>
-              <PhotoGrid pattern="quarters" items={TEAM} />
             </div>
-          </Reveal>
-        </Section>
-        </ChapterLayer>
+          </ChapterPortal>
+        </SectionAnchor>
 
         {/* Last sheet — the footer deliberately shares its dark surface with
-            only the signal hairline between, so nothing slides over it. */}
-        <ChapterLayer veiled={false}>
-        {/* Opens on its own plate like every other chapter, so it can name
-            itself at heading scale — then hands over the form, and only then
-            answers the questions that are left. Unnumbered on purpose: the
-            numbers belong to the four chapters that present the work, and
-            this one is the way out rather than part of the tour. */}
+            only the signal hairline between, so nothing slides over it.
+            Kontakt už neotevírá vlastní celoobrazovková deska: byla to třetí
+            tmavá plocha v řadě a všechno, co na ní stálo, říká formulář hned
+            pod ní líp. Zůstal jen malý popisek vlevo — stejné mono značení,
+            jakým se hlásí kapitola O nás, jen bez čísla: tohle není další
+            kapitola, je to cesta ven. */}
+        <ChapterLayer veiled={false} label="Kontakt">
         <SectionAnchor id="kontakt">
-          <StatementPlate
-            name="Kontakt"
-            lead="Napište, co máte za stavbu — klidně jen to, co zatím víte. Přijedeme se podívat, změříme a nafotíme stav, a teprve potom od nás dostanete návrh skladby a položkový rozpočet. Prohlídka i nabídka jsou nezávazné. Sídlíme v Olomouci a jezdíme po celé ČR."
-          />
-        </SectionAnchor>
-
           <Section tone="raised" density="lg">
             <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
               <InquiryForm eyebrow="Poptávka" />
@@ -412,6 +336,7 @@ export default function Home() {
               </div>
             </div>
           </Section>
+        </SectionAnchor>
 
         <Section density="lg">
           <Reveal>
