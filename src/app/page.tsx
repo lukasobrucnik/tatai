@@ -13,6 +13,7 @@ import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
 import { Section } from "@/components/ui/section";
 import { ChapterLayer } from "@/components/ui/chapter-layer";
+import { ChapterTab } from "@/components/ui/chapter-tab";
 import { PlateChapter } from "@/components/ui/plate-chapter";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -318,14 +319,20 @@ export default function Home() {
           </ChapterPortal>
         </SectionAnchor>
 
-        {/* Last sheet — the footer deliberately shares its dark surface with
-            only the signal hairline between, so nothing slides over it.
-            Kontakt už neotevírá vlastní celoobrazovková deska: byla to třetí
+        {/* Kontakt už neotevírá vlastní celoobrazovková deska: byla to třetí
             tmavá plocha v řadě a všechno, co na ní stálo, říká formulář hned
             pod ní líp. Zůstal jen malý popisek vlevo — stejné mono značení,
             jakým se hlásí kapitola O nás, jen bez čísla: tohle není další
-            kapitola, je to cesta ven. */}
-        <ChapterLayer veiled={false} label="Kontakt">
+            kapitola, je to cesta ven.
+            A proto tu není ani ChapterLayer. Ten list se vytahuje přes konec
+            předchozí kapitoly a vrhá na ni stín vzhůru, což fungovalo, dokud
+            pod ním ležela tmavá deska. Nad světlým koncem O nás z toho byla
+            špinavá šmouha přes celou šířku, která vypadala jako vada
+            vykreslení. Kontakt se nikam nevysouvá, takže stačí ta linka.
+            Patička pod ním sdílí tmavou plochu jen se signální vlasovkou
+            mezi sebou, takže ani tam se nic nepřekrývá. */}
+        <div>
+        <ChapterTab label="Kontakt" />
         <SectionAnchor id="kontakt">
           <Section tone="raised" density="lg">
             <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
@@ -363,7 +370,7 @@ export default function Home() {
             </div>
           </Reveal>
         </Section>
-        </ChapterLayer>
+        </div>
         </main>
 
         {/* The chapter closes on the questions rather than on a dark block, so
