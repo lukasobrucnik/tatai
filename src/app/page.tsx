@@ -315,7 +315,7 @@ export default function Home() {
           <Reveal>
             <SectionHeader
               eyebrow="Dílna"
-              title="Výroba RD v TATAI dílně."
+              title="Výroba rodinných domů v dílně TATAI."
               lead="Ukázka fotek z našich dvou hal, kde to všechno vzniká."
             />
           </Reveal>
