@@ -9,7 +9,15 @@ import { Button } from "./ui/button";
 
 const TYPES = ["Plochá střecha", "Šikmá střecha", "Sloupková konstrukce", "CLT panely", "Roubenka", "Něco jiného"];
 
-export function InquiryForm({ title = "Nezávazná poptávka", eyebrow = "Kontakt" }: { title?: string; eyebrow?: string }) {
+export function InquiryForm({
+  title = "Nezávazná poptávka",
+  eyebrow = "Kontakt",
+}: {
+  title?: string;
+  /** Pass null where the section already names itself above the form — two
+   *  labels on top of each other is one label too many. */
+  eyebrow?: string | null;
+}) {
   const [sent, setSent] = useState(false);
 
   return (
@@ -21,7 +29,7 @@ export function InquiryForm({ title = "Nezávazná poptávka", eyebrow = "Kontak
       className="grid gap-8"
     >
       <div className="grid gap-5 pb-6 border-b border-border-hairline">
-        <Eyebrow>{eyebrow}</Eyebrow>
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <h2 className="text-h2 font-display font-medium tracking-heading text-strong">{title}</h2>
       </div>
 

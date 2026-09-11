@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { Eyebrow } from "./eyebrow";
+import { ChapterMarker } from "./chapter-marker";
 
 export function Hero({
   marker,
@@ -62,12 +63,7 @@ export function Hero({
         </span>
       )}
       <div className="relative w-full container-tatai py-(--section-y-md) grid gap-8">
-        {marker && (
-          <span className="flex items-baseline gap-4 font-mono text-h2 font-medium uppercase tracking-wide">
-            <span className="text-signal-500">{marker.index}</span>
-            <span className={inv ? "text-inverse" : "text-strong"}>{marker.name}</span>
-          </span>
-        )}
+        {marker && <ChapterMarker index={marker.index} name={marker.name} tone={inv ? "inverse" : "default"} />}
         {eyebrow && <Eyebrow tone={inv ? "inverse" : "default"}>{eyebrow}</Eyebrow>}
         <h1
           className={`font-display text-display-2 font-medium tracking-display leading-display max-w-[20ch] ${inv ? "text-inverse" : "text-strong"}`}

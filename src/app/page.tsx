@@ -13,7 +13,7 @@ import { Hero } from "@/components/ui/hero";
 import { HeroDiptych } from "@/components/ui/hero-diptych";
 import { Section } from "@/components/ui/section";
 import { ChapterLayer } from "@/components/ui/chapter-layer";
-import { ChapterTab } from "@/components/ui/chapter-tab";
+import { ChapterMarker } from "@/components/ui/chapter-marker";
 import { PlateChapter } from "@/components/ui/plate-chapter";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -330,13 +330,19 @@ export default function Home() {
             špinavá šmouha přes celou šířku, která vypadala jako vada
             vykreslení. Kontakt se nikam nevysouvá, takže stačí ta linka.
             Patička pod ním sdílí tmavou plochu jen se signální vlasovkou
-            mezi sebou, takže ani tam se nic nepřekrývá. */}
+            mezi sebou, takže ani tam se nic nepřekrývá.
+            Kapitola se hlásí stejnou značkou jako Střechy a Domy — modré
+            číslo, jméno v mono — jenom na světlé ploše a uvnitř své sekce.
+            Dřív to byl vlastní proužek nad formulářem, který měl jinou šeď
+            než formulář sám: dva odstíny přes sebe kvůli jednomu slovu. */}
         <div>
-        <ChapterTab label="Kontakt" />
         <SectionAnchor id="kontakt">
-          <Section tone="raised" density="lg">
+          <Section tone="raised" density="lg" topRule>
+            <div className="mb-(--section-y-sm)">
+              <ChapterMarker index="04" name="Kontakt" />
+            </div>
             <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-12!" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)" }}>
-              <InquiryForm eyebrow="Poptávka" />
+              <InquiryForm eyebrow={null} />
               <div className="grid gap-10 content-start">
                 <SpecTable rows={CONTACT_ROWS} />
                 <Photo ratio="detail" label="Mapa — sídlo a působnost" />
