@@ -38,7 +38,6 @@ export function ChapterPortal({
   index,
   label,
   destination,
-  caption,
   enterLabel,
   children,
 }: {
@@ -55,8 +54,6 @@ export function ChapterPortal({
    *  the numbered label in the corner is orientation for the second visit,
    *  not a signpost for the first. */
   destination: string;
-  /** One line under that, the chapter's promise. */
-  caption: string;
   enterLabel: string;
   children: ReactNode;
 }) {
@@ -174,7 +171,7 @@ export function ChapterPortal({
               into a plate, which is also the site's own mark — the same cyan
               hairline that opens every section. */}
           <div
-            className="absolute inset-x-(--container-gutter) grid justify-items-center gap-6 text-center max-sm:gap-4!"
+            className="absolute inset-x-(--container-gutter) grid justify-items-center text-center"
             style={{ top: "calc(var(--gp-word-bottom, 55%) + clamp(2rem, 5vh, 4.5rem))" }}
           >
             <span className="flex items-center gap-6 font-mono text-h2 font-medium uppercase tracking-[0.22em] text-bone-100 max-sm:text-h4! max-sm:gap-3! max-sm:tracking-[0.18em]!">
@@ -182,9 +179,6 @@ export function ChapterPortal({
               {destination}
               <span aria-hidden className="signal-rule h-px w-14 max-sm:w-7!" />
             </span>
-            <p className="m-0 max-w-[52ch] font-mono text-body-sm tracking-mono text-graphite-300 max-sm:text-caption!">
-              {caption}
-            </p>
           </div>
         </div>
       }
