@@ -9,6 +9,7 @@ export function Footer({
   address,
   ico,
   claim,
+  hrefPrefix = "",
 }: {
   columns: typeof FOOTER_COLUMNS;
   phone: string;
@@ -16,6 +17,11 @@ export function Footer({
   address: string;
   ico: string;
   claim: string;
+  /** "/" on a page that is not the homepage: the column links are fragments of
+   *  the homepage, and a bare "#strechy" on /ochrana-soukromi points at an
+   *  element that page does not have — the link just does nothing. The header
+   *  already took this prefix; the footer was left behind. */
+  hrefPrefix?: string;
 }) {
   return (
     <footer className="bg-surface-inverse text-inverse-muted pt-(--section-y-md) pb-10">
@@ -29,7 +35,7 @@ export function Footer({
             <nav key={col.title} className="grid gap-4 content-start">
               <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{col.title}</span>
               {col.links.map((l) => (
-                <a key={l.label} href={l.href} className="text-graphite-300 text-body-md no-underline transition-colors duration-150 hover:text-signal-500">
+                <a key={l.label} href={`${hrefPrefix}${l.href}`} className="inline-flex min-h-8 items-center text-graphite-300 text-body-md no-underline transition-colors duration-150 hover:text-signal-500">
                   {l.label}
                 </a>
               ))}
@@ -37,10 +43,10 @@ export function Footer({
           ))}
           <div className="grid gap-4 content-start">
             <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">Kontakt</span>
-            <a href={`tel:${phone.replace(/\s/g, "")}`} className="text-inverse font-mono text-body-md no-underline">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="inline-flex min-h-8 items-center text-inverse font-mono text-body-md no-underline">
               {phone}
             </a>
-            <a href={`mailto:${email}`} className="text-graphite-300 text-body-md no-underline">
+            <a href={`mailto:${email}`} className="inline-flex min-h-8 items-center text-graphite-300 text-body-md no-underline">
               {email}
             </a>
             <span className="text-graphite-400 text-body-sm leading-snug">{address}</span>
@@ -49,10 +55,10 @@ export function Footer({
         <div className="flex flex-wrap gap-x-8 gap-y-4 justify-between pt-8 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">
           <span>© {new Date().getFullYear()} TATAI s.r.o.{ico ? ` — IČO ${ico}` : ""}</span>
           <div className="flex flex-wrap gap-x-8 gap-y-4">
-            <Link href="/ochrana-soukromi" className="text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
+            <Link href="/ochrana-soukromi" className="inline-flex min-h-8 items-center text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
               Ochrana soukromí
             </Link>
-            <Link href="/obchodni-podminky" className="text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
+            <Link href="/obchodni-podminky" className="inline-flex min-h-8 items-center text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
               Obchodní podmínky
             </Link>
             <span>Střechy &amp; dřevostavby</span>

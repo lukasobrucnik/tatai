@@ -3,8 +3,10 @@ import { LegalPage } from "@/components/legal-page";
 import { EMAIL, ICO } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Ochrana soukromí — TATAI",
+  title: "Ochrana soukromí",
   description: "Zásady zpracování osobních údajů a používání cookies na webu TATAI.",
+  alternates: { canonical: "/ochrana-soukromi" },
+  openGraph: { url: "/ochrana-soukromi", title: "Ochrana soukromí — TATAI" },
 };
 
 function H({ children }: { children: string }) {

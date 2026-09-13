@@ -14,6 +14,7 @@ import { HeroDiptych } from "@/components/ui/hero-diptych";
 import { Section } from "@/components/ui/section";
 import { ChapterLayer } from "@/components/ui/chapter-layer";
 import { ChapterMarker } from "@/components/ui/chapter-marker";
+import { FaqSchema } from "@/components/structured-data";
 import { PlateChapter } from "@/components/ui/plate-chapter";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -221,7 +222,7 @@ export default function Home() {
             ].map((c) => (
               <Reveal key={c.i}>
                 <div className="grid gap-5 content-start">
-                  <Photo src={c.src} ratio="project" label={c.label} hoverZoom />
+                  <Photo src={c.src} ratio="project" label={c.label} hoverZoom sizes="(min-width: 1024px) 33vw, 100vw" />
                   <Eyebrow index={c.i}>{c.eyebrow}</Eyebrow>
                   <h3 className="text-h4 font-display font-medium tracking-heading text-strong">{c.title}</h3>
                   <p className="text-body-md leading-body text-body">{c.body}</p>
@@ -356,6 +357,7 @@ export default function Home() {
             <SectionHeader eyebrow="Časté otázky" title="Na co se ptáte nejčastěji." align="stack" />
           </Reveal>
           <Accordion items={FAQ} />
+          <FaqSchema />
 
           {/* The phone belongs here rather than on the plate: by this point
               the reader has had the form and read the answers, so the only

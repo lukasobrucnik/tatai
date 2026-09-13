@@ -51,6 +51,7 @@ export function LegalPage({
           address={ADDRESS}
           ico={ICO}
           claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2016."
+          hrefPrefix="/"
           columns={FOOTER_COLUMNS}
         />
       </div>

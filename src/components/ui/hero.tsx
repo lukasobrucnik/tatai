@@ -6,6 +6,7 @@ import { ChapterMarker } from "./chapter-marker";
 export function Hero({
   marker,
   eyebrow,
+  alt,
   title,
   lead,
   actions,
@@ -21,6 +22,8 @@ export function Hero({
    *  smallest type on the screen. The title below stays the chapter's line. */
   marker?: { index: string; name: string };
   eyebrow?: string;
+  /** Defaults to the caption, which already describes the shot. */
+  alt?: string;
   title: string;
   lead?: string;
   actions?: ReactNode;
@@ -38,7 +41,7 @@ export function Hero({
       style={{ minHeight: height }}
     >
       {src ? (
-        <Image src={src} alt="" fill priority={priority} sizes="100vw" className="object-cover" />
+        <Image src={src} alt={alt || label || ""} fill priority={priority} sizes="100vw" className="object-cover" />
       ) : (
         <div aria-hidden className={`absolute inset-0 ${inv ? "dot-grid-dark" : "dot-grid-light"}`} style={{ backgroundSize: "32px 32px" }} />
       )}
@@ -65,11 +68,16 @@ export function Hero({
       <div className="relative w-full container-tatai py-(--section-y-md) grid gap-8">
         {marker && <ChapterMarker index={marker.index} name={marker.name} tone={inv ? "inverse" : "default"} />}
         {eyebrow && <Eyebrow tone={inv ? "inverse" : "default"}>{eyebrow}</Eyebrow>}
-        <h1
+        {/* h2, not h1: this opens a chapter of the homepage, and the page
+            already has its one h1 in the diptych above ("Dva obory, jedna
+            firma."). Three h1s on one document — which is what two chapter
+            heroes used to make — leaves a crawler to guess what the page is
+            about. The size is unchanged; only the level is. */}
+        <h2
           className={`font-display text-display-2 font-medium tracking-display leading-display max-w-[20ch] ${inv ? "text-inverse" : "text-strong"}`}
         >
           {title}
-        </h1>
+        </h2>
         {lead && <p className={`text-lead leading-snug max-w-[46ch] ${inv ? "text-inverse-muted" : "text-body"}`}>{lead}</p>}
         {actions && <div className="flex flex-wrap gap-4">{actions}</div>}
         {meta.length > 0 && (

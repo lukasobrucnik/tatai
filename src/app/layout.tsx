@@ -3,6 +3,8 @@ import { Archivo, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { CookieConsent } from "@/components/cookie-consent";
 import { CustomCursor } from "@/components/custom-cursor";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { BusinessSchema } from "@/components/structured-data";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -28,9 +30,47 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TATAI — Střechy a dřevěné konstrukce",
-  description:
-    "Ploché a šikmé střechy, sloupkové konstrukce, CLT panely a roubenky. Od skladby a detailu po předání. Olomouc a celá ČR.",
+  // Everything relative below (canonicals, the OG image) is resolved against
+  // this. Without it Next emits relative OG URLs, which most scrapers refuse
+  // to follow — the card then falls back to bare text.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    // Sub-pages pass their own short title; this keeps the firm's name on the
+    // end of it without every page repeating the construction by hand.
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: "TATAI s.r.o." }],
+  creator: "TATAI s.r.o.",
+  publisher: "TATAI s.r.o.",
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  openGraph: {
+    type: "website",
+    locale: "cs_CZ",
+    url: "/",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${SITE_NAME} — ${SITE_TAGLINE}` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    images: ["/og.jpg"],
+  },
+  // Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in the host's environment and the
+  // Search Console tag appears — no deploy of a code change needed for it.
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 // The site is light-only by design (no dark variant). Without this, Samsung
@@ -58,6 +98,9 @@ export default function RootLayout({
             business inside the scrolled content. */}
         <CookieConsent />
         <CustomCursor />
+        {/* Site-wide: the firm is the same firm on every page. The questions
+            are marked up only where they are answered — see page.tsx. */}
+        <BusinessSchema />
       </body>
     </html>
   );

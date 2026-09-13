@@ -20,7 +20,7 @@ export function DetailCallout({
       <div className="grid grid-cols-3 gap-(--grid-gap) max-sm:grid-cols-1!">
         {points.map((p, i) => (
           <div key={i} className="grid gap-4">
-            <Photo src={p.src} ratio="detail" tone="dark" hoverZoom label={p.title} />
+            <Photo src={p.src} ratio="detail" tone="dark" hoverZoom label={p.title} sizes="(min-width: 1024px) 33vw, 100vw" />
             <div className="grid gap-1.5">
               <span className="font-mono text-eyebrow tracking-eyebrow text-signal-500">{String(i + 1).padStart(2, "0")}</span>
               <span className="font-display text-h4 font-medium tracking-heading text-strong">{p.title}</span>

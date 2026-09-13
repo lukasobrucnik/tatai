@@ -19,7 +19,7 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
 
   return (
     <header className="sticky top-0 z-40 bg-surface-page border-b border-border-hairline">
-      <div className="container-tatai h-(--header-h) flex items-center gap-10">
+      <div className="container-tatai h-(--header-h) flex items-center gap-10 max-sm:gap-4!">
         <a href={`${hrefPrefix}#home`} className="flex items-center no-underline flex-none" onClick={() => setOpen(false)}>
           <Image src="/logo/tatai-mark.webp" alt="TATAI" width={192} height={119} priority className="h-9 w-auto" />
         </a>
@@ -55,7 +55,7 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
           })}
         </nav>
 
-        <span className="flex items-center gap-8 flex-none lg:ml-0 ml-auto">
+        <span className="flex items-center gap-8 flex-none lg:ml-0 ml-auto max-sm:gap-3!">
           <a href={`tel:${phone.replace(/\s/g, "")}`} className="hidden lg:inline font-mono text-caption text-body no-underline pl-8 border-l border-border-hairline">
             {phone}
           </a>

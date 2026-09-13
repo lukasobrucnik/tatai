@@ -42,7 +42,7 @@ export function CookieConsent() {
           <button
             type="button"
             onClick={() => decide("declined")}
-            className="font-mono text-eyebrow tracking-eyebrow uppercase text-muted bg-transparent border-0 cursor-pointer p-0 hover:text-strong transition-colors duration-150"
+            className="inline-flex min-h-11 items-center px-1 font-mono text-eyebrow tracking-eyebrow uppercase text-muted bg-transparent border-0 cursor-pointer hover:text-strong transition-colors duration-150"
           >
             Odmítnout
           </button>
