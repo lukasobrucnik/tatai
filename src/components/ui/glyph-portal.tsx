@@ -27,6 +27,11 @@ export type GlyphPortalProps = {
   children?: ReactNode;
   /** Scroll travel in visible container heights, clamped to 1–8. */
   scrollLength?: number;
+  /** Local addition, not upstream. How much of the opening screen the word is
+   *  allowed to fill, as fractions of the viewport — upstream frames it at
+   *  0.84 wide by 0.38 tall, which is right when the word is the only thing
+   *  on the poster. Give it less where something has to be read underneath. */
+  frame?: { width?: number; height?: number };
   /** Local addition, not upstream. Progress window over which the content
    *  fades in, as [start, end]. Upstream holds the content back until the
    *  camera has all but landed ([0.78, 0.9]), which reads as a held beat
@@ -114,6 +119,7 @@ export default function GlyphPortal({
   front,
   children,
   scrollLength = 2.4,
+  frame,
   reveal = [0.78, 0.9],
   fontFamily = DEFAULT_FONT,
   fontWeight = 900,
@@ -141,6 +147,8 @@ export default function GlyphPortal({
     index: glyphs.slice(0, i).reduce((sum, previous) => sum + previous.length, 0),
   }));
   const length = Number.isFinite(scrollLength) ? clamp(scrollLength, 1, 8) : 2.4;
+  const frameWidth = clamp(frame?.width ?? 0.84, 0.2, 1);
+  const frameHeight = clamp(frame?.height ?? 0.38, 0.1, 0.9);
   // The content sits one container height short of the full travel, so it is
   // still below the fold before (length - 1) / length — revealing it earlier
   // than that would only fade in something nobody can see yet.
@@ -328,8 +336,14 @@ export default function GlyphPortal({
         fontDirty = false;
       }
       if (!ready) return;
-      const wordHeight = hasFront && H < 480 ? Math.min(H * 0.38, Math.max(24, H - 264)) : H * 0.38;
-      startScale = Math.min((W * 0.84) / bounds.width, wordHeight / bounds.height);
+      // A narrow screen has no horizontal margin to give away: the same
+      // fraction that keeps a desktop word clear of the copy under it leaves a
+      // phone with a word barely wider than the line it is supposed to tower
+      // over. Below 640px the frame takes back up to a fifth of the width.
+      const wide = W < 640 ? Math.min(0.92, frameWidth + 0.2) : frameWidth;
+      const framed = H * frameHeight;
+      const wordHeight = hasFront && H < 480 ? Math.min(framed, Math.max(24, H - 264)) : framed;
+      startScale = Math.min((W * wide) / bounds.width, wordHeight / bounds.height);
       // The whole viewport fits inside measured ink, even with the small camera bank.
       select(target);
       for (const button of buttons) {
@@ -443,7 +457,7 @@ export default function GlyphPortal({
       choices.removeEventListener("keydown", navigate);
       picker.removeEventListener("change", pick);
     };
-  }, [text, focusChar, interactive, fontFamily, weight, length, revealFrom, revealTo, clipId, hasFront]);
+  }, [text, focusChar, interactive, fontFamily, weight, length, frameWidth, frameHeight, revealFrom, revealTo, clipId, hasFront]);
 
   return (
     <section

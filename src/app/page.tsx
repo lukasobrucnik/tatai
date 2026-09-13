@@ -279,6 +279,7 @@ export default function Home() {
             word="TATAI"
             index="03"
             label="O nás"
+            destination="Kdo jsme"
             caption="Čtyři vlastní party. Jeden stavbyvedoucí na zakázku. Jedno číslo, na které voláte."
             enterLabel="Přejít na O nás"
           >

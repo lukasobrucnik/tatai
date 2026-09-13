@@ -226,6 +226,18 @@
   padding: 0;
 }
 
+/* The portal's own skip link, which the component leaves in whatever face the
+   browser defaults to. It is the keyboard route past a scroll-driven camera,
+   so it stays — just set in the site's own mono, like every other label on a
+   dark ground. */
+.portal-flush [data-gp-enter] {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-bone-200);
+}
+
 .portal-flush.portal-flush [data-gp-content] {
   background: linear-gradient(to bottom, transparent, var(--color-surface-page) min(38vh, 360px));
 }

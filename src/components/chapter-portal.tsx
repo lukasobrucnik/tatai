@@ -37,6 +37,7 @@ export function ChapterPortal({
   word,
   index,
   label,
+  destination,
   caption,
   enterLabel,
   children,
@@ -48,7 +49,13 @@ export function ChapterPortal({
   index: string;
   /** Chapter name — what the menu calls this section. */
   label: string;
-  /** One line under the word, the chapter's promise. */
+  /** Reads directly under the word, at a size nobody can miss: where this
+   *  doorway goes. The word alone is the firm's name at poster scale, which
+   *  looks like a logo lock-up and says nothing about the destination — and
+   *  the numbered label in the corner is orientation for the second visit,
+   *  not a signpost for the first. */
+  destination: string;
+  /** One line under that, the chapter's promise. */
   caption: string;
   enterLabel: string;
   children: ReactNode;
@@ -108,6 +115,12 @@ export function ChapterPortal({
       fontFamily={fontFamily}
       fontWeight={700}
       interactive={false}
+      // Menší, než komponenta kreslí sama (0.84 × 0.38). Slovo přes celou
+      // šířku nenechalo pod sebou nic než pár pixelů, takže se řádek „kdo
+      // jsme" proti němu ztratil úplně — a to je přitom jediná věc, která
+      // říká, kam ten portál vede. Slovo je pořád zdaleka největší na
+      // obrazovce, jen už nesahá do krajů.
+      frame={{ width: 0.6, height: 0.28 }}
       scrollLength={1.9}
       // Bez tohohle okna se obsah drží až do 0.78 (viz GlyphPortal): pole
       // vyplní obrazovku někde kolem 0.42 a pak se skoro celou další
@@ -151,16 +164,28 @@ export function ChapterPortal({
         <div className="absolute inset-0">
           {/* A notch up from eyebrow size: legible to anyone who looks for it,
               still quiet enough not to pull against the word behind it. */}
-          <span className="absolute left-(--container-gutter) top-10 flex items-baseline gap-3 font-mono text-body-sm tracking-eyebrow uppercase">
+          <span className="absolute left-(--container-gutter) top-[calc(var(--header-h)+2rem)] flex items-baseline gap-3 font-mono text-body-sm tracking-eyebrow uppercase">
             <span className="text-signal-500">{index}</span>
             <span className="text-bone-200">{label}</span>
           </span>
-          <p
-            className="absolute inset-x-(--container-gutter) m-0 text-center font-mono text-caption tracking-mono text-graphite-300"
-            style={{ top: "calc(var(--gp-word-bottom, 55%) + 2.5rem)" }}
+          {/* Flanked by two signal rules rather than set on its own: the word
+              above it is enormous, and a line of mono on open ground under it
+              reads as a caption that fell off the poster. The rules bracket it
+              into a plate, which is also the site's own mark — the same cyan
+              hairline that opens every section. */}
+          <div
+            className="absolute inset-x-(--container-gutter) grid justify-items-center gap-6 text-center max-sm:gap-4!"
+            style={{ top: "calc(var(--gp-word-bottom, 55%) + clamp(2rem, 5vh, 4.5rem))" }}
           >
-            {caption}
-          </p>
+            <span className="flex items-center gap-6 font-mono text-h2 font-medium uppercase tracking-[0.22em] text-bone-100 max-sm:text-h4! max-sm:gap-3! max-sm:tracking-[0.18em]!">
+              <span aria-hidden className="signal-rule h-px w-14 max-sm:w-7!" />
+              {destination}
+              <span aria-hidden className="signal-rule h-px w-14 max-sm:w-7!" />
+            </span>
+            <p className="m-0 max-w-[52ch] font-mono text-body-sm tracking-mono text-graphite-300 max-sm:text-caption!">
+              {caption}
+            </p>
+          </div>
         </div>
       }
     >
