@@ -64,6 +64,13 @@ export function Footer({
             <span>Střechy &amp; dřevostavby</span>
           </div>
         </div>
+
+        {/* Autorský podpis. Vědomě nejtišší text na stránce — o dva stupně
+            tmavší než legální řádek nad ním, takže ho najde, kdo ho hledá,
+            a nikoho z klientů TATAI netahá za oko. */}
+        <p className="m-0 pt-6 text-right font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-600 max-sm:text-left!">
+          Created by Lukáš Obručník
+        </p>
       </div>
     </footer>
   );

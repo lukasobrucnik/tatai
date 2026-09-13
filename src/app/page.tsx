@@ -300,15 +300,17 @@ export default function Home() {
                   <div className="grid gap-6 max-w-[62ch] content-start">
                     <Eyebrow>Firma</Eyebrow>
                     <h3 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">
-                      Začali jsme střechami. U dřeva jsme zůstali.
+                      Jedna parta od krovu po poslední oplechování.
                     </h3>
                     <p className="text-body-lg leading-body text-body">
-                      Prvních deset let jsme dělali skoro výhradně střechy — ploché i šikmé, hodně rekonstrukcí. Tesařina, kterou to
-                      vyžadovalo, nás dovedla k celým konstrukcím: sloupkovým stavbám, CLT a nakonec i roubenkám.
+                      Postavíme celou dřevěnou konstrukci i střechu nad ní — sloupkové stavby, CLT panely, ručně tesané roubenky,
+                      ploché i šikmé střechy. Nemusíte shánět zvlášť tesaře, zvlášť pokrývače a zvlášť izolatéra a pak dohadovat,
+                      čí je to chyba, když někde zatéká. Máte jednu firmu, jednu smlouvu a jednu záruku na celé dílo.
                     </p>
                     <p className="text-body-lg leading-body text-body">
-                      Klíčové práce neděláme přes subdodavatele. Máme čtyři vlastní party a jednoho stavbyvedoucího na zakázku. Když
-                      se něco pokazí, víte, komu volat.
+                      Za tím stojí čtyři vlastní party, vlastní dílna a jeden stavbyvedoucí na každou zakázku — jedno jméno a jedno
+                      číslo po celou dobu stavby. Poradíme se skladbou, detaily i materiálem, skryté vrstvy nafotíme dřív, než je
+                      zakryjeme, a termín, který jsme dali, držíme. Vaše stavba tak jede bez prostojů a bez překvapení na konci.
                     </p>
                   </div>
                 </Reveal>
