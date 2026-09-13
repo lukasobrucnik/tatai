@@ -50,7 +50,10 @@ export function LegalPage({
           email={EMAIL}
           address={ADDRESS}
           ico={ICO}
-          claim="Střechy a dřevěné konstrukce se stejnou péčí o detail. Od roku 2016."
+          claim={[
+            "Střechy a dřevěné konstrukce po celé ČR. Ploché i šikmé střechy, sloupkové stavby, CLT panely a ručně tesané roubenky — konstrukci i střechu nad ní stavíte u jedné firmy, na jednu smlouvu a s jednou zárukou.",
+            "Vlastní party, vlastní dílna a jeden stavbyvedoucí na zakázku. Poradíme se skladbou i detaily, skryté vrstvy nafotíme dřív, než je zakryjeme, a po předání zvedáme telefon dál. Od roku 2016.",
+          ]}
           hrefPrefix="/"
           columns={FOOTER_COLUMNS}
         />
