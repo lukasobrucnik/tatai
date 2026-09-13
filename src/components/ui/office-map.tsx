@@ -13,8 +13,9 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  *
  * The pin hovers rather than sits: it drifts a few pixels up and down while
  * its shadow tightens and loosens underneath, which is what sells the height.
- * Two signal rings pulse out of the point on a slow, staggered loop, so the
- * eye is pulled there without the map turning into a carousel. All of it
+ * Two signal rings pulse out of the point on a slow, staggered loop — one every
+ * 2.4s, each opening to about a quarter of the map's width, which is far enough
+ * to read as a signal coming off the place and rare enough not to nag. All of it
  * stops dead under prefers-reduced-motion, where a pin at rest over a static
  * shadow says the same thing.
  *
@@ -61,14 +62,14 @@ export function OfficeMap({
             is the address. */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           {!reduce &&
-            [0, 1.7].map((delay) => (
+            [0, 2.4].map((delay) => (
               <motion.span
                 key={delay}
                 aria-hidden
                 className="absolute left-1/2 top-1/2 block size-6 -translate-x-1/2 -translate-y-1/2 rounded-full border border-signal-500"
                 initial={{ scale: 0.4, opacity: 0 }}
-                animate={{ scale: [0.4, 3.6], opacity: [0, 0.55, 0] }}
-                transition={{ duration: 3.4, ease: "easeOut", repeat: Infinity, delay, times: [0, 0.15, 1] }}
+                animate={{ scale: [0.4, 6.1], opacity: [0, 0.5, 0] }}
+                transition={{ duration: 4.8, ease: "easeOut", repeat: Infinity, delay, times: [0, 0.14, 1] }}
               />
             ))}
 
