@@ -14,6 +14,10 @@ export type Hall = { id: string; name: string; photos: HallPhoto[] };
 export const PHONE = "+420 601 505 323";
 export const EMAIL = "info@tatai.cz";
 export const ADDRESS = "Křižíkova 965/1, 779 00 Olomouc";
+/** The firm's own pin, not a search for the address string. A maps.app.goo.gl
+ *  link is a universal link: on a phone with Google Maps installed the OS hands
+ *  it to the app, everywhere else it opens the same place on the web. */
+export const MAP_URL = "https://maps.app.goo.gl/osrbTmmYX5DJXM8i9";
 export const ICO = "05452783";
 
 export const NAV = [

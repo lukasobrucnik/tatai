@@ -32,6 +32,7 @@ import {
   PHONE,
   EMAIL,
   ADDRESS,
+  MAP_URL,
   ICO,
   HERO_META,
   STATS,
@@ -353,7 +354,7 @@ export default function Home() {
                   label="Sídlo"
                   address={ADDRESS}
                   note="Po celé ČR — přijedeme za vámi"
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`}
+                  href={MAP_URL}
                 />
               </div>
             </div>

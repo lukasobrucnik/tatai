@@ -1,4 +1,4 @@
-import { ADDRESS, EMAIL, FAQ, ICO, PHONE } from "@/lib/data";
+import { ADDRESS, EMAIL, FAQ, ICO, MAP_URL, PHONE } from "@/lib/data";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 /**
@@ -40,6 +40,7 @@ export function BusinessSchema() {
       addressCountry: "CZ",
     },
     areaServed: { "@type": "Country", name: "Česká republika" },
+    hasMap: MAP_URL,
     identifier: { "@type": "PropertyValue", name: "IČO", value: ICO },
     knowsAbout: [
       "Ploché střechy",
