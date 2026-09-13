@@ -22,6 +22,7 @@ import { Photo } from "@/components/ui/photo";
 import { PillarSplit } from "@/components/ui/pillar-split";
 import { SpecTable } from "@/components/ui/spec-table";
 import { StatGrid } from "@/components/ui/stat-grid";
+import { OfficeMap } from "@/components/ui/office-map";
 import { ProcessScroll } from "@/components/ui/process-scroll";
 import { MaterialStrip } from "@/components/ui/material-strip";
 import { Button } from "@/components/ui/button";
@@ -346,7 +347,14 @@ export default function Home() {
               <InquiryForm eyebrow={null} />
               <div className="grid gap-10 content-start">
                 <SpecTable rows={CONTACT_ROWS} />
-                <Photo ratio="detail" label="Mapa — sídlo a působnost" />
+                <OfficeMap
+                  src="/photos/mapa-sidlo.webp"
+                  alt="Mapa Olomouce s vyznačeným sídlem firmy TATAI"
+                  label="Sídlo"
+                  address={ADDRESS}
+                  note="Po celé ČR — přijedeme za vámi"
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`}
+                />
               </div>
             </div>
           </Section>
