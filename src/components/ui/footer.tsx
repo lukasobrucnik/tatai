@@ -62,14 +62,14 @@ export function Footer({
               tmavší než řádek, ve kterém sedí, takže ho najde, kdo ho hledá,
               a nikoho z klientů TATAI netahá za oko. */}
           <span className="justify-self-center text-graphite-600">Created by Lukáš Obručník</span>
-          <div className="flex flex-wrap justify-end gap-x-8 gap-y-4 max-xl:justify-center!">
+          <div className="flex flex-wrap items-center justify-end gap-x-8 gap-y-4 max-xl:justify-center!">
             <Link href="/ochrana-soukromi" className="inline-flex min-h-8 items-center text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
               Ochrana soukromí
             </Link>
             <Link href="/obchodni-podminky" className="inline-flex min-h-8 items-center text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
               Obchodní podmínky
             </Link>
-            <span>Střechy &amp; dřevostavby</span>
+            <span className="inline-flex min-h-8 items-center">Střechy &amp; dřevostavby</span>
           </div>
         </div>
 
