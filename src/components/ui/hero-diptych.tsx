@@ -246,10 +246,13 @@ export function HeroDiptych({
       <motion.div
         // pb clears the 48px the first ChapterLayer overlaps the hero by, so
         // the stats row is never tucked under the incoming sheet
-        className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(4rem,7vh,5.5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8"
+        className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(4rem,7vh,5.5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-8!"
         style={reduce ? undefined : { y: textExitY, opacity: textExitOpacity }}
       >
-        <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0 }}>
+        {/* Na telefonu skrytý: nad nadpisem, který říká skoro totéž, jen ubíral
+            výšku — a deska je na telefonu přesně jedna obrazovka, takže co se
+            nevejde, ořízne se (řádek s čísly na iPhonu SE). */}
+        <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0 }} className="max-sm:hidden">
           <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
         </motion.div>
 
@@ -284,12 +287,12 @@ export function HeroDiptych({
           <motion.dl
             {...rise}
             transition={{ duration: 0.8, ease: EASE, delay: 0.32 }}
-            className="m-0 flex flex-wrap gap-x-8 gap-y-4 border-t border-border-inverse pt-6 sm:gap-x-12 sm:pt-8"
+            className="m-0 flex flex-wrap gap-x-8 gap-y-4 border-t border-border-inverse pt-6 sm:gap-x-12 sm:pt-8 max-sm:grid! max-sm:grid-cols-3! max-sm:gap-x-4! max-sm:pt-5!"
           >
             {meta.map((m) => (
               <div key={m.label} className="grid gap-1.5">
                 <dt className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{m.label}</dt>
-                <dd className="m-0 font-display text-h3 font-medium tabular-nums text-inverse">{m.value}</dd>
+                <dd className="m-0 font-display text-h3 font-medium tabular-nums text-inverse max-sm:text-h4!">{m.value}</dd>
               </div>
             ))}
           </motion.dl>

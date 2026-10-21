@@ -1,3 +1,7 @@
+/* Texty mají za jednopísmennými předložkami a spojkami (v, u, s, z, k, o, i, a)
+   pevnou mezeru (U+00A0), ne obyčejnou — česká typografie je nenechává na konci
+   řádku a na telefonu by jinak visely („Domy stavíme v / hale“). Při úpravě
+   textů je potřeba ji zachovat. */
 export type SpecRow = { label: string; value: string };
 export type ProcessStep = { title: string; body: string };
 export type FaqItem = { title: string; body: string };
@@ -29,7 +33,7 @@ export const NAV = [
  *  a metrů ročně šly na přání majitele pryč (viz docs/archiv). */
 export const HERO_META = [
   { label: "Prohlídka", value: "Zdarma" },
-  { label: "Záruka na dílo", value: "10 let" },
+  { label: "Záruka", value: "10 let" },
   { label: "Působnost", value: "Celá ČR" },
 ];
 
@@ -37,16 +41,16 @@ export const ROOF_TYPES = [
   {
     i: "01",
     title: "Ploché střechy",
-    body: "Hydroizolace, zateplení a odvodnění — na rodinné domy, bytové domy i haly.",
-    items: ["Fólie PVC i asfaltové pásy", "Zateplení a spádování", "Atiky, vpusti, oplechování"],
+    body: "Hydroizolace, zateplení a odvodnění — na rodinné domy, bytové domy i haly.",
+    items: ["Fólie PVC i asfaltové pásy", "Zateplení a spádování", "Atiky, vpusti, oplechování"],
     src: "/photos/strecha-plocha-pvc.webp",
     label: "Plochá střecha — hydroizolace PVC",
   },
   {
     i: "02",
     title: "Šikmé střechy",
-    body: "Krov i krytinu děláme sami, takže si nikdy neodporují.",
-    items: ["Krovy a tesařina", "Plech, tašky, šindel", "Rekonstrukce krovů"],
+    body: "Krov i krytinu děláme sami, takže si nikdy neodporují.",
+    items: ["Krovy a tesařina", "Plech, tašky, šindel", "Rekonstrukce krovů"],
     src: "/photos/strecha-sikma-pokladka.webp",
     label: "Šikmá střecha — pokládka krytiny",
   },
@@ -56,7 +60,7 @@ export const HOUSE_TYPES = [
   {
     i: "01",
     title: "Sloupkové konstrukce",
-    body: "Nejvariabilnější a cenově nejdostupnější dřevostavba.",
+    body: "Nejvariabilnější a cenově nejdostupnější dřevostavba.",
     src: "/photos/domy-sloupkova-konstrukce.webp",
     label: "Sloupková konstrukce — hrubá stavba",
   },
@@ -70,7 +74,7 @@ export const HOUSE_TYPES = [
   {
     i: "03",
     title: "Roubenky",
-    body: "Ručně tesané spoje z masivního smrku.",
+    body: "Ručně tesané spoje z masivního smrku.",
     src: "/photos/domy-roubenka-spoj.webp",
     label: "Roubenka — tesaný spoj",
   },
@@ -79,9 +83,9 @@ export const HOUSE_TYPES = [
 /** Proč hala — tři důvody, které má zákazník odnést. Tohle je jádro celého
  *  sdělení majitele, proto stojí hned pod nadpisem kapitoly Výroba. */
 export const HALL_REASONS = [
-  { title: "Do stavby neprší", body: "Stěny i stropy vznikají pod střechou. Dřevo a izolace zůstanou suché." },
-  { title: "Montáž za pár dní", body: "Hotové dílce přivezeme a na pozemku je jen sestavíme." },
-  { title: "Přesnost z dílny", body: "Dílce skládáme na rovném stole v hale, ne v blátě staveniště." },
+  { title: "Do stavby neprší", body: "Stěny i stropy vznikají pod střechou. Dřevo a izolace zůstanou suché." },
+  { title: "Montáž za pár dní", body: "Hotové dílce přivezeme a na pozemku je jen sestavíme." },
+  { title: "Přesnost z dílny", body: "Dílce skládáme na rovném stole v hale, ne v blátě staveniště." },
 ];
 
 /** Jak vzniká stěna — čtyři snímky z haly seřazené od rámu po hotový dílec. */
@@ -89,7 +93,7 @@ export const BUILD_STEPS: BuildStep[] = [
   { src: "/photos/vyroba/jih-09.webp", w: 2000, h: 1126, title: "Rám", note: "Dřevěná nosná konstrukce" },
   { src: "/photos/vyroba/jih-02.webp", w: 2000, h: 1126, title: "Izolace", note: "Vyplníme celý rám" },
   { src: "/photos/vyroba/sever-05.webp", w: 2000, h: 1126, title: "Opláštění", note: "Zavřeme deskami" },
-  { src: "/photos/vyroba/sever-03.webp", w: 2000, h: 1126, title: "Hotový dílec", note: "I s okny, připravený k převozu" },
+  { src: "/photos/vyroba/sever-03.webp", w: 2000, h: 1126, title: "Hotový dílec", note: "I s okny, připravený k převozu" },
 ];
 
 /** Vedoucí záběr haly — celá výrobní plocha s rozpracovanými dílci. */
@@ -108,17 +112,17 @@ export const HALL_PHOTOS: HallPhoto[] = [
 ];
 
 export const PROCESS: ProcessStep[] = [
-  { title: "Prohlídka", body: "Přijedeme, změříme a poradíme. Zdarma a nezávazně." },
+  { title: "Prohlídka", body: "Přijedeme, změříme a poradíme. Zdarma a nezávazně." },
   { title: "Nabídka", body: "Položkový rozpočet bez schovaných položek." },
-  { title: "Výroba", body: "Dílce domu vyrobíme v hale, v suchu." },
-  { title: "Montáž", body: "Na stavbě smontujeme a předáme se zárukou." },
+  { title: "Výroba", body: "Dílce domu vyrobíme v hale, v suchu." },
+  { title: "Montáž", body: "Na stavbě smontujeme a předáme se zárukou." },
 ];
 
 export const FAQ: FaqItem[] = [
-  { title: "Kolik to bude stát?", body: "Záleží na ploše, skladbě a materiálu. Po prohlídce, která je zdarma, dostanete položkový rozpočet." },
-  { title: "Jak dlouho trvá montáž domu?", body: "Dílce vyrábíme v hale, takže na pozemku stojí hrubá stavba za pár dní — u CLT do pěti. Přesný harmonogram dostanete s nabídkou." },
-  { title: "Zajistíte i projekt?", body: "Ano. Spolupracujeme s architektem klienta, nebo doporučíme svého." },
-  { title: "Opravíte i střechu, kterou jste nestavěli?", body: "Ano. Opravy a servis děláme i na střechách od jiných firem." },
+  { title: "Kolik to bude stát?", body: "Záleží na ploše, skladbě a materiálu. Po prohlídce, která je zdarma, dostanete položkový rozpočet." },
+  { title: "Jak dlouho trvá montáž domu?", body: "Dílce vyrábíme v hale, takže na pozemku stojí hrubá stavba za pár dní — u CLT do pěti. Přesný harmonogram dostanete s nabídkou." },
+  { title: "Zajistíte i projekt?", body: "Ano. Spolupracujeme s architektem klienta, nebo doporučíme svého." },
+  { title: "Opravíte i střechu, kterou jste nestavěli?", body: "Ano. Opravy a servis děláme i na střechách od jiných firem." },
 ];
 
 export const CONTACT_ROWS: SpecRow[] = [
@@ -130,11 +134,11 @@ export const CONTACT_ROWS: SpecRow[] = [
 
 /** Jedna věta do patičky — sdílí ji homepage, 404 i právní stránky. */
 export const FOOTER_CLAIM = [
-  "Ploché i šikmé střechy a dřevěné domy, které vyrábíme v hale a u vás jen smontujeme. Po celé ČR od roku 2016.",
+  "Ploché i šikmé střechy a dřevěné domy, které vyrábíme v hale a u vás jen smontujeme. Po celé ČR od roku 2016.",
 ];
 
 export const FOOTER_COLUMNS = [
   { title: "Střechy", links: [{ label: "Ploché střechy", href: "#strechy" }, { label: "Šikmé střechy", href: "#strechy" }] },
   { title: "Domy", links: [{ label: "Sloupkové konstrukce", href: "#domy" }, { label: "CLT panely", href: "#domy" }, { label: "Roubenky", href: "#domy" }] },
-  { title: "Firma", links: [{ label: "Výroba v hale", href: "#vyroba" }, { label: "Kontakt", href: "#kontakt" }] },
+  { title: "Firma", links: [{ label: "Výroba v hale", href: "#vyroba" }, { label: "Kontakt", href: "#kontakt" }] },
 ];

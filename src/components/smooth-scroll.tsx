@@ -3,9 +3,6 @@
 import { ReactLenis } from "lenis/react";
 import type { ReactNode } from "react";
 
-/** Must track --header-h (globals.css) — anchor targets land below the sticky header. */
-const HEADER_H = 76;
-
 /**
  * Smooth scrolling, page-wide.
  *
@@ -21,11 +18,14 @@ const HEADER_H = 76;
  * `root` means no wrapper markup is rendered at all — children come through
  * as-is. Lenis disables its own smoothing under prefers-reduced-motion, and
  * `anchors` hands in-page links (the header nav) to Lenis so they ease
- * instead of jumping, offset to clear the sticky header.
+ * instead of jumping. The header offset is NOT given to Lenis: it already
+ * honours each target's `scroll-margin-top` (SectionAnchor sets it to
+ * --header-h), and passing the offset here as well subtracted the header
+ * twice — every section landed 76px below the header.
  */
 export function SmoothScroll({ children }: { children: ReactNode }) {
   return (
-    <ReactLenis root options={{ anchors: { offset: -HEADER_H } }}>
+    <ReactLenis root options={{ anchors: true }}>
       {children}
     </ReactLenis>
   );

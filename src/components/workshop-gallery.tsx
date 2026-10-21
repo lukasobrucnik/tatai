@@ -33,7 +33,7 @@ export function WorkshopGallery({
       <div className="grid gap-(--grid-gap)">
         <Tile
           src={lead.src}
-          alt="Výrobní hala TATAI s rozpracovanými dílci domů"
+          alt="Výrobní hala TATAI s rozpracovanými dílci domů"
           aspect="21/9"
           sizes="100vw"
           onClick={() => setViewing(0)}
@@ -76,7 +76,7 @@ export function WorkshopGallery({
       <PhotoLightbox
         photos={photos}
         index={viewing}
-        label="Výroba v hale"
+        label="Výroba v hale"
         onClose={() => setViewing(null)}
         onIndexChange={setViewing}
       />

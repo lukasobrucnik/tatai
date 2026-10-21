@@ -1,11 +1,11 @@
-import type { SelectHTMLAttributes } from "react";
+import { useId, type SelectHTMLAttributes } from "react";
 import { Field } from "./form-field";
 
 export function Select({
   label,
   hint,
   required,
-  id,
+  id: idProp,
   options,
   placeholder = "Vyberte…",
   ...rest
@@ -17,6 +17,9 @@ export function Select({
   options: string[];
   placeholder?: string;
 } & SelectHTMLAttributes<HTMLSelectElement>) {
+  // Viz Input: bez id label k selectu nepatří.
+  const uid = useId();
+  const id = idProp ?? uid;
   return (
     <Field label={label} hint={hint} required={required} htmlFor={id}>
       <div className="relative">

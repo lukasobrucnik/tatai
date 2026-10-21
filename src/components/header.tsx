@@ -64,6 +64,7 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
           </InquiryTriggerButton>
           <button
             aria-label="Menu"
+            aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
             className="lg:hidden -mr-2.5 flex flex-col items-center justify-center gap-[5px] w-11 h-11 p-0 bg-transparent border-0 cursor-pointer"
           >
@@ -74,7 +75,11 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
       </div>
 
       {open && (
-        <nav className="border-t border-border-hairline px-(--container-gutter) py-6 pb-8 grid gap-5 lg:hidden">
+        // Překryv pod hlavičkou, ne blok v toku stránky. V toku menu
+        // odsunulo celou stránku dolů, Lenis spočítal cíl kotvy s otevřeným
+        // menu, a po jeho zavření stránka poskočila zpět — sekce pak
+        // přistávala o kus níž, než měla.
+        <nav className="absolute inset-x-0 top-full border-t border-b border-border-hairline bg-surface-page px-(--container-gutter) py-6 pb-8 grid gap-5 shadow-[0_24px_48px_rgba(14,17,19,0.12)] lg:hidden">
           {items.map((it) => (
             <a
               key={it.id}

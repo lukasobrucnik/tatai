@@ -1,5 +1,5 @@
 import { NavProvider } from "@/components/nav-context";
-import { SectionAnchor } from "@/components/section-anchor";
+import { AnchorTarget, SectionAnchor } from "@/components/section-anchor";
 import { Reveal } from "@/components/reveal";
 import { Header } from "@/components/header";
 import { Accordion } from "@/components/accordion";
@@ -65,24 +65,24 @@ export default function Home() {
         <PlateChapter
           plate={
           <HeroDiptych
-            eyebrow="Střechy a dřevostavby"
-            title="Střechy a dřevěné domy."
-            lead="Domy vyrábíme v naší hale a u vás je jen smontujeme. Do konstrukce vám nezaprší a stavba stojí za pár dní."
+            eyebrow="Střechy a dřevostavby"
+            title="Střechy a dřevěné domy."
+            lead="Domy vyrábíme v naší hale a u vás je jen smontujeme. Do konstrukce vám nezaprší a stavba stojí za pár dní."
             meta={HERO_META}
             left={{
               src: "/photos/pillar-strechy.webp",
               alt: "Krov novostavby proti obloze",
               index: "01",
               label: "Střechy",
-              caption: "Ploché i šikmé",
+              caption: "Ploché i šikmé",
               href: "#strechy",
             }}
             right={{
               src: "/photos/pillar-domy.webp",
-              alt: "Dřevostavba s laťovou fasádou",
+              alt: "Dřevostavba s laťovou fasádou",
               index: "02",
               label: "Domy",
-              caption: "Vyrobené v hale",
+              caption: "Vyrobené v hale",
               href: "#domy",
             }}
             actions={
@@ -101,15 +101,19 @@ export default function Home() {
         {/* Domy přejíždějí přes konec Střech stejně, jako Střechy přejely přes
             hero — jen bez pohybu pod nimi: Střechy se zastaví spodním okrajem
             a Domy se přes ně vysunou (viz CoverStack). */}
+        {/* Cíl skoku na Střechy stojí před blokem, ne v něm: Střechy jsou
+            přišpendlené, a dokud jsou, jejich poloha na obrazovce neodpovídá
+            místu ve stránce. */}
+        <AnchorTarget id="strechy" />
         <CoverStack
           pinned={
             <>
-                <SectionAnchor id="strechy">
+                <SectionAnchor id="strechy" target={false}>
                   <Hero
                     height="66svh"
                     marker={{ index: "01", name: "Střechy" }}
-                    title="Ploché i šikmé střechy."
-                    lead="Novostavby, rekonstrukce i opravy — na rodinné domy, bytové domy i haly."
+                    title="Ploché i šikmé střechy."
+                    lead="Novostavby, rekonstrukce i opravy — na rodinné domy, bytové domy i haly."
                     src="/photos/hero-strechy.webp"
                     label="Plochá střecha — detail atiky"
                   />
@@ -150,7 +154,7 @@ export default function Home() {
                       </div>
                       <div className="grid gap-2">
                         <dt className="font-mono text-eyebrow uppercase tracking-eyebrow text-muted">Opravy a servis</dt>
-                        <dd className="m-0 font-display text-h3 font-medium text-strong">I na střechách od jiných firem</dd>
+                        <dd className="m-0 font-display text-h3 font-medium text-strong">I na střechách od jiných firem</dd>
                       </div>
                     </dl>
                   </Reveal>
@@ -164,7 +168,7 @@ export default function Home() {
                     height="66svh"
                     marker={{ index: "02", name: "Domy" }}
                     title="Dřevěné domy, které nezmoknou."
-                    lead="Sloupkové konstrukce, CLT panely i roubenky. Vyrobíme je v hale, u vás je jen smontujeme."
+                    lead="Sloupkové konstrukce, CLT panely i roubenky. Vyrobíme je v hale, u vás je jen smontujeme."
                     src="/photos/hero-domy.webp"
                     label="CLT panel — montáž na jeřábu"
                   />
@@ -201,12 +205,12 @@ export default function Home() {
             word="HALA"
             index="03"
             label="Výroba"
-            destination="Domy stavíme v hale"
-            enterLabel="Přejít na Výrobu v hale"
+            destination="Domy stavíme v hale"
+            enterLabel="Přejít na Výrobu v hale"
           >
             <div className="container-tatai grid gap-(--section-y-sm)">
               <h2 className="max-w-[20ch] text-display-2 font-display font-medium tracking-display leading-display text-strong">
-                Dům postavíme v hale. U vás ho jen smontujeme.
+                Dům postavíme v hale. U vás ho jen smontujeme.
               </h2>
 
               <Reveal>
@@ -275,7 +279,7 @@ export default function Home() {
                 <SpecTable rows={CONTACT_ROWS} />
                 <OfficeMap
                   src="/photos/mapa-sidlo.webp"
-                  alt="Mapa Olomouce s vyznačeným sídlem firmy TATAI"
+                  alt="Mapa Olomouce s vyznačeným sídlem firmy TATAI"
                   label="Sídlo"
                   address={ADDRESS}
                   note="Po celé ČR — přijedeme za vámi"
