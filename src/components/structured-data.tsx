@@ -53,7 +53,7 @@ export function BusinessSchema() {
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Střechy a dřevěné konstrukce",
+      name: "Střechy a dřevěné domy",
       itemListElement: [
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ploché střechy" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Šikmé střechy a krovy" } },

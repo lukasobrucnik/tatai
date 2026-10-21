@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useLenis } from "lenis/react";
@@ -83,7 +84,13 @@ export function PhotoLightbox({
 
   const photo = index === null ? null : photos[index];
 
-  return (
+  // Do body, ne na místo, kde galerie sedí: galerie je teď uvnitř portálu
+  // HALA, který má vlastní stacking context — z-[70] tam platí jen uvnitř
+  // něj, takže hlavička i další sekce se kreslily přes lightbox. Na serveru
+  // se nic nevykresluje (otevírá se až kliknutím), hydrataci to nerozbije.
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && photo && (
         <motion.div
@@ -158,7 +165,8 @@ export function PhotoLightbox({
           </div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
 

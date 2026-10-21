@@ -11,26 +11,38 @@ properties in Moravia (Valašské Meziříčí and roughly 120 km around it) who
 need a new roof, a roof reconstruction, or a timber-frame / CLT / log house
 built. They are comparing contractors and are specifically wary of hidden
 shortcuts — a leaky flat roof, skimped insulation, an unphotographed layer
-that turns out to be wrong five years later. They want evidence of
-craftsmanship before they commit, not marketing language.
+that turns out to be wrong five years later. They want to understand quickly what the firm does and why
+it is different, then get in touch.
 
 ## Product Purpose
 
-Generate qualified, no-obligation inquiries ("poptávky") for roofing and
-timber-construction work by demonstrating technical competence — visible
-layer breakdowns with real material and thickness data, photographed hidden
-work, a named site manager per job — rather than through generic sales
-copy. Success looks like a visitor who arrives skeptical of contractors in
-general and leaves convinced this specific company does not cut corners,
-then fills out the inquiry form.
+A short marketing onepage that generates no-obligation inquiries
+("poptávky"). It says two things and little else:
+
+1. **TATAI does roofs and houses.** Flat and pitched roofs; timber houses
+   (stud frame, CLT, log).
+2. **Houses are built in the firm's own hall and only assembled on site, so
+   it never rains into them.** This is the differentiator and the page's
+   climax (the "HALA" portal chapter).
+
+Owner feedback (Oct 2026) that set this direction: cut everything a customer
+does not need to decide — team size, crew counts, project counts, company
+history, layer build-ups, joint details. Simple, short, no generic talk.
+The long version is archived (git tag `pred-zkracenim-2026-10-21`,
+texts in `docs/archiv/2026-10-21-dlouha-verze.md`).
+
+Page order: Hero → 01 Střechy → 02 Domy → 03 Výroba (portal) → Jak to
+probíhá → Časté otázky → 04 Kontakt → footer. Before adding a section, ask
+whether a customer choosing a contractor would miss it; usually the answer
+is no.
 
 ## Brand Personality
 
-Precise, trustworthy, unpretentious. Reads like technical documentation —
-spec sheets, section drawings, material call-outs — not craftsman romance
-and not a sales brochure. The confidence comes from showing exact numbers
-(layer thickness in mm, Σ totals, years on the market, project counts), not
-from adjectives.
+Precise, trustworthy, unpretentious. Short sentences, concrete facts
+(10-year warranty, free site visit, hall-built houses), no adjectives doing
+the work. The technical-drawing visual language (mono labels, signal-cyan
+hairlines, square corners) stays — it carries the "these people are exact"
+feeling so the copy doesn't have to.
 
 ## Anti-references
 
@@ -43,25 +55,19 @@ from adjectives.
 
 ## Design Principles
 
-1. **Show, don't promise.** Technical proof — layer diagrams, numbered
-   hotspots on real details, spec tables — outranks marketing adjectives
-   every time. If a claim can't be shown as a number or a photographed
-   detail, it doesn't belong on the page.
-2. **Restraint reads as competence.** One accent color (signal cyan),
+1. **Short beats complete.** One sentence per card, one headline per
+   chapter. If a detail only matters once the customer is already talking
+   to the firm, it belongs in the conversation, not on the page.
+2. **Show the hall.** Real photos from the workshop are the proof of the
+   main claim; they outrank any text about it.
+3. **Restraint reads as competence.** One accent color (signal cyan),
    hairline rules instead of shadows, square corners everywhere except
-   pills. Ornament is a liability in this trade — it reads as compensating
-   for something.
-3. **Every claim is falsifiable.** Real thicknesses, real Σ totals, real
-   project counts and years — never vague superlatives ("best," "premium")
-   without a number attached.
-4. **Technical documentation is the aesthetic, not a metaphor.**
-   Mono/eyebrow typography, x/y-coordinate detail hotspots, and spec-table
-   layouts are the brand's actual working vocabulary (this is genuinely how
-   the company documents its own jobs), not decoration borrowed from
-   elsewhere.
-5. **One craft, two disciplines.** Roofs and timber construction are
-   presented as a single integrated expertise (the pillar split on the
-   homepage), never as two disconnected service lines bolted together.
+   pills.
+4. **Every claim is true.** Only numbers the owner has confirmed (10-year
+   warranty, since 2016, CLT shell within 5 days). No invented captions,
+   materials or figures.
+5. **One firm, two disciplines.** Roofs and houses are presented side by
+   side from the very first screen (the hero diptych).
 
 ## Accessibility & Inclusion
 

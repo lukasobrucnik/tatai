@@ -7,7 +7,7 @@ import { Footer } from "@/components/ui/footer";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Button } from "@/components/ui/button";
-import { NAV, PHONE, EMAIL, ADDRESS, ICO, FOOTER_COLUMNS } from "@/lib/data";
+import { NAV, PHONE, EMAIL, ADDRESS, ICO, FOOTER_CLAIM, FOOTER_COLUMNS } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Stránka nenalezena",
@@ -36,7 +36,7 @@ export default function NotFound() {
                   Tahle adresa u nás nic nestaví.
                 </h1>
                 <p className="text-lead leading-snug text-body">
-                  Odkaz je nejspíš starý nebo překlepnutý. Všechno, co děláme — střechy, dřevostavby i kontakt — najdete
+                  Odkaz je nejspíš starý nebo překlepnutý. Střechy, dřevěné domy i kontakt najdete
                   na jedné stránce.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
@@ -65,10 +65,7 @@ export default function NotFound() {
             email={EMAIL}
             address={ADDRESS}
             ico={ICO}
-            claim={[
-            "Střechy a dřevěné konstrukce po celé ČR. Ploché i šikmé střechy, sloupkové stavby, CLT panely a ručně tesané roubenky — konstrukci i střechu nad ní stavíte u jedné firmy, na jednu smlouvu a s jednou zárukou.",
-            "Vlastní party, vlastní dílna a jeden stavbyvedoucí na zakázku. Poradíme se skladbou i detaily, skryté vrstvy nafotíme dřív, než je zakryjeme, a po předání zvedáme telefon dál. Od roku 2016.",
-          ]}
+            claim={FOOTER_CLAIM}
             columns={FOOTER_COLUMNS}
             hrefPrefix="/"
           />

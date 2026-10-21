@@ -6,7 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/ui/footer";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { NAV, PHONE, EMAIL, ADDRESS, ICO, FOOTER_COLUMNS } from "@/lib/data";
+import { NAV, PHONE, EMAIL, ADDRESS, ICO, FOOTER_CLAIM, FOOTER_COLUMNS } from "@/lib/data";
 
 export function LegalPage({
   eyebrow,
@@ -50,10 +50,7 @@ export function LegalPage({
           email={EMAIL}
           address={ADDRESS}
           ico={ICO}
-          claim={[
-            "Střechy a dřevěné konstrukce po celé ČR. Ploché i šikmé střechy, sloupkové stavby, CLT panely a ručně tesané roubenky — konstrukci i střechu nad ní stavíte u jedné firmy, na jednu smlouvu a s jednou zárukou.",
-            "Vlastní party, vlastní dílna a jeden stavbyvedoucí na zakázku. Poradíme se skladbou i detaily, skryté vrstvy nafotíme dřív, než je zakryjeme, a po předání zvedáme telefon dál. Od roku 2016.",
-          ]}
+          claim={FOOTER_CLAIM}
           hrefPrefix="/"
           columns={FOOTER_COLUMNS}
         />

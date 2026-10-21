@@ -13,10 +13,10 @@ export const SITE_NAME = "TATAI";
 
 /** Wording reused by the metadata, the OG card and the structured data, so
  *  the three can never drift apart. */
-export const SITE_TAGLINE = "Střechy a dřevěné konstrukce";
+export const SITE_TAGLINE = "Střechy a dřevěné domy";
 
 export const SITE_DESCRIPTION =
-  "Ploché a šikmé střechy, sloupkové konstrukce, CLT panely a roubenky. Vlastní party, jeden stavbyvedoucí na zakázku. Olomouc a celá ČR, od roku 2016.";
+  "Ploché a šikmé střechy a dřevěné domy — sloupkové, CLT i roubenky. Domy vyrábíme v hale a na místě je jen smontujeme, takže do nich neprší. Olomouc a celá ČR.";
 
 /** Routes that exist as real pages — the sitemap's source of truth. */
 export const ROUTES = [
