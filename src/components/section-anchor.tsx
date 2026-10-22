@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import type { ReactNode } from "react";
 import { useNav } from "./nav-context";
 
@@ -23,14 +23,14 @@ export function SectionAnchor({
 }) {
   const { setActive } = useNav();
   return (
-    <motion.div
+    <m.div
       id={target ? id : undefined}
       className="scroll-mt-[var(--header-h)]"
       onViewportEnter={() => setActive(id)}
       viewport={{ margin: "-45% 0px -50% 0px", amount: 0 }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 // Clickable — becomes a small filled dot.
@@ -192,7 +192,7 @@ export function CustomCursor() {
   const filled = state !== "hover";
 
   return (
-    <motion.div
+    <m.div
       aria-hidden
       className="fixed left-0 top-0 z-[999] pointer-events-none"
       style={{ x: springX, y: springY, translateX: "-50%", translateY: "-50%" }}
@@ -200,7 +200,7 @@ export function CustomCursor() {
       transition={{ opacity: { duration: 0.15 } }}
     >
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <motion.circle
+        <m.circle
           cx="14"
           cy="14"
           initial={false}
@@ -213,6 +213,6 @@ export function CustomCursor() {
           transition={{ r: shapeTransition, fill: colorTransition, stroke: colorTransition }}
         />
       </svg>
-    </motion.div>
+    </m.div>
   );
 }

@@ -276,9 +276,63 @@
   background-size: 24px 24px;
 }
 
+/* ---- Hero entrance ----
+   In CSS rather than Motion so it starts on first paint: Motion's initial
+   state is written into the server HTML, which left the headline invisible
+   until hydration (and for good without JavaScript). Same curve as the rest
+   of the site's motion. Each element sets its own --d delay. */
+@keyframes hero-curtain {
+  from {
+    transform: translateY(101%);
+  }
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes hero-divider {
+  from {
+    transform: scaleY(0);
+  }
+}
+.hero-curtain {
+  animation: hero-curtain 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both;
+}
+.hero-rise {
+  animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both;
+}
+.hero-divider {
+  animation: hero-divider 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+/* ---- Scroll reveal (components/reveal.tsx) ----
+   Visible by default. Only blocks that are below the fold when the page
+   hydrates get data-reveal="pending", and they come in when they near the
+   viewport — so nothing in the server HTML is hidden. */
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(12px);
+}
+[data-reveal="in"] {
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .hero-curtain,
+  .hero-rise,
+  .hero-divider {
+    animation: none;
+  }
+  [data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
   }
 }
 

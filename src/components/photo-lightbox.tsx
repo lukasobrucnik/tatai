@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useLenis } from "lenis/react";
 import type { HallPhoto } from "@/lib/data";
 
@@ -93,7 +93,7 @@ export function PhotoLightbox({
   return createPortal(
     <AnimatePresence>
       {open && photo && (
-        <motion.div
+        <m.div
           role="dialog"
           aria-modal="true"
           aria-label={`${label} — fotografie ${index + 1} z ${count}`}
@@ -126,7 +126,7 @@ export function PhotoLightbox({
             {/* Fotka se překreslí přes key, takže při přepnutí prokřížíme starou
                 s novou místo bliknutí na prázdno. */}
             <AnimatePresence mode="wait" initial={false}>
-              <motion.div
+              <m.div
                 key={photo.src}
                 className="relative h-full w-full"
                 initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.99 }}
@@ -150,7 +150,7 @@ export function PhotoLightbox({
                   className="object-contain select-none"
                   draggable={false}
                 />
-              </motion.div>
+              </m.div>
             </AnimatePresence>
           </div>
 
@@ -163,7 +163,7 @@ export function PhotoLightbox({
               <NavArrow direction="next" onClick={() => step(1)} />
             </div>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>,
     document.body,

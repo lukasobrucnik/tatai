@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import GlyphPortal, { type GlyphPortalStyle } from "./ui/glyph-portal";
-import { ChapterTab } from "./ui/chapter-tab";
+import type GlyphPortalComponent from "./ui/glyph-portal";
+import type { GlyphPortalStyle } from "./ui/glyph-portal";
 
 /**
  * A chapter opening you fly into: the page goes dark, a word stands cut out
@@ -23,6 +23,16 @@ import { ChapterTab } from "./ui/chapter-tab";
  * family is handed over for the same reason — the portal marks itself stalled
  * if *any* requested family fails its check, and generic names like
  * `sans-serif` can't be checked reliably.
+ *
+ * It also waits until the reader is getting close (NEAR_MARGIN), and only
+ * then fetches the portal's code. Mounted at load, it measured its glyphs on
+ * a canvas in the middle of start-up (the bulk of the page's blocking time
+ * on a slow phone), and its SVG clip text — which reports a zero rect at the
+ * page origin — was recorded by Chrome as the page's Largest Contentful
+ * Paint, four seconds in. Until then a static stand-in holds exactly the
+ * height the portal will take (SCROLL_LENGTH screens of flight, then the
+ * chapter), so anchor jumps computed before the swap still land true. It is
+ * also what a reader without JavaScript gets.
  */
 /**
  * Progress at which the letter's interior owns the screen. Before it the dark
@@ -32,6 +42,13 @@ import { ChapterTab } from "./ui/chapter-tab";
  * scroll length is.
  */
 const FIELD_OWNS_SCREEN = 0.4;
+
+/** Flight length in screens — passed to the portal, and reserved by the
+ *  stand-in so the page is the same height before and after the swap. */
+const SCROLL_LENGTH = 1.9;
+
+/** How far ahead of the viewport the portal starts loading. */
+const NEAR_MARGIN = "250% 0px";
 
 export function ChapterPortal({
   word,
@@ -58,7 +75,9 @@ export function ChapterPortal({
   children: ReactNode;
 }) {
   const [fontFamily, setFontFamily] = useState<string | null>(null);
+  const [Portal, setPortal] = useState<typeof GlyphPortalComponent | null>(null);
   const hostRef = useRef<HTMLDivElement>(null);
+  const standInRef = useRef<HTMLDivElement>(null);
   const litRef = useRef(false);
 
   // Fires once per rendered frame, so it touches the DOM directly rather than
@@ -88,21 +107,68 @@ export function ChapterPortal({
     };
   }, []);
 
-  // Before the face is settled the chapter opens the same way every other one
-  // does, so it is never unlabelled — and it is always below the fold, so the
-  // swap isn't something a reader watches happen.
-  if (!fontFamily) {
+  useEffect(() => {
+    const el = standInRef.current;
+    if (!el) return;
+    let cancelled = false;
+    const load = () =>
+      import("./ui/glyph-portal").then((m) => {
+        if (!cancelled) setPortal(() => m.default);
+      });
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        // Idle, so the canvas measuring doesn't land in the middle of a scroll
+        // frame; the margin leaves plenty of room for it to finish first.
+        if ("requestIdleCallback" in window) requestIdleCallback(load, { timeout: 600 });
+        else load();
+      },
+      { rootMargin: NEAR_MARGIN },
+    );
+    io.observe(el);
+    return () => {
+      cancelled = true;
+      io.disconnect();
+    };
+  }, []);
+
+  // The stand-in: the portal's opening frame, still — dark ground, the word,
+  // the label and where it leads — over the same flight height, then the
+  // chapter on its own ground. Reduced motion gets the portal's shorter,
+  // unpinned frame instead (see the reduced-motion rule in GlyphPortal).
+  if (!fontFamily || !Portal) {
     return (
-      <div className="bg-surface-page">
-        <ChapterTab index={index} label={label} />
-        <div className="py-(--section-y-md)">{children}</div>
+      <div ref={standInRef}>
+        <div
+          className="relative bg-graphite-900 motion-reduce:h-[min(75svh,480px)]!"
+          style={{ height: `calc(${SCROLL_LENGTH} * 100svh)` }}
+        >
+          <div className="sticky top-0 grid h-svh place-items-center overflow-hidden motion-reduce:static motion-reduce:h-full">
+            <span className="absolute left-(--container-gutter) top-[calc(var(--header-h)+2rem)] flex items-baseline gap-3 font-mono text-body-sm tracking-eyebrow uppercase">
+              <span className="text-signal-500">{index}</span>
+              <span className="text-bone-200">{label}</span>
+            </span>
+            <div className="grid justify-items-center gap-[clamp(2rem,5vh,4.5rem)] px-(--container-gutter) text-center">
+              <span aria-hidden className="font-display font-bold leading-none text-bone-200" style={{ fontSize: "min(28svh, 22vw)" }}>
+                {word}
+              </span>
+              <span className="flex items-center gap-6 font-mono text-h2 font-medium uppercase tracking-[0.22em] text-bone-100 max-sm:text-h4! max-sm:gap-3! max-sm:tracking-[0.18em]!">
+                <span aria-hidden className="signal-rule h-px w-14 max-sm:w-7!" />
+                {destination}
+                <span aria-hidden className="signal-rule h-px w-14 max-sm:w-7!" />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="min-h-svh bg-surface-page py-(--section-y-md) motion-reduce:min-h-0">{children}</div>
       </div>
     );
   }
 
   return (
     <div ref={hostRef}>
-    <GlyphPortal
+    <Portal
       onProgress={handleProgress}
       // Zeroes the portal's own content padding (globals.css) so the ground
       // below can run to the edges and the chapter keeps the site's section
@@ -118,7 +184,7 @@ export function ChapterPortal({
       // říká, kam ten portál vede. Slovo je pořád zdaleka největší na
       // obrazovce, jen už nesahá do krajů.
       frame={{ width: 0.6, height: 0.28 }}
-      scrollLength={1.9}
+      scrollLength={SCROLL_LENGTH}
       // Bez tohohle okna se obsah drží až do 0.78 (viz GlyphPortal): pole
       // vyplní obrazovku někde kolem 0.42 a pak se skoro celou další
       // obrazovku neděje nic — čtenář si stihne myslet, že stránka končí.
@@ -193,7 +259,7 @@ export function ChapterPortal({
           the screen, which read as a rendering fault rather than as the edge
           of anything. */}
       <div className="py-(--section-y-md)">{children}</div>
-    </GlyphPortal>
+    </Portal>
     </div>
   );
 }

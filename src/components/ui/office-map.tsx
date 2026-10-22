@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 
 /** DS motion: "things reveal, they never bounce". */
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -61,12 +61,14 @@ export function OfficeMap({
         {/* Everything below is anchored to the exact centre of the crop, which
             is the address. */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          {!reduce &&
-            [0, 2.4].map((delay) => (
-              <motion.span
+          {/* Always rendered, hidden by CSS under reduced motion: the server can't
+              know the preference, so rendering it conditionally made the client's
+              first render differ from the server HTML (React hydration error). */}
+          {[0, 2.4].map((delay) => (
+              <m.span
                 key={delay}
                 aria-hidden
-                className="absolute left-1/2 top-1/2 block size-6 -translate-x-1/2 -translate-y-1/2 rounded-full border border-signal-500"
+                className="absolute left-1/2 top-1/2 block size-6 -translate-x-1/2 -translate-y-1/2 rounded-full border border-signal-500 motion-reduce:hidden"
                 initial={{ scale: 0.4, opacity: 0 }}
                 animate={{ scale: [0.4, 6.1], opacity: [0, 0.5, 0] }}
                 transition={{ duration: 4.8, ease: "easeOut", repeat: Infinity, delay, times: [0, 0.14, 1] }}
@@ -74,7 +76,7 @@ export function OfficeMap({
             ))}
 
           {/* The ground shadow stays on the point; only the pin leaves it. */}
-          <motion.span
+          <m.span
             aria-hidden
             className="absolute left-1/2 top-1/2 block h-[6px] w-[18px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-graphite-1000/25 blur-[1.5px]"
             {...(reduce
@@ -85,7 +87,7 @@ export function OfficeMap({
                 })}
           />
 
-          <motion.span
+          <m.span
             className="absolute left-1/2 top-1/2 block -translate-x-1/2"
             // -100% puts the pin's tip on the point rather than its middle.
             style={{ translateY: "-100%" }}
@@ -94,7 +96,7 @@ export function OfficeMap({
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.7, ease: EASE }}
           >
-            <motion.span className="block" {...float}>
+            <m.span className="block" {...float}>
               <svg width="26" height="36" viewBox="0 0 26 36" fill="none" aria-hidden>
                 <path
                   d="M13 35.5S24.5 22.4 24.5 13.4C24.5 6.6 19.4 1 13 1S1.5 6.6 1.5 13.4C1.5 22.4 13 35.5 13 35.5Z"
@@ -104,8 +106,8 @@ export function OfficeMap({
                 />
                 <circle cx="13" cy="13" r="4.4" fill="var(--color-signal-500)" />
               </svg>
-            </motion.span>
-          </motion.span>
+            </m.span>
+          </m.span>
         </div>
       </div>
 

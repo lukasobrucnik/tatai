@@ -1,7 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 
 /**
  * Two chapters where the second one slides over the end of the first —
@@ -22,7 +22,6 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 export function CoverStack({ pinned, cover }: { pinned: ReactNode; cover: ReactNode }) {
   const pinnedRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
   const [height, setHeight] = useState<number | null>(null);
 
   // Own height has to be measured: CSS has no way to say "top = viewport
@@ -49,13 +48,14 @@ export function CoverStack({ pinned, cover }: { pinned: ReactNode; cover: ReactN
         style={height === null ? undefined : { top: `calc(100svh - ${height}px)` }}
       >
         {pinned}
-        {!reduce && (
-          <motion.span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-[5] bg-graphite-1000"
-            style={{ opacity: veil }}
-          />
-        )}
+        {/* Always rendered, hidden by CSS under reduced motion: the server can't
+            know the preference, so rendering it conditionally made the client's
+            first render differ from the server HTML (React hydration error). */}
+        <m.span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[5] bg-graphite-1000 motion-reduce:hidden"
+          style={{ opacity: veil }}
+        />
       </div>
 
       {/* Later sibling, positioned, opaque, so it paints over the pinned

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, cubicBezier, easeIn, type MotionValue } from "framer-motion";
+import { useRef, type CSSProperties, type ReactNode } from "react";
+import { m, useReducedMotion, useScroll, useTransform, cubicBezier, easeIn, type MotionValue } from "framer-motion";
 import { Eyebrow } from "./eyebrow";
 import { usePlateProgress } from "./plate-chapter";
 
@@ -29,27 +29,22 @@ function Panel({
   y,
   opacity,
   priority,
-  onSettled,
 }: {
   panel: DiptychPanel;
   delay: number;
   y?: MotionValue<number>;
   opacity?: MotionValue<number>;
   priority?: boolean;
-  onSettled?: () => void;
 }) {
   return (
     <div className="group relative overflow-hidden">
-      <motion.a
+      <a
         href={panel.href}
         aria-label={`${panel.label} — ${panel.caption}`}
-        className="absolute inset-0 block no-underline"
-        initial={{ y: "101%" }}
-        animate={{ y: 0 }}
-        transition={{ duration: 1.1, ease: EASE, delay }}
-        onAnimationComplete={onSettled}
+        className="hero-curtain absolute inset-0 block no-underline"
+        style={{ "--d": `${delay}s` } as CSSProperties}
       >
-        <motion.div className="absolute inset-0" style={y || opacity ? { y, opacity } : undefined}>
+        <m.div className="absolute inset-0" style={y || opacity ? { y, opacity } : undefined}>
           {/* -inset-y stretches the frame so parallax never exposes a bare edge —
               sized for the ±100px drift range in HeroDiptych, with headroom left over */}
           <div className="absolute -inset-y-[130px] inset-x-0">
@@ -62,7 +57,7 @@ function Panel({
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045]"
             />
           </div>
-        </motion.div>
+        </m.div>
         {/* top scrim: the sky in these photos is bright, the label sits on it */}
         <span
           aria-hidden
@@ -74,7 +69,7 @@ function Panel({
           aria-hidden
           className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-500 ease-out group-hover:scale-x-100"
         />
-      </motion.a>
+      </a>
 
       {/* Tint lives OUTSIDE the sliding curtain entirely — a static layer over
           the panel's own (real, final) box, present from the first frame,
@@ -176,21 +171,16 @@ export function HeroDiptych({
   const textExitY = useTransform(scrollYProgress, [0, 1], [0, -180]);
   const textExitOpacity = useTransform(scrollYProgress, [0, 1], [1, 0], { ease: easeIn });
 
-  // Text block waits until BOTH panels report their curtain slide actually
-  // finished — a real completion event, not a guessed wall-clock delay — so
-  // it never starts rising while a photo is still visibly sliding in. The
-  // tint itself no longer depends on this: it's baked into each panel (see
-  // Panel below), so it can't fall out of sync with anything.
-  const [settledCount, setSettledCount] = useState(0);
-  const settled = !!reduce || settledCount >= 2;
-  const onPanelSettled = () => setSettledCount((n) => n + 1);
-
-  const rise = reduce
-    ? {}
-    : {
-        initial: { opacity: 0, y: 16 },
-        animate: { opacity: settled ? 1 : 0, y: settled ? 0 : 16 },
-      };
+  // Entrance runs in CSS (globals.css, .hero-curtain / .hero-rise), not in
+  // Motion. Motion's `initial` is rendered into the server HTML, so the
+  // headline shipped at opacity 0 and stayed there until the bundle had
+  // hydrated and both photo curtains had reported finishing — on a slow
+  // phone that put the page's main heading seconds behind first paint, and
+  // without JavaScript it never appeared at all. CSS starts on first paint.
+  // The text no longer waits for a completion event: it starts once the
+  // curtains are most of the way in (they ease out hard, so by 0.45s there
+  // is little sliding left to rise over).
+  const rise = (d: number) => ({ className: "hero-rise", style: { "--d": `${d}s` } as CSSProperties });
 
   return (
     <section ref={ref} className="hero-viewport relative isolate flex items-end overflow-hidden bg-graphite-900">
@@ -202,7 +192,6 @@ export function HeroDiptych({
           y={reduce ? undefined : yLeft}
           opacity={reduce ? undefined : photoDim}
           priority
-          onSettled={onPanelSettled}
         />
         <Panel
           panel={right}
@@ -210,16 +199,12 @@ export function HeroDiptych({
           y={reduce ? undefined : yRight}
           opacity={reduce ? undefined : photoDim}
           priority
-          onSettled={onPanelSettled}
         />
       </div>
 
-      <motion.span
+      <m.span
         aria-hidden
-        className="absolute inset-y-0 left-1/2 z-[1] w-px origin-top bg-border-inverse"
-        initial={reduce ? undefined : { scaleY: 0 }}
-        animate={reduce ? undefined : { scaleY: 1 }}
-        transition={{ duration: 1.1, ease: EASE, delay: 0.35 }}
+        className="hero-divider absolute inset-y-0 left-1/2 z-[1] w-px origin-top bg-border-inverse"
         style={reduce ? undefined : { opacity: dividerExitOpacity }}
       />
 
@@ -231,19 +216,19 @@ export function HeroDiptych({
           max-width wrapper here would drift out of alignment with them on
           wide screens. Each label insets itself by the gutter instead. */}
       <div className="pointer-events-none absolute inset-0 z-[2] grid grid-cols-2">
-        <motion.div style={reduce ? undefined : { y: yLeft }}>
+        <m.div style={reduce ? undefined : { y: yLeft }}>
           <PanelLabel panel={left} />
-        </motion.div>
-        <motion.div style={reduce ? undefined : { y: yRight }}>
+        </m.div>
+        <m.div style={reduce ? undefined : { y: yRight }}>
           <PanelLabel panel={right} />
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Scroll-driven exit wrapper — separate from the entrance `rise`
           animations on the children below, so the two never fight over the
           same transform. This is the fastest-moving content layer after the
           divider line: it's gone well before the photos are. */}
-      <motion.div
+      <m.div
         // pb clears the 48px the first ChapterLayer overlaps the hero by, so
         // the stats row is never tucked under the incoming sheet
         className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(4rem,7vh,5.5rem)] pt-[clamp(5rem,16vh,13rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-8!"
@@ -252,42 +237,31 @@ export function HeroDiptych({
         {/* Na telefonu skrytý: nad nadpisem, který říká skoro totéž, jen ubíral
             výšku — a deska je na telefonu přesně jedna obrazovka, takže co se
             nevejde, ořízne se (řádek s čísly na iPhonu SE). */}
-        <motion.div {...rise} transition={{ duration: 0.7, ease: EASE, delay: 0 }} className="max-sm:hidden">
+        <div style={rise(0.45).style} className="hero-rise max-sm:hidden">
           <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
-        </motion.div>
+        </div>
 
-        <motion.h1
-          {...rise}
-          transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}
-          className="max-w-[18ch] font-display font-medium tracking-display text-inverse"
-          style={{ fontSize: "clamp(2.25rem, 5.6vw, 5.25rem)", lineHeight: 1.02 }}
+        <h1
+          className="hero-rise max-w-[18ch] font-display font-medium tracking-display text-inverse"
+          style={{ ...rise(0.5).style, fontSize: "clamp(2.25rem, 5.6vw, 5.25rem)", lineHeight: 1.02 }}
         >
           {title}
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          {...rise}
-          transition={{ duration: 0.8, ease: EASE, delay: 0.16 }}
-          className="max-w-[46ch] text-lead leading-snug text-inverse-muted"
-        >
+        <p {...rise(0.58)} className="hero-rise max-w-[46ch] text-lead leading-snug text-inverse-muted">
           {lead}
-        </motion.p>
+        </p>
 
         {actions && (
-          <motion.div
-            {...rise}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.24 }}
-            className="flex flex-wrap gap-3 sm:gap-4"
-          >
+          <div style={rise(0.66).style} className="hero-rise flex flex-wrap gap-3 sm:gap-4">
             {actions}
-          </motion.div>
+          </div>
         )}
 
         {meta.length > 0 && (
-          <motion.dl
-            {...rise}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.32 }}
-            className="m-0 flex flex-wrap gap-x-8 gap-y-4 border-t border-border-inverse pt-6 sm:gap-x-12 sm:pt-8 max-sm:grid! max-sm:grid-cols-3! max-sm:gap-x-4! max-sm:pt-5!"
+          <dl
+            style={rise(0.74).style}
+            className="hero-rise m-0 flex flex-wrap gap-x-8 gap-y-4 border-t border-border-inverse pt-6 sm:gap-x-12 sm:pt-8 max-sm:grid! max-sm:grid-cols-3! max-sm:gap-x-4! max-sm:pt-5!"
           >
             {meta.map((m) => (
               <div key={m.label} className="grid gap-1.5">
@@ -295,9 +269,9 @@ export function HeroDiptych({
                 <dd className="m-0 font-display text-h3 font-medium tabular-nums text-inverse max-sm:text-h4!">{m.value}</dd>
               </div>
             ))}
-          </motion.dl>
+          </dl>
         )}
-      </motion.div>
+      </m.div>
     </section>
   );
 }

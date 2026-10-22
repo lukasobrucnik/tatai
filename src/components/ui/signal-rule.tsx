@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 
 /** DS motion: "things reveal, they never bounce". */
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -24,7 +24,7 @@ export function SignalRule({ className = "" }: { className?: string }) {
   const reduce = useReducedMotion();
 
   return (
-    <motion.span
+    <m.span
       aria-hidden
       className={`signal-rule block h-px w-full origin-left ${className}`}
       initial={reduce ? undefined : { scaleX: 0, opacity: 0 }}

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { CookieConsent } from "@/components/cookie-consent";
 import { CustomCursor } from "@/components/custom-cursor";
+import { MotionProvider } from "@/components/motion-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { BusinessSchema } from "@/components/structured-data";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
@@ -88,6 +89,7 @@ export default function RootLayout({
   return (
     <html lang="cs" className={`${archivo.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}>
       <body>
+        <MotionProvider>
         {/* The old hash-scroll-instant script lived here to stop
             `html { scroll-behavior: smooth }` from turning a deep link like
             /#o-nas into a multi-second animated scroll on first paint.
@@ -101,6 +103,7 @@ export default function RootLayout({
         {/* Site-wide: the firm is the same firm on every page. The questions
             are marked up only where they are answered — see page.tsx. */}
         <BusinessSchema />
+        </MotionProvider>
       </body>
     </html>
   );

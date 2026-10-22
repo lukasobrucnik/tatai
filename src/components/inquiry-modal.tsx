@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useLenis } from "lenis/react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -68,7 +68,7 @@ export function InquiryModal({ open, onClose, children }: { open: boolean; onClo
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           role="presentation"
           className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-8"
           initial={{ opacity: 0 }}
@@ -78,7 +78,7 @@ export function InquiryModal({ open, onClose, children }: { open: boolean; onClo
         >
           <div aria-hidden onClick={onClose} className="absolute inset-0 bg-graphite-1000/60" />
 
-          <motion.div
+          <m.div
             ref={cardRef}
             role="dialog"
             aria-modal="true"
@@ -106,8 +106,8 @@ export function InquiryModal({ open, onClose, children }: { open: boolean; onClo
             </div>
 
             {children}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

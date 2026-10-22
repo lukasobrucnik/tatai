@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useRef, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { m, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 
 /**
  * A chapter built from two planes: a full-screen **plate** that pins itself
@@ -73,16 +73,17 @@ export function PlateChapter({
         className="sticky z-0 overflow-hidden bg-graphite-900"
         style={{ top: "var(--header-h)", height: "calc(100svh - var(--header-h))" }}
       >
-        <motion.div className="h-full" style={reduce ? undefined : { scale: plateScale }}>
+        <m.div className="h-full" style={reduce ? undefined : { scale: plateScale }}>
           <PlateProgressContext.Provider value={scrollYProgress}>{plate}</PlateProgressContext.Provider>
-        </motion.div>
-        {!reduce && (
-          <motion.span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-graphite-1000"
-            style={{ opacity: plateDim }}
-          />
-        )}
+        </m.div>
+        {/* Always rendered, hidden by CSS under reduced motion: the server can't
+            know the preference, so rendering it conditionally made the client's
+            first render differ from the server HTML (React hydration error). */}
+        <m.span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-graphite-1000 motion-reduce:hidden"
+          style={{ opacity: plateDim }}
+        />
       </div>
 
       {/* Later sibling, positioned, opaque — so it paints over the plate.

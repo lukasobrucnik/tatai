@@ -1,26 +1,46 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
-/** Fade-and-rise reveal on scroll, replacing the original IntersectionObserver hack. */
+/**
+ * Fade-and-rise reveal on scroll — as an enhancement of content that is
+ * already visible, never as a gate on it.
+ *
+ * The Motion version rendered `opacity: 0` into the server HTML, so every
+ * wrapped block was invisible until the bundle hydrated (and for good
+ * without JavaScript). Here the server HTML is plain and visible. After
+ * hydration, only a block that is still below the fold is put into the
+ * pending state (globals.css, [data-reveal]) — off screen, so nobody sees it
+ * hide — and an IntersectionObserver brings it in as it approaches.
+ */
 export function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
-  const reduceMotion = useReducedMotion();
-  if (reduceMotion) return <div className={className}>{children}</div>;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // On screen (or already scrolled past) at hydration: it has been visible
+    // since first paint, so animating it now would only make it blink.
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+
+    el.dataset.reveal = "pending";
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        el.dataset.reveal = "in";
+      },
+      // Grows the trigger zone below the fold, so the fade has mostly run by
+      // the time a fast flick or an anchor jump lands on the block.
+      { rootMargin: "0px 0px 300px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      // Positive bottom margin grows the trigger zone below the fold, so the
-      // fade-in starts while a section is still off-screen. On a fast/flick
-      // scroll (or a scroll-to-hash jump) the animation has already resolved
-      // by the time the section is actually visible, instead of the viewport
-      // landing on a still-opacity:0 section.
-      viewport={{ once: true, amount: 0.06, margin: "0px 0px 300px 0px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
-    >
+    <div ref={ref} className={className} style={delay ? ({ "--d": `${delay}s` } as CSSProperties) : undefined}>
       {children}
-    </motion.div>
+    </div>
   );
 }

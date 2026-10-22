@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useState } from "react";
 import { useNav } from "./nav-context";
 import { InquiryTriggerButton } from "./inquiry-trigger-button";
@@ -43,7 +43,7 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
                 }`}
               >
                 {on && (
-                  <motion.span
+                  <m.span
                     layoutId="nav-active-line"
                     className="absolute -inset-x-1 -bottom-2 h-0.5 bg-signal-500"
                     transition={{ duration: 0.35, ease: EASE }}
