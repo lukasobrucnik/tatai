@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { FOOTER_COLUMNS } from "@/lib/data";
+import { COMPANY_NAME, type FOOTER_COLUMNS } from "@/lib/data";
 
 export function Footer({
   columns,
@@ -57,7 +57,7 @@ export function Footer({
           </div>
         </div>
         <div className="grid items-center gap-x-8 gap-y-5 pt-10 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400 grid-cols-[auto_1fr_auto] max-xl:grid-cols-1! max-xl:justify-items-center! max-xl:text-center!">
-          <span>© {new Date().getFullYear()} TATAI s.r.o.{ico ? ` — IČO ${ico}` : ""}</span>
+          <span>© {new Date().getFullYear()} {COMPANY_NAME}{ico ? ` — IČO ${ico}` : ""}</span>
           {/* Autorský podpis. Vědomě nejtišší text na stránce — o dva stupně
               tmavší než řádek, ve kterém sedí, takže ho najde, kdo ho hledá,
               a nikoho z klientů TATAI netahá za oko. */}

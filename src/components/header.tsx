@@ -8,7 +8,7 @@ import { InquiryTriggerButton } from "./inquiry-trigger-button";
 import type { NAV } from "@/lib/data";
 
 // Same "things settle, they never bounce" token as the rest of the site's
-// motion (hero-diptych.tsx) — the active-nav indicator used to run on an
+// motion (hero-main.tsx) — the active-nav indicator used to run on an
 // underdamped spring (stiffness 420, damping 34, below its ~41 critical
 // damping) and visibly overshot when it slid between items.
 const EASE = [0.16, 1, 0.3, 1] as const;

@@ -26,6 +26,7 @@ export function Select({
         <select
           id={id}
           defaultValue=""
+          required={required}
           className="w-full appearance-none font-body text-body-lg text-strong bg-transparent border-0 border-b border-border-strong rounded-none py-3 pr-7 min-h-12 outline-none cursor-pointer transition-colors duration-150 focus:border-signal-500 focus:border-b-2"
           {...rest}
         >

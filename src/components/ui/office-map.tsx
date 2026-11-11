@@ -58,6 +58,17 @@ export function OfficeMap({
       >
         <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
 
+        {/* Podklad je z OpenStreetMap (licence ODbL), a ta atribuci vyžaduje.
+            Pravý horní roh: jediný, kam nesahá ani špendlík, ani karta. */}
+        <a
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute right-0 top-0 z-[1] bg-bone-100/85 px-1.5 py-0.5 font-mono text-[10px] leading-tight text-muted no-underline hover:text-strong"
+        >
+          © OpenStreetMap
+        </a>
+
         {/* Everything below is anchored to the exact centre of the crop, which
             is the address. */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -91,10 +102,14 @@ export function OfficeMap({
             className="absolute left-1/2 top-1/2 block -translate-x-1/2"
             // -100% puts the pin's tip on the point rather than its middle.
             style={{ translateY: "-100%" }}
-            initial={reduce ? undefined : { opacity: 0, y: -14 }}
-            whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+            // initial/whileInView stay set even under reduced motion: the
+            // server renders `initial` (it can't know the preference), and
+            // dropping whileInView on the client left the pin stuck at
+            // opacity 0 for reduced-motion visitors. Duration 0 instead.
+            initial={{ opacity: 0, y: -14 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.7, ease: EASE }}
+            transition={{ duration: reduce ? 0 : 0.7, ease: EASE }}
           >
             <m.span className="block" {...float}>
               <svg width="26" height="36" viewBox="0 0 26 36" fill="none" aria-hidden>

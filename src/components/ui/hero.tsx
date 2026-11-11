@@ -50,7 +50,7 @@ export function Hero({
           bottom, so on short viewports where the content block grows taller
           than `height` (min-height, not fixed) and items-end no longer has
           room to push it down, the eyebrow/heading can land on a still-bright
-          top of the photo. Same top scrim HeroDiptych already uses for its
+          top of the photo. Same top scrim HeroMain already uses for its
           top-anchored labels — cheap insurance, not visible where the top of
           the photo is already dark. */}
       {inv && src && (

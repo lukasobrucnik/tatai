@@ -5,6 +5,7 @@ import { CustomCursor } from "@/components/custom-cursor";
 import { MotionProvider } from "@/components/motion-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { BusinessSchema } from "@/components/structured-data";
+import { COMPANY_NAME } from "@/lib/data";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -43,9 +44,9 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
-  authors: [{ name: "TATAI s.r.o." }],
-  creator: "TATAI s.r.o.",
-  publisher: "TATAI s.r.o.",
+  authors: [{ name: COMPANY_NAME }],
+  creator: COMPANY_NAME,
+  publisher: COMPANY_NAME,
   alternates: { canonical: "/" },
   robots: {
     index: true,

@@ -36,7 +36,7 @@ export default function NotFound() {
                   Tahle adresa u nás nic nestaví.
                 </h1>
                 <p className="text-lead leading-snug text-body">
-                  Odkaz je nejspíš starý nebo překlepnutý. Střechy, dřevěné domy i kontakt najdete
+                  Odkaz je nejspíš starý nebo překlepnutý. Střechy, dřevostavby i kontakt najdete
                   na jedné stránce.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">

@@ -1,4 +1,4 @@
-import { ADDRESS, EMAIL, FAQ, ICO, MAP_URL, PHONE } from "@/lib/data";
+import { ADDRESS, COMPANY_NAME, EMAIL, FAQ, ICO, MAP_URL, OFFICE_GEO, PHONE } from "@/lib/data";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 /**
@@ -23,7 +23,7 @@ export function BusinessSchema() {
     "@context": "https://schema.org",
     "@type": ["RoofingContractor", "GeneralContractor"],
     "@id": `${SITE_URL}/#business`,
-    name: "TATAI s.r.o.",
+    name: COMPANY_NAME,
     alternateName: SITE_NAME,
     url: SITE_URL,
     description: SITE_DESCRIPTION,
@@ -37,14 +37,22 @@ export function BusinessSchema() {
       streetAddress: street,
       postalCode,
       addressLocality: city,
+      addressRegion: "Olomoucký kraj",
       addressCountry: "CZ",
     },
-    areaServed: { "@type": "Country", name: "Česká republika" },
+    // Působnost „v rámci Moravy“ — kraje, které Morava pokrývá.
+    areaServed: ["Olomoucký kraj", "Zlínský kraj", "Moravskoslezský kraj", "Jihomoravský kraj", "Kraj Vysočina"].map(
+      (name) => ({ "@type": "AdministrativeArea", name }),
+    ),
+    geo: { "@type": "GeoCoordinates", latitude: OFFICE_GEO.lat, longitude: OFFICE_GEO.lng },
     hasMap: MAP_URL,
     identifier: { "@type": "PropertyValue", name: "IČO", value: ICO },
     knowsAbout: [
       "Ploché střechy",
       "Šikmé střechy",
+      "Zelené střechy",
+      "Krokevní izolace",
+      "Rekonstrukce střech",
       "Hydroizolace PVC-P",
       "Krovy a tesařské konstrukce",
       "Sloupkové konstrukce",
@@ -53,10 +61,12 @@ export function BusinessSchema() {
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Střechy a dřevěné domy",
+      name: "Střechy a dřevostavby",
       itemListElement: [
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ploché střechy" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Šikmé střechy a krovy" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Zelené střechy" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Krokevní izolace a rekonstrukce střech" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sloupkové dřevostavby" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Stavby z CLT panelů" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Roubenky" } },

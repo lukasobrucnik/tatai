@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal-page";
-import { EMAIL, ICO } from "@/lib/data";
+import { ADDRESS, COMPANY_NAME, EMAIL, ICO } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Ochrana soukromí",
@@ -27,7 +27,7 @@ export default function OchranaSoukromi() {
       <div className="grid gap-4">
         <H>Kdo je správcem údajů</H>
         <P>
-          Správcem osobních údajů je společnost TATAI s.r.o., se sídlem Křižíkova 965/1, 779 00 Olomouc, IČO {ICO}. Ve věcech
+          Správcem osobních údajů je společnost {COMPANY_NAME}, se sídlem {ADDRESS}, IČO {ICO}. Ve věcech
           ochrany osobních údajů nás můžete kontaktovat na e-mailu {EMAIL}.
         </P>
       </div>

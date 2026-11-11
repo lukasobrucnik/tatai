@@ -9,7 +9,7 @@ import { InquiryTriggerButton } from "@/components/inquiry-trigger-button";
 import { ChapterPortal } from "@/components/chapter-portal";
 import { WorkshopGallery } from "@/components/workshop-gallery";
 import { Hero } from "@/components/ui/hero";
-import { HeroDiptych } from "@/components/ui/hero-diptych";
+import { HeroMain } from "@/components/ui/hero-main";
 import { Section } from "@/components/ui/section";
 import { CoverStack } from "@/components/ui/cover-stack";
 import { ChapterMarker } from "@/components/ui/chapter-marker";
@@ -29,9 +29,15 @@ import {
   ADDRESS,
   MAP_URL,
   ICO,
+  HERO,
   HERO_META,
+  ROOFS_HERO,
   ROOF_TYPES,
+  ROOF_POINTS,
+  ROOF_FACTS,
+  HOUSES_HERO,
   HOUSE_TYPES,
+  HOUSE_FACTS,
   HALL_REASONS,
   HALL_LEAD,
   BUILD_STEPS,
@@ -48,6 +54,23 @@ import {
    počty part, statistiky, skladby vrstev, detaily spojů — šlo pryč. Dlouhá
    verze je v gitu pod tagem `pred-zkracenim-2026-10-21` a její texty
    v docs/archiv. */
+/** Řádek krátkých faktů pod kapitolou — mono štítek, hodnota v display. */
+function FactRow({ items }: { items: { label: string; value: string }[] }) {
+  return (
+    <dl
+      className="m-0 mt-(--section-y-sm) grid gap-(--grid-gap) border-t border-border-strong pt-8 max-lg:grid-cols-2! max-sm:grid-cols-1! max-lg:gap-y-6!"
+      style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
+    >
+      {items.map((f) => (
+        <div key={f.label} className="grid content-start gap-2">
+          <dt className="font-mono text-eyebrow uppercase tracking-eyebrow text-muted">{f.label}</dt>
+          <dd className="m-0 font-display text-h4 font-medium text-strong">{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export default function Home() {
   const tel = `tel:${PHONE.replace(/\s/g, "")}`;
 
@@ -64,27 +87,13 @@ export default function Home() {
         <SectionAnchor id="home">
         <PlateChapter
           plate={
-          <HeroDiptych
-            eyebrow="Střechy a dřevostavby"
-            title="Střechy a dřevěné domy."
-            lead="Domy vyrábíme v naší hale a u vás je jen smontujeme. Do konstrukce vám nezaprší a stavba stojí za pár dní."
+          <HeroMain
+            title={HERO.title}
+            lead={HERO.lead}
             meta={HERO_META}
-            left={{
-              src: "/photos/pillar-strechy.webp",
-              alt: "Krov novostavby proti obloze",
-              index: "01",
-              label: "Střechy",
-              caption: "Ploché i šikmé",
-              href: "#strechy",
-            }}
-            right={{
-              src: "/photos/pillar-domy.webp",
-              alt: "Dřevostavba s laťovou fasádou",
-              index: "02",
-              label: "Domy",
-              caption: "Vyrobené v hale",
-              href: "#domy",
-            }}
+            src={HERO.src}
+            alt={HERO.alt}
+            links={HERO.links}
             actions={
               <>
                 <InquiryTriggerButton variant="inverse" size="lg" arrow>
@@ -112,22 +121,22 @@ export default function Home() {
                   <Hero
                     height="66svh"
                     marker={{ index: "01", name: "Střechy" }}
-                    title="Ploché i šikmé střechy."
-                    lead="Novostavby, rekonstrukce i opravy — na rodinné domy, bytové domy i haly."
+                    title={ROOFS_HERO.title}
+                    lead={ROOFS_HERO.lead}
                     src="/photos/hero-strechy.webp"
                     label="Plochá střecha — detail atiky"
                   />
                 </SectionAnchor>
 
                 <Section density="lg" topRule>
-                  <div className="grid grid-cols-2 gap-(--grid-gap) max-md:grid-cols-1! max-md:gap-16!">
+                  <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1! max-sm:gap-14!">
                     {ROOF_TYPES.map((c) => (
                       <Reveal key={c.i}>
                         <div className="grid content-start gap-5">
-                          <Photo src={c.src} ratio="project" label={c.label} hoverZoom />
+                          <Photo src={c.src} ratio="project" label={c.label} hoverZoom sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
                           <Eyebrow index={c.i}>Střechy</Eyebrow>
-                          <h3 className="text-h2 font-display font-medium tracking-heading leading-heading text-strong">{c.title}</h3>
-                          <p className="max-w-[40ch] text-body-lg leading-body text-body">{c.body}</p>
+                          <h3 className="text-h3 font-display font-medium tracking-heading text-strong">{c.title}</h3>
+                          <p className="max-w-[40ch] text-body-md leading-body text-body">{c.body}</p>
                           <ul className="m-0 grid list-none border-t border-border-hairline p-0">
                             {c.items.map((it) => (
                               <li
@@ -144,19 +153,25 @@ export default function Home() {
                     ))}
                   </div>
 
-                  {/* Dvě věci, které se zákazník u střech ptá jako první — místo
-                      tabulek se skladbami, které na marketingové stránce nikdo nečte. */}
+                  {/* Co majitel o střechách říká nad rámec typů: specializace,
+                      jednoduché novostavby, modernizace starých střech. */}
                   <Reveal>
-                    <dl className="m-0 mt-(--section-y-sm) grid grid-cols-2 gap-(--grid-gap) border-t border-border-strong pt-8 max-md:grid-cols-1!">
-                      <div className="grid gap-2">
-                        <dt className="font-mono text-eyebrow uppercase tracking-eyebrow text-muted">Záruka na dílo</dt>
-                        <dd className="m-0 font-display text-h3 font-medium text-strong">10 let</dd>
-                      </div>
-                      <div className="grid gap-2">
-                        <dt className="font-mono text-eyebrow uppercase tracking-eyebrow text-muted">Opravy a servis</dt>
-                        <dd className="m-0 font-display text-h3 font-medium text-strong">I na střechách od jiných firem</dd>
-                      </div>
-                    </dl>
+                    <ol className="m-0 mt-(--section-y-sm) grid list-none grid-cols-3 gap-(--grid-gap) p-0 max-md:grid-cols-1! max-md:gap-8!">
+                      {ROOF_POINTS.map((p, i) => (
+                        <li key={p.title} className="relative grid content-start gap-3 border-t border-border-strong pt-6">
+                          <span aria-hidden className="absolute -top-px left-0 h-px w-[22px] bg-signal-500" />
+                          <span className="font-mono text-caption tabular-nums tracking-eyebrow text-signal-600">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="font-display text-h3 font-medium tracking-heading text-strong">{p.title}</h3>
+                          <p className="max-w-[36ch] text-body-md leading-body text-body">{p.body}</p>
+                        </li>
+                      ))}
+                    </ol>
+                  </Reveal>
+
+                  <Reveal>
+                    <FactRow items={ROOF_FACTS} />
                   </Reveal>
                 </Section>
             </>
@@ -166,9 +181,9 @@ export default function Home() {
                 <SectionAnchor id="domy">
                   <Hero
                     height="66svh"
-                    marker={{ index: "02", name: "Domy" }}
-                    title="Dřevěné domy, které nezmoknou."
-                    lead="Sloupkové konstrukce, CLT panely i roubenky. Vyrobíme je v hale, u vás je jen smontujeme."
+                    marker={{ index: "02", name: "Dřevostavby" }}
+                    title={HOUSES_HERO.title}
+                    lead={HOUSES_HERO.lead}
                     src="/photos/hero-domy.webp"
                     label="CLT panel — montáž na jeřábu"
                   />
@@ -180,13 +195,19 @@ export default function Home() {
                       <Reveal key={c.i}>
                         <div className="grid content-start gap-5">
                           <Photo src={c.src} ratio="project" label={c.label} hoverZoom sizes="(min-width: 1024px) 33vw, 100vw" />
-                          <Eyebrow index={c.i}>Domy</Eyebrow>
+                          <Eyebrow index={c.i}>Dřevostavby</Eyebrow>
                           <h3 className="text-h3 font-display font-medium tracking-heading text-strong">{c.title}</h3>
                           <p className="text-body-md leading-body text-body">{c.body}</p>
                         </div>
                       </Reveal>
                     ))}
                   </div>
+
+                  {/* Cena, rychlost, nastěhování — otázky každého, kdo zvažuje
+                      dřevostavbu místo zděného domu. */}
+                  <Reveal>
+                    <FactRow items={HOUSE_FACTS} />
+                  </Reveal>
                 </Section>
             </>
           }
@@ -282,7 +303,7 @@ export default function Home() {
                   alt="Mapa Olomouce s vyznačeným sídlem firmy TATAI"
                   label="Sídlo"
                   address={ADDRESS}
-                  note="Po celé ČR — přijedeme za vámi"
+                  note="Po celé Moravě — přijedeme za vámi"
                   href={MAP_URL}
                 />
               </div>

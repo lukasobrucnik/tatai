@@ -22,13 +22,13 @@ export function Input(props: SingleLine | MultiLine) {
     const { rows = 5, ...textareaRest } = rest as TextareaHTMLAttributes<HTMLTextAreaElement>;
     return (
       <Field label={label} hint={hint} required={required} htmlFor={id}>
-        <textarea id={id} rows={rows} className={`${inputSkin} resize-y`} {...textareaRest} />
+        <textarea id={id} rows={rows} required={required} className={`${inputSkin} resize-y`} {...textareaRest} />
       </Field>
     );
   }
   return (
     <Field label={label} hint={hint} required={required} htmlFor={id}>
-      <input id={id} className={inputSkin} {...(rest as InputHTMLAttributes<HTMLInputElement>)} />
+      <input id={id} required={required} className={inputSkin} {...(rest as InputHTMLAttributes<HTMLInputElement>)} />
     </Field>
   );
 }

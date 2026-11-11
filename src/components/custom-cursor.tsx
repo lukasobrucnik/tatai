@@ -14,7 +14,7 @@ const HOVER_SELECTOR = "[data-cursor-hover]";
 // drawn at once is what reads as "broken", not the native one alone.
 const NATIVE_SELECTOR = 'input, textarea, select, [contenteditable="true"]';
 
-// Same token as the rest of the site's motion (see hero-diptych.tsx): things
+// Same token as the rest of the site's motion (see hero-main.tsx): things
 // settle, they never bounce. The cursor previously used underdamped springs
 // for its shape changes, which overshot and read as playful/showy — this
 // keeps position tracking on a spring (that one's fine, it's critically

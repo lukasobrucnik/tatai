@@ -1,43 +1,82 @@
-/* Texty mají za jednopísmennými předložkami a spojkami (v, u, s, z, k, o, i, a)
+/* Texty mají za jednopísmennými předložkami a spojkami (v, u, s, z, k, o, i, a)
    pevnou mezeru (U+00A0), ne obyčejnou — česká typografie je nenechává na konci
-   řádku a na telefonu by jinak visely („Domy stavíme v / hale“). Při úpravě
+   řádku a na telefonu by jinak visely („Domy stavíme v / hale“). Při úpravě
    textů je potřeba ji zachovat. */
 export type SpecRow = { label: string; value: string };
 export type ProcessStep = { title: string; body: string };
 export type FaqItem = { title: string; body: string };
-/** Jedna fotka z dílny. Rozměry drží lightbox — podle nich volí object-contain
+/** Jedna fotka z dílny. Rozměry drží lightbox — podle nich volí object-contain
  *  box, aby fotka na výšku nepřetekla obrazovku. */
 export type HallPhoto = { src: string; w: number; h: number };
-/** Snímek z haly s krátkým popiskem. Popisky říkají jen to, co je na fotce
- *  vidět (rám, izolace, deska, hotová stěna) — technický kontext k nim od
+/** Snímek z haly s krátkým popiskem. Popisky říkají jen to, co je na fotce
+ *  vidět (rám, izolace, deska, hotová stěna) — technický kontext k nim od
  *  majitele pořád nemáme, takže žádné materiály ani tloušťky. */
 export type BuildStep = HallPhoto & { title: string; note: string };
 
 export const PHONE = "+420 601 505 323";
 export const EMAIL = "info@tatai.cz";
-export const ADDRESS = "Křižíkova 965/1, 779 00 Olomouc";
-/** The firm's own pin, not a search for the address string. A maps.app.goo.gl
- *  link is a universal link: on a phone with Google Maps installed the OS hands
- *  it to the app, everywhere else it opens the same place on the web. */
-export const MAP_URL = "https://maps.app.goo.gl/osrbTmmYX5DJXM8i9";
+/** Sídlo od listopadu 2026 — stejná adresa jako u firmy TARUS. */
+export const ADDRESS = "Pavelkova 1210/10b, 779 00 Olomouc";
+/** Hledání adresy, ne uložený špendlík: pro novou adresu firma vlastní pin
+ *  v Google Maps zatím nemá. Odkaz typu api=1 je univerzální — na telefonu
+ *  s Mapami ho systém otevře v aplikaci, jinde na webu. */
+export const MAP_URL =
+  "https://www.google.com/maps/search/?api=1&query=Pavelkova%201210%2F10b%2C%20779%2000%20Olomouc";
+/** Oficiální název podle obchodního rejstříku (ARES, ověřeno 11/2026). Na
+ *  stránce se firma jmenuje TATAI; plný název patří do právních textů,
+ *  patičky a strukturovaných dat. */
+export const COMPANY_NAME = "TATAI specializované stavební činnosti s.r.o.";
 export const ICO = "05452783";
+/** Poloha sídla (OpenStreetMap, uzel adresy 1210/10b). Na ní je vystředěná
+ *  mapa public/photos/mapa-sidlo.webp a čte ji i strukturovaná data. */
+export const OFFICE_GEO = { lat: 49.5902343, lng: 17.2996594 };
+/** Kam chodí poptávky z formuláře (viz app/api/poptavka). Na serveru je
+ *  přebije proměnná CONTACT_TO, pokud je nastavená. */
+export const INQUIRY_RECIPIENTS = ["info@tatai.cz", "stavba@tatai.cz"];
+
+/** Působnost — majitel: „v rámci Moravy“. Jedno místo, ať se hero, kontakt
+ *  a patička nerozejdou. */
+export const AREA = "Morava";
 
 export const NAV = [
   { id: "strechy", label: "Střechy" },
-  { id: "domy", label: "Domy" },
+  { id: "domy", label: "Dřevostavby" },
   { id: "vyroba", label: "Výroba" },
   { id: "kontakt", label: "Kontakt" },
 ];
 
+/** Hlavní deska. Jedna fotka pro oba obory — krov na dřevostavbě je zároveň
+ *  střecha i dům, takže hero už nemusí být rozpůlené. */
+export const HERO = {
+  title: "Střechy a dřevostavby na Moravě.",
+  lead: "Domy vyrábíme v naší hale, takže do konstrukce nezaprší. Na pozemku stojí za týden a do tří měsíců se stěhujete.",
+  src: "/photos/hero-krov.webp",
+  alt: "Krov dřevostavby proti zamračené obloze, na vazbě stojí tesař",
+  links: [
+    { index: "01", label: "Střechy", caption: "Ploché, šikmé, zelené", href: "#strechy" },
+    { index: "02", label: "Dřevostavby", caption: "Vyrobené v hale", href: "#domy" },
+  ],
+};
+
 /** Jen to, co zákazníka zajímá před první schůzkou. Počty part, realizací
- *  a metrů ročně šly na přání majitele pryč (viz docs/archiv). */
+ *  a metrů ročně šly na přání majitele pryč (viz docs/archiv). */
 export const HERO_META = [
-  { label: "Prohlídka", value: "Zdarma" },
   { label: "Záruka", value: "10 let" },
-  { label: "Působnost", value: "Celá ČR" },
+  // „Na klíč“, ne „Dům k nastěhování“: delší štítek se na telefonu láme do
+  // dvou řádků a rozhodí zarovnání tří hodnot vedle sebe.
+  { label: "Na klíč", value: "3 měsíce" },
+  { label: "Působnost", value: AREA },
 ];
 
-export const ROOF_TYPES = [
+export const ROOFS_HERO = {
+  title: "Ploché, šikmé i zelené střechy.",
+  lead: "Nejvíc nás baví krokevní izolace a složité střechy. Kvůli nim nás jako subdodavatele volají i velké stavební firmy.",
+};
+
+/** Tři kategorie jako u domů (poznámky majitele, listopad 2026). Zelená
+ *  střecha zatím nemá vlastní fotku — Photo bez src ukáže popisek na rastru,
+ *  dokud ji majitel nedodá. */
+export const ROOF_TYPES: { i: string; title: string; body: string; items: string[]; src?: string; label: string }[] = [
   {
     i: "01",
     title: "Ploché střechy",
@@ -49,12 +88,48 @@ export const ROOF_TYPES = [
   {
     i: "02",
     title: "Šikmé střechy",
-    body: "Krov i krytinu děláme sami, takže si nikdy neodporují.",
-    items: ["Krovy a tesařina", "Plech, tašky, šindel", "Rekonstrukce krovů"],
+    body: "Krov, izolaci i krytinu děláme sami, takže si nikdy neodporují.",
+    items: ["Krovy a tesařina", "Krokevní izolace", "Plech, tašky, šindel"],
     src: "/photos/strecha-sikma-pokladka.webp",
     label: "Šikmá střecha — pokládka krytiny",
   },
+  {
+    i: "03",
+    title: "Zelené střechy",
+    body: "Vegetační střecha na plochý i mírně šikmý střešní plášť.",
+    items: ["Hydroizolace pod zeleň", "Drenáž a odvodnění", "Novostavby i stávající střechy"],
+    label: "Zelená střecha — foto doplníme",
+  },
 ];
+
+/** Co majitel chce o střechách říct nad rámec typů: specializace, jednoduché
+ *  novostavby a modernizace starých střech. Jedna věta na kartu. */
+export const ROOF_POINTS = [
+  {
+    title: "Složité střechy",
+    body: "Krokevní izolace a členité střechy jsou naše specializace. Proto nás jako subdodavatele volají i větší firmy, které si na ně netroufnou.",
+  },
+  {
+    title: "Jednoduchá novostavba",
+    body: "Jednoduchá střecha je pro nás hračka. Na novostavbě ji uděláme rádi, rychle a za super cenu.",
+  },
+  {
+    title: "Ze staré nová",
+    body: "Předěláme i střechu, která ještě drží, jen je zastaralá. Modernizujete jednou a dům máte hezký napořád.",
+  },
+];
+
+/** Dvě věci, které se zákazník u střech ptá jako první. */
+export const ROOF_FACTS = [
+  { label: "Záruka na dílo", value: "10 let" },
+  { label: "Nová izolace", value: "Ve stejné tloušťce 2× lepší" },
+  { label: "Opravy a servis", value: "I na střechách od jiných firem" },
+];
+
+export const HOUSES_HERO = {
+  title: "Dřevostavby, které nezmoknou.",
+  lead: "Sloupkové konstrukce, CLT panely i roubenky. Vyrobíme je v hale, u vás je jen smontujeme.",
+};
 
 export const HOUSE_TYPES = [
   {
@@ -80,27 +155,37 @@ export const HOUSE_TYPES = [
   },
 ];
 
-/** Proč hala — tři důvody, které má zákazník odnést. Tohle je jádro celého
- *  sdělení majitele, proto stojí hned pod nadpisem kapitoly Výroba. */
-export const HALL_REASONS = [
-  { title: "Do stavby neprší", body: "Stěny i stropy vznikají pod střechou. Dřevo a izolace zůstanou suché." },
-  { title: "Montáž za pár dní", body: "Hotové dílce přivezeme a na pozemku je jen sestavíme." },
-  { title: "Přesnost z dílny", body: "Dílce skládáme na rovném stole v hale, ne v blátě staveniště." },
+/** Tři čísla, na která se ptá každý, kdo zvažuje dřevostavbu místo zděného
+ *  domu. Všechna od majitele (listopad 2026). */
+export const HOUSE_FACTS = [
+  { label: "Cena", value: "Jako zděný dům" },
+  { label: "Montáž na pozemku", value: "Týden i se střechou" },
+  { label: "S fasádou", value: "Do tří týdnů" },
+  { label: "K nastěhování", value: "3 měsíce od výkopu" },
 ];
 
-/** Jak vzniká stěna — čtyři snímky z haly seřazené od rámu po hotový dílec. */
+/** Proč hala — tři důvody, které má zákazník odnést. Tohle je jádro celého
+ *  sdělení majitele, proto stojí hned pod nadpisem kapitoly Výroba. Pořadí
+ *  i obsah podle majitele: neprší, nižší náklady, méně lidí. */
+export const HALL_REASONS = [
+  { title: "Do stavby neprší", body: "Stěny i stropy vznikají pod střechou haly. Dřevo a izolace zůstanou suché." },
+  { title: "Nižší náklady", body: "Výroba v hale stojí méně než stavění na pozemku. Úspora se promítne do ceny vašeho domu." },
+  { title: "Méně lidí, nižší cena", body: "V hale stačí mnohem menší parta než na stavbě. Proto můžeme nabídnout nižší konečnou cenu." },
+];
+
+/** Jak vzniká stěna — čtyři snímky z haly seřazené od rámu po hotový dílec. */
 export const BUILD_STEPS: BuildStep[] = [
   { src: "/photos/vyroba/jih-09.webp", w: 2000, h: 1126, title: "Rám", note: "Dřevěná nosná konstrukce" },
   { src: "/photos/vyroba/jih-02.webp", w: 2000, h: 1126, title: "Izolace", note: "Vyplníme celý rám" },
   { src: "/photos/vyroba/sever-05.webp", w: 2000, h: 1126, title: "Opláštění", note: "Zavřeme deskami" },
-  { src: "/photos/vyroba/sever-03.webp", w: 2000, h: 1126, title: "Hotový dílec", note: "I s okny, připravený k převozu" },
+  { src: "/photos/vyroba/sever-03.webp", w: 2000, h: 1126, title: "Hotový dílec", note: "I s okny, připravený k převozu" },
 ];
 
-/** Vedoucí záběr haly — celá výrobní plocha s rozpracovanými dílci. */
+/** Vedoucí záběr haly — celá výrobní plocha s rozpracovanými dílci. */
 export const HALL_LEAD: HallPhoto = { src: "/photos/vyroba/jih-10.webp", w: 2000, h: 1126 };
 
-/** Fotky z obou hal pro lightbox (bez rozmazaného detailu fólie jih-11). Pořadí: nejdřív to, co je vidět na
- *  stránce, potom zbytek — šipkou se tak čtenář nejdřív vrací k známému. */
+/** Fotky z obou hal pro lightbox (bez rozmazaného detailu fólie jih-11). Pořadí: nejdřív to, co je vidět na
+ *  stránce, potom zbytek — šipkou se tak čtenář nejdřív vrací k známému. */
 export const HALL_PHOTOS: HallPhoto[] = [
   HALL_LEAD,
   ...BUILD_STEPS.map(({ src, w, h }) => ({ src, w, h })),
@@ -115,30 +200,64 @@ export const PROCESS: ProcessStep[] = [
   { title: "Prohlídka", body: "Přijedeme, změříme a poradíme. Zdarma a nezávazně." },
   { title: "Nabídka", body: "Položkový rozpočet bez schovaných položek." },
   { title: "Výroba", body: "Dílce domu vyrobíme v hale, v suchu." },
-  { title: "Montáž", body: "Na stavbě smontujeme a předáme se zárukou." },
+  { title: "Montáž", body: "Za týden stojí dům i se střechou. Do tří měsíců se stěhujete." },
 ];
 
 export const FAQ: FaqItem[] = [
-  { title: "Kolik to bude stát?", body: "Záleží na ploše, skladbě a materiálu. Po prohlídce, která je zdarma, dostanete položkový rozpočet." },
-  { title: "Jak dlouho trvá montáž domu?", body: "Dílce vyrábíme v hale, takže na pozemku stojí hrubá stavba za pár dní — u CLT do pěti. Přesný harmonogram dostanete s nabídkou." },
-  { title: "Zajistíte i projekt?", body: "Ano. Spolupracujeme s architektem klienta, nebo doporučíme svého." },
-  { title: "Opravíte i střechu, kterou jste nestavěli?", body: "Ano. Opravy a servis děláme i na střechách od jiných firem." },
+  {
+    title: "Kolik to bude stát?",
+    body: "Dřevostavba od nás vyjde zhruba stejně jako zděný dům. U střech záleží na ploše, skladbě a materiálu — po prohlídce, která je zdarma, dostanete položkový rozpočet.",
+  },
+  {
+    title: "Jak dlouho trvá stavba domu?",
+    body: "Samotná montáž trvá týden i se střechou, s fasádou do tří týdnů. K nastěhování je dům do tří měsíců od chvíle, kdy kopneme do země.",
+  },
+  {
+    title: "Zajistíte i projekt?",
+    body: "Projekt ani stavební povolení nevyřizujeme, omlouváme se. Rádi ale poradíme — a když přijdete s povolením na zděný dům, předěláme ho na dřevostavbu.",
+  },
+  {
+    title: "Opravíte i starou střechu?",
+    body: "Ano, i takovou, kterou jsme nestavěli. Často modernizujeme střechy, které ještě fungují, jen jsou zastaralé. Nová izolace ve stejné tloušťce izoluje dvakrát lépe.",
+  },
+  {
+    title: "Děláte subdodávky pro stavební firmy?",
+    body: "Ano. Krokevní izolace a složité střechy děláme i pro větší firmy, které si na ně samy netroufnou.",
+  },
+  {
+    title: "Kde působíte?",
+    body: "Po celé Moravě. Sídlo máme v Olomouci a na prohlídku přijedeme za vámi.",
+  },
 ];
 
 export const CONTACT_ROWS: SpecRow[] = [
   { label: "Telefon", value: "+420 601 505 323" },
   { label: "E-mail", value: "info@tatai.cz" },
-  { label: "Sídlo", value: "Křižíkova 965/1, Olomouc" },
-  { label: "Působnost", value: "Celá ČR" },
+  { label: "Sídlo", value: "Pavelkova 1210/10b, Olomouc" },
+  { label: "Působnost", value: AREA },
 ];
 
-/** Jedna věta do patičky — sdílí ji homepage, 404 i právní stránky. */
+/** Jedna věta do patičky — sdílí ji homepage, 404 i právní stránky. */
 export const FOOTER_CLAIM = [
-  "Ploché i šikmé střechy a dřevěné domy, které vyrábíme v hale a u vás jen smontujeme. Po celé ČR od roku 2016.",
+  "Ploché, šikmé i zelené střechy a dřevostavby, které vyrábíme v hale a u vás jen smontujeme. Po celé Moravě od roku 2016.",
 ];
 
 export const FOOTER_COLUMNS = [
-  { title: "Střechy", links: [{ label: "Ploché střechy", href: "#strechy" }, { label: "Šikmé střechy", href: "#strechy" }] },
-  { title: "Domy", links: [{ label: "Sloupkové konstrukce", href: "#domy" }, { label: "CLT panely", href: "#domy" }, { label: "Roubenky", href: "#domy" }] },
+  {
+    title: "Střechy",
+    links: [
+      { label: "Ploché střechy", href: "#strechy" },
+      { label: "Šikmé střechy", href: "#strechy" },
+      { label: "Zelené střechy", href: "#strechy" },
+    ],
+  },
+  {
+    title: "Dřevostavby",
+    links: [
+      { label: "Sloupkové konstrukce", href: "#domy" },
+      { label: "CLT panely", href: "#domy" },
+      { label: "Roubenky", href: "#domy" },
+    ],
+  },
   { title: "Firma", links: [{ label: "Výroba v hale", href: "#vyroba" }, { label: "Kontakt", href: "#kontakt" }] },
 ];

@@ -32,7 +32,7 @@ import { m, useReducedMotion, useScroll, useTransform, type MotionValue } from "
  * only ever dims.
  */
 
-/** Lets the plate's own content scrub off the cover progress (see HeroDiptych). */
+/** Lets the plate's own content scrub off the cover progress (see HeroMain). */
 const PlateProgressContext = createContext<MotionValue<number> | null>(null);
 
 export function usePlateProgress() {
