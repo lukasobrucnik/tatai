@@ -2,6 +2,7 @@
 
 import { ReactLenis } from "lenis/react";
 import type { ReactNode } from "react";
+import { SectionMagnet } from "./section-magnet";
 
 /**
  * Smooth scrolling, page-wide.
@@ -26,6 +27,7 @@ import type { ReactNode } from "react";
 export function SmoothScroll({ children }: { children: ReactNode }) {
   return (
     <ReactLenis root options={{ anchors: true }}>
+      <SectionMagnet />
       {children}
     </ReactLenis>
   );
