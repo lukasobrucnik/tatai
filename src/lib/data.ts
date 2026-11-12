@@ -190,7 +190,7 @@ export const HALL_PHOTOS: HallPhoto[] = [
 
 export const PROCESS: ProcessStep[] = [
   { title: "Prohlídka", body: "Přijedeme, změříme a poradíme. Zdarma a nezávazně." },
-  { title: "Nabídka", body: "Položkový rozpočet bez schovaných položek." },
+  { title: "Nabídka", body: "Rozpočet bez skrytých položek." },
   { title: "Výroba", body: "Dílce domu vyrobíme v hale, v suchu." },
   { title: "Montáž", body: "Za týden stojí dům i se střechou. Do tří měsíců se stěhujete." },
 ];
@@ -225,7 +225,7 @@ export const FAQ: FaqItem[] = [
     parts: [
       {
         title: "Cena",
-        body: "Počítejte zhruba s cenou zděného domu. Dílce vyrábíme v hale, kde stačí menší parta a práce stojí méně než na stavbě. Úsporu promítneme do ceny. Přesné číslo dostanete v položkovém rozpočtu po prohlídce, která je zdarma.",
+        body: "Počítejte zhruba s cenou zděného domu. Dílce vyrábíme v hale, kde stačí menší parta a práce stojí méně než na stavbě. Úsporu promítneme do ceny. Přesné číslo dostanete v rozpočtu bez skrytých položek po prohlídce, která je zdarma.",
       },
       {
         title: "Proč tak rychle",
@@ -259,7 +259,7 @@ export const FAQ: FaqItem[] = [
     parts: [
       {
         title: "Pro vás",
-        body: "Přijedeme, změříme a poradíme — zdarma a nezávazně. Potom dostanete položkový rozpočet bez schovaných položek.",
+        body: "Přijedeme, změříme a poradíme — zdarma a nezávazně. Potom dostanete rozpočet bez skrytých položek.",
       },
       {
         title: "Pro stavební firmy",
