@@ -110,7 +110,7 @@ export function HeroMain({
       )}
 
       <m.div
-        className="container-tatai relative z-[2] mt-auto grid w-full gap-6 pb-[clamp(2.5rem,6vh,4.5rem)] pt-[clamp(6rem,14vh,11rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-7!"
+        className="container-tatai relative z-[2] mt-auto grid w-full gap-6 pb-[clamp(2rem,5vh,3.5rem)] pt-[clamp(6rem,14vh,11rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-7!"
         style={{ y: textY, opacity: textOpacity }}
       >
         {eyebrow && (
@@ -138,50 +138,40 @@ export function HeroMain({
       </m.div>
 
       {(meta.length > 0 || links.length > 0) && (
-        // Spodní pruh: plná grafitová lišta přes celou šířku. Vlevo čísla,
-        // vpravo oba obory s typy, buňky dělí vlasové linky a každá nese
-        // signální čárku — stejné gesto jako u čísel jinde na webu. Lišta
-        // stojí mimo text, který při scrollu odjíždí, takže drží spodní hranu
-        // fotky. Obory na telefonu vynecháváme: má je menu.
-        <div {...rise(0.74)} className="hero-rise relative z-[2] border-t border-border-inverse bg-graphite-1000">
-          <div className="container-tatai flex items-stretch justify-between">
+        // Spodní řádek: jedna vlasová linka přes šířku a pod ní čísla (vlevo)
+        // a oba obory s typy (vpravo). Bez pozadí, bez buněk a dělítek —
+        // plná lišta s krabičkami působila jako cizí panel přilepený na
+        // fotku. Všech pět položek má stejnou typografii, takže řádek čte
+        // jako jeden celek. Stojí mimo text, který při scrollu odjíždí.
+        // Obory na telefonu vynecháváme: má je menu.
+        <div {...rise(0.74)} className="hero-rise container-tatai relative z-[2] w-full">
+          <div className="flex items-start justify-between gap-x-12 border-t border-border-inverse pb-8 pt-6 max-sm:pb-6! max-sm:pt-5!">
             {meta.length > 0 && (
-              <dl className="m-0 flex max-sm:grid! max-sm:w-full! max-sm:grid-cols-3!">
+              <dl className="m-0 flex gap-x-12 max-sm:grid! max-sm:w-full! max-sm:grid-cols-3! max-sm:gap-x-4!">
                 {meta.map((item) => (
-                  <div
-                    key={item.label}
-                    className="group/cell relative grid content-start gap-1.5 border-r border-border-inverse px-8 py-6 first:pl-0 max-sm:border-r-0! max-sm:px-0! max-sm:py-4!"
-                  >
-                    <span aria-hidden className="absolute -top-px left-8 h-px w-[22px] bg-signal-500 group-first/cell:left-0 max-sm:left-0!" />
+                  <div key={item.label} className="grid content-start gap-1.5">
                     <dt className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{item.label}</dt>
-                    <dd className="m-0 font-display text-h3 font-medium tabular-nums text-inverse max-sm:text-h4!">{item.value}</dd>
+                    <dd className="m-0 font-display text-h4 font-medium tabular-nums text-inverse">{item.value}</dd>
                   </div>
                 ))}
               </dl>
             )}
 
             {links.length > 0 && (
-              <nav aria-label="Obory" className="flex max-lg:hidden">
+              <nav aria-label="Obory" className="flex gap-x-12 max-lg:hidden">
                 {links.map((l) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    className="group relative grid content-center gap-1.5 border-l border-border-inverse px-8 py-6 no-underline transition-colors duration-200 last:pr-0 hover:bg-graphite-900"
-                  >
-                    <span className="flex items-center gap-2 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">
-                      <span className="text-signal-500">{l.index}</span>
-                      {l.label}
-                    </span>
-                    <span className="flex items-center gap-2 font-display text-body-lg font-medium text-inverse">
+                  <a key={l.href} href={l.href} className="group grid content-start gap-1.5 no-underline">
+                    <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{l.label}</span>
+                    <span className="relative flex items-center gap-2.5 font-display text-h4 font-medium text-inverse">
                       {l.caption}
                       <span aria-hidden className="text-signal-500 transition-transform duration-200 group-hover:translate-x-1">
                         →
                       </span>
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 -bottom-1.5 h-px origin-left scale-x-0 bg-signal-500 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                      />
                     </span>
-                    <span
-                      aria-hidden
-                      className="absolute inset-x-0 -top-px h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
-                    />
                   </a>
                 ))}
               </nav>
