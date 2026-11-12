@@ -48,12 +48,12 @@ Starý web běží bez platného HTTPS certifikátu; po přepnutí ho nahradí n
 >
 > | Typ | Název | Hodnota | Priorita |
 > |---|---|---|---|
-> | TXT | `resend._domainkey` | `__RESEND_DKIM__` | — |
-> | MX | `send` | `feedback-smtp.eu-west-1.amazonses.com` | 10 |
-> | TXT | `send` | `v=spf1 include:amazonses.com ~all` | — |
+> | TXT | `resend._domainkey` | `p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCyTHAW5f3zFTvpS869mUXWd+5vw7pUjLtalT5GZz2DswDrdCfYiaNwBB2h6GR5MNZM7b5OZQ2oVIXgPt3cEK8BQVOpsZ9a1oBINV+z/5LelBovApVhUx4aiOxw2MeLm/lNkP6m5Sq2QVimzclM14xlvTyQ2mgL6ie626cx6rVzGwIDAQAB` | — |
+> | CNAME | `rsend` | `rsend-euw1.forge.rmta.net` | — |
+> | CNAME | `send` | `send.forge.rmta.net` | — |
 > | TXT | `_dmarc` | `v=DMARC1; p=none;` | — |
 >
-> Záznamy `send` a `resend._domainkey` jsou na subdoménách, s poštou
+> Záznamy `send`, `rsend` a `resend._domainkey` jsou na subdoménách, s poštou
 > Microsoft 365 nekolidují. Pokud by šlo, prosím o TTL 300 s, ať se změna
 > rychle projeví.
 >
@@ -65,8 +65,10 @@ Starý web běží bez platného HTTPS certifikátu; po přepnutí ho nahradí n
   v projektu Vercel přidané 12. 11. 2026. Hodnoty A a CNAME výše jsou
   doporučení Vercelu pro tento projekt (záložně funguje A `76.76.21.21`
   a CNAME `cname.vercel-dns.com`).
-- `__RESEND_DKIM__`: dlouhý řetězec začínající `p=MIGfMA0…` — jen z Resendu.
-- Region Resendu musí odpovídat MX `send` (`eu-west-1` = Irsko).
+- Resend: doména `tatai.cz` přidaná 12. 11. 2026, region eu-west-1 (Irsko),
+  infrastruktura Resend Forge (proto CNAME `send`/`rsend` místo MX + SPF TXT),
+  bez click/open trackingu.
+- Hotové PDF pro správce se stejnými hodnotami: `TATAI - DNS pro spravce domeny.pdf`.
 - `_dmarc`: dnes není; `p=none` jen sleduje, nic neblokuje. Pokud ho
   správce už má, nechat stávající.
 
