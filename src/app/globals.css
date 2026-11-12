@@ -201,6 +201,19 @@
 /* First viewport minus the sticky header, so the hero is exactly one screen on
    every monitor. Two declarations on purpose: svh keeps mobile browser UI from
    pushing the CTA below the fold, vh is the fallback for engines without it. */
+/* Clona hlavního hero: jen pod textem. Na telefonu fotka kryje jen horní část a
+   clona ji dole rozpouští do grafitu, na kterém stojí text; od tabletu výš stojí vlevo, proto zleva a pravá
+   část fotky zůstává čistá. */
+.hero-scrim {
+  background: linear-gradient(180deg, rgba(20, 24, 26, 0.1) 0%, rgba(20, 24, 26, 0.5) 30%, rgba(20, 24, 26, 0.82) 46%, rgba(20, 24, 26, 1) 60%);
+}
+@media (min-width: 768px) {
+  .hero-scrim {
+    background: linear-gradient(90deg, rgba(14, 17, 19, 0.9) 0%, rgba(14, 17, 19, 0.74) 26%, rgba(14, 17, 19, 0.3) 50%, rgba(14, 17, 19, 0) 70%),
+      linear-gradient(180deg, rgba(14, 17, 19, 0) 62%, rgba(14, 17, 19, 0.45) 100%);
+  }
+}
+
 .hero-viewport {
   min-height: calc(100vh - var(--header-h));
   min-height: calc(100svh - var(--header-h));

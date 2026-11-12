@@ -86,6 +86,8 @@ export default function Home() {
         <PlateChapter
           plate={
           <HeroMain
+            eyebrow={HERO.eyebrow}
+            tag={HERO.tag}
             title={HERO.title}
             lead={HERO.lead}
             meta={HERO_META}

@@ -60,6 +60,10 @@ export const HERO = {
   lead: "Domy vyrábíme v naší hale, takže do konstrukce nezaprší. Na pozemku stojí za týden a do tří měsíců se stěhujete.",
   src: "/photos/hero-krov.webp",
   alt: "Krov dřevostavby proti zamračené obloze, na vazbě stojí tesař",
+  /** Nad nadpisem: od kdy firma existuje (ARES: vznik 2016). */
+  eyebrow: "TATAI · od roku 2016",
+  /** Štítek na fotce: kde firma sídlí. Souřadnice z OFFICE_GEO. */
+  tag: "Olomouc — 49.59° N, 17.30° E",
   links: [
     { index: "01", label: "Střechy", caption: "Ploché, šikmé, zelené", href: "#strechy" },
     { index: "02", label: "Dřevostavby", caption: "Sloupkové, CLT, roubenky", href: "#domy" },

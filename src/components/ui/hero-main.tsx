@@ -28,6 +28,7 @@ export type HeroLink = {
  */
 export function HeroMain({
   eyebrow,
+  tag,
   title,
   lead,
   actions,
@@ -39,6 +40,8 @@ export function HeroMain({
   /** Volitelný: nad nadpisem „Střechy a dřevostavby na Moravě“ by stejná
    *  slova jen opakoval, proto ho homepage nepředává. */
   eyebrow?: string;
+  /** Štítek v pravém horním rohu fotky (jen široké displeje). */
+  tag?: string;
   title: ReactNode;
   lead: string;
   actions?: ReactNode;
@@ -67,11 +70,14 @@ export function HeroMain({
   const rise = (d: number) => ({ className: "hero-rise", style: { "--d": `${d}s` } as CSSProperties });
 
   return (
-    <section ref={ref} className="hero-viewport relative isolate flex items-end overflow-hidden bg-graphite-900">
+    <section ref={ref} className="hero-viewport relative isolate flex flex-col overflow-hidden bg-graphite-900">
       <div aria-hidden className="hero-curtain absolute inset-0" style={{ "--d": "0.05s" } as CSSProperties}>
         <m.div className="absolute inset-0" style={{ y: photoY, opacity: photoDim }}>
-          {/* -inset-y: rezerva, aby drift fotky nikdy neodkryl holý okraj */}
-          <div className="absolute -inset-y-[110px] inset-x-0">
+          {/* -inset-y: rezerva, aby drift fotky nikdy neodkryl holý okraj.
+              Na telefonu fotka kryje jen horní část hera: přes celou výšku
+              by se z ní na úzkém displeji vešel jen rozmazaný výřez trámů.
+              Takhle je vidět krov i tesař a text stojí na čistém grafitu. */}
+          <div className="absolute -inset-y-[110px] inset-x-0 max-sm:bottom-[40%]!">
             <Image
               src={src}
               alt={alt}
@@ -80,16 +86,31 @@ export function HeroMain({
               sizes="100vw"
               // Těžiště krovu je vpravo od středu; na úzkém displeji ho
               // posunutý střed ořezu udrží v záběru.
-              className="object-cover object-[62%_center]"
+              className="object-cover object-[62%_center] max-sm:object-[68%_center]!"
             />
           </div>
         </m.div>
       </div>
 
-      <span aria-hidden className="pointer-events-none absolute inset-0 z-[1]" style={{ background: "var(--overlay-photo)" }} />
+      {/* Clona jen tam, kde stojí text (.hero-scrim v globals.css): na šířku
+          zleva, na telefonu zdola. Pravá část fotky — krov a tesař — zůstává
+          čistá. Dřívější clona přes celou plochu dělala z fotky šedou kaši. */}
+      <span aria-hidden className="hero-scrim pointer-events-none absolute inset-0 z-[1]" />
+
+      {tag && (
+        <div className="container-tatai pointer-events-none absolute inset-x-0 top-0 z-[2] flex justify-end pt-8 max-lg:hidden">
+          <span
+            {...rise(0.9)}
+            className="hero-rise flex items-center gap-3 bg-graphite-1000/80 px-3.5 py-2 font-mono text-eyebrow uppercase tracking-eyebrow text-inverse"
+          >
+            <span aria-hidden className="size-1.5 bg-signal-500" />
+            {tag}
+          </span>
+        </div>
+      )}
 
       <m.div
-        className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(4rem,7vh,5.5rem)] pt-[clamp(7rem,18vh,14rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-8!"
+        className="container-tatai relative z-[2] mt-auto grid w-full gap-6 pb-[clamp(2.5rem,6vh,4.5rem)] pt-[clamp(6rem,14vh,11rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-7!"
         style={{ y: textY, opacity: textOpacity }}
       >
         {eyebrow && (
@@ -114,20 +135,24 @@ export function HeroMain({
             {actions}
           </div>
         )}
+      </m.div>
 
-        {(meta.length > 0 || links.length > 0) && (
-          // Spodní řádek: vlevo čísla, vpravo oba obory s jejich typy. Obory
-          // dřív visely samostatně v levém horním rohu fotky, odtržené od
-          // zbytku; tady sedí na stejné lince jako čísla. Na telefonu je
-          // vynecháváme — oba obory má menu a hero by se nevešlo.
-          <div
-            {...rise(0.74)}
-            className="hero-rise flex flex-wrap items-end justify-between gap-x-12 gap-y-6 border-t border-border-inverse pt-6 sm:pt-8 max-sm:pt-5!"
-          >
+      {(meta.length > 0 || links.length > 0) && (
+        // Spodní pruh: plná grafitová lišta přes celou šířku. Vlevo čísla,
+        // vpravo oba obory s typy, buňky dělí vlasové linky a každá nese
+        // signální čárku — stejné gesto jako u čísel jinde na webu. Lišta
+        // stojí mimo text, který při scrollu odjíždí, takže drží spodní hranu
+        // fotky. Obory na telefonu vynecháváme: má je menu.
+        <div {...rise(0.74)} className="hero-rise relative z-[2] border-t border-border-inverse bg-graphite-1000">
+          <div className="container-tatai flex items-stretch justify-between">
             {meta.length > 0 && (
-              <dl className="m-0 flex flex-wrap gap-x-8 gap-y-4 sm:gap-x-12 max-sm:grid! max-sm:w-full! max-sm:grid-cols-3! max-sm:gap-x-4!">
+              <dl className="m-0 flex max-sm:grid! max-sm:w-full! max-sm:grid-cols-3!">
                 {meta.map((item) => (
-                  <div key={item.label} className="grid gap-1.5">
+                  <div
+                    key={item.label}
+                    className="group/cell relative grid content-start gap-1.5 border-r border-border-inverse px-8 py-6 first:pl-0 max-sm:border-r-0! max-sm:px-0! max-sm:py-4!"
+                  >
+                    <span aria-hidden className="absolute -top-px left-8 h-px w-[22px] bg-signal-500 group-first/cell:left-0 max-sm:left-0!" />
                     <dt className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{item.label}</dt>
                     <dd className="m-0 font-display text-h3 font-medium tabular-nums text-inverse max-sm:text-h4!">{item.value}</dd>
                   </div>
@@ -136,9 +161,13 @@ export function HeroMain({
             )}
 
             {links.length > 0 && (
-              <nav aria-label="Obory" className="flex gap-x-10 max-lg:hidden">
+              <nav aria-label="Obory" className="flex max-lg:hidden">
                 {links.map((l) => (
-                  <a key={l.href} href={l.href} className="group relative grid content-start gap-1.5 no-underline">
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    className="group relative grid content-center gap-1.5 border-l border-border-inverse px-8 py-6 no-underline transition-colors duration-200 last:pr-0 hover:bg-graphite-900"
+                  >
                     <span className="flex items-center gap-2 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">
                       <span className="text-signal-500">{l.index}</span>
                       {l.label}
@@ -151,15 +180,16 @@ export function HeroMain({
                     </span>
                     <span
                       aria-hidden
-                      className="absolute inset-x-0 -bottom-2 h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                      className="absolute inset-x-0 -top-px h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
                     />
                   </a>
                 ))}
               </nav>
             )}
           </div>
-        )}
-      </m.div>
+        </div>
+      )}
     </section>
   );
 }
+
