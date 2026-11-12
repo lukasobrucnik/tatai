@@ -27,10 +27,13 @@ export function SignalRule({ className = "" }: { className?: string }) {
     <m.span
       aria-hidden
       className={`signal-rule block h-px w-full origin-left ${className}`}
-      initial={reduce ? undefined : { scaleX: 0, opacity: 0 }}
-      whileInView={reduce ? undefined : { scaleX: 1, opacity: 1 }}
+      // initial/whileInView stay set under reduced motion too: the server
+      // renders `initial` (it can't know the preference), so dropping them on
+      // the client was a hydration mismatch. Duration 0 instead.
+      initial={{ scaleX: 0, opacity: 0 }}
+      whileInView={{ scaleX: 1, opacity: 1 }}
       viewport={{ once: true, amount: 0 }}
-      transition={{ duration: 0.9, ease: EASE }}
+      transition={{ duration: reduce ? 0 : 0.9, ease: EASE }}
     />
   );
 }

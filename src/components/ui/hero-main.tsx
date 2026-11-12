@@ -57,17 +57,19 @@ export function HeroMain({
 
   // Fotka je nejvzdálenější vrstva: pomalý drift a ztmavení. Text je blíž,
   // odjíždí rychleji a na křivce ease-in, takže chvíli zůstane a pak zmizí.
-  const photoY = useTransform(progress, [0, 1], [0, 90]);
-  const photoDim = useTransform(progress, [0, 1], [1, 0.55]);
-  const textY = useTransform(progress, [0, 1], [0, -180]);
-  const textOpacity = useTransform(progress, [0, 1], [1, 0], { ease: easeIn });
+  // Pod „omezit pohyb“ se rozsahy zploští na nulový pohyb, styl ale zůstává:
+  // server preferenci nezná a podmíněný `style={undefined}` rozbil hydrataci.
+  const photoY = useTransform(progress, [0, 1], reduce ? [0, 0] : [0, 90]);
+  const photoDim = useTransform(progress, [0, 1], reduce ? [1, 1] : [1, 0.55]);
+  const textY = useTransform(progress, [0, 1], reduce ? [0, 0] : [0, -180]);
+  const textOpacity = useTransform(progress, [0, 1], reduce ? [1, 1] : [1, 0], { ease: easeIn });
 
   const rise = (d: number) => ({ className: "hero-rise", style: { "--d": `${d}s` } as CSSProperties });
 
   return (
     <section ref={ref} className="hero-viewport relative isolate flex items-end overflow-hidden bg-graphite-900">
-      <div aria-hidden className="hero-curtain absolute inset-0" style={{ "--d": reduce ? "0s" : "0.05s" } as CSSProperties}>
-        <m.div className="absolute inset-0" style={reduce ? undefined : { y: photoY, opacity: photoDim }}>
+      <div aria-hidden className="hero-curtain absolute inset-0" style={{ "--d": "0.05s" } as CSSProperties}>
+        <m.div className="absolute inset-0" style={{ y: photoY, opacity: photoDim }}>
           {/* -inset-y: rezerva, aby drift fotky nikdy neodkryl holý okraj */}
           <div className="absolute -inset-y-[110px] inset-x-0">
             <Image
@@ -117,7 +119,7 @@ export function HeroMain({
 
       <m.div
         className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(4rem,7vh,5.5rem)] pt-[clamp(7rem,18vh,14rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-8!"
-        style={reduce ? undefined : { y: textY, opacity: textOpacity }}
+        style={{ y: textY, opacity: textOpacity }}
       >
         {eyebrow && (
           <div {...rise(0.45)} className="hero-rise max-sm:hidden">

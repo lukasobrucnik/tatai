@@ -56,7 +56,10 @@ export function PlateChapter({
   // early clamps flat, and scroll wobbling back across that boundary
   // un-clamps it — the flicker we already had to fix once in the hero.
   const { scrollYProgress } = useScroll({ target: bodyRef, offset: ["start end", "start start"] });
-  const plateScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+  // Under reduced motion the range collapses to [1, 1] instead of dropping the
+  // style: the server can't know the preference, and swapping the style for
+  // `undefined` on the client was a hydration mismatch.
+  const plateScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 0.94]);
   const plateDim = useTransform(scrollYProgress, [0, 1], [0, 0.4]);
 
   return (
@@ -73,7 +76,7 @@ export function PlateChapter({
         className="sticky z-0 overflow-hidden bg-graphite-900"
         style={{ top: "var(--header-h)", height: "calc(100svh - var(--header-h))" }}
       >
-        <m.div className="h-full" style={reduce ? undefined : { scale: plateScale }}>
+        <m.div className="h-full" style={{ scale: plateScale }}>
           <PlateProgressContext.Provider value={scrollYProgress}>{plate}</PlateProgressContext.Provider>
         </m.div>
         {/* Always rendered, hidden by CSS under reduced motion: the server can't
