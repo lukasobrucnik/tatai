@@ -184,7 +184,7 @@ export default function Home() {
                 {/* O stupeň světlejší podklad než Střechy: obě kapitoly jsou
                     teď světlé a list, který se přes Střechy vysouvá, od nich
                     musí být poznat. */}
-                <Section tone="raised" density="md" topRule>
+                <Section tone="raised" density="md" topRule className="flex min-h-[calc(100svh-var(--header-h))] flex-col justify-center">
                   <ChapterIntro index="02" name="Dřevostavby" title={HOUSES_HERO.title} lead={HOUSES_HERO.lead} facts={HOUSE_FACTS} />
 
                   <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1! max-sm:gap-14!">

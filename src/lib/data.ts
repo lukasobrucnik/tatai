@@ -82,7 +82,7 @@ export const HERO_META = [
 
 export const ROOFS_HERO = {
   title: "Ploché, šikmé i zelené střechy.",
-  lead: "Nejvíc nás baví krokevní izolace a složité střechy. Kvůli nim nás jako subdodavatele volají i velké stavební firmy.",
+  lead: "Nejvíc nás baví krokevní izolace a složité střechy, kvůli kterým nás jako subdodavatele volají i velké firmy. Jednoduchou střechu ale uděláme stejně rádi, žádná zakázka není pro nás malá.",
 };
 
 /** Tři kategorie jako u domů (poznámky majitele, listopad 2026). Zelená
@@ -118,7 +118,7 @@ export const ROOF_TYPES: { i: string; title: string; body: string; items: string
 /** Dvě věci, které se zákazník u střech ptá jako první. */
 export const ROOF_FACTS = [
   { label: "Záruka na dílo", value: "10 let" },
-  { label: "Nová izolace", value: "Ve stejné tloušťce 2× lepší" },
+  { label: "Nová izolace", value: "Ve stejné tloušťce, s 2× lepší izolací" },
   { label: "Opravy a servis", value: "I na střechách od jiných firem" },
 ];
 
@@ -218,7 +218,7 @@ export const FAQ: FaqItem[] = [
       },
       {
         title: "Ze staré nová",
-        body: "Předěláme i střechu, která ještě drží, jen je morálně zastaralá. Nová izolace ve stejné tloušťce izoluje dvakrát lépe. Modernizujete jednou a dům máte hezký napořád.",
+        body: "Předěláme i střechu, která ještě drží, jen je morálně zastaralá. Ve stejné tloušťce dáme novou izolaci, která izoluje dvakrát lépe. Modernizujete jednou a dům máte hezký napořád.",
       },
     ],
     facts: ROOF_FACTS,
