@@ -8,7 +8,6 @@ import { InquiryModalProvider } from "@/components/inquiry-modal-context";
 import { InquiryTriggerButton } from "@/components/inquiry-trigger-button";
 import { ChapterPortal } from "@/components/chapter-portal";
 import { WorkshopGallery } from "@/components/workshop-gallery";
-import { Hero } from "@/components/ui/hero";
 import { HeroMain } from "@/components/ui/hero-main";
 import { Section } from "@/components/ui/section";
 import { CoverStack } from "@/components/ui/cover-stack";
@@ -33,6 +32,7 @@ import {
   HERO_META,
   ROOFS_HERO,
   ROOF_TYPES,
+  ROOF_FACTS,
   HOUSES_HERO,
   HOUSE_TYPES,
   HOUSE_FACTS,
@@ -53,19 +53,46 @@ import {
    verze je v gitu pod tagem `pred-zkracenim-2026-10-21` a její texty
    v docs/archiv. */
 /** Řádek krátkých faktů pod kapitolou — mono štítek, hodnota v display. */
-function FactRow({ items }: { items: { label: string; value: string }[] }) {
+/**
+ * Úvod kapitoly (Střechy, Dřevostavby) na světlém podkladu: vlevo značka
+ * kapitoly a nadpis, vpravo věta a fakta jako řádky.
+ *
+ * Dřív obě kapitoly otevíral tmavý pruh s fotkou. Spolu s hlavním hero
+ * a portálem HALA to byly čtyři stejné tmavé desky za sebou a fotka ploché
+ * střechy navíc nic neukazovala. Fotky teď nesou jen karty typů hned pod
+ * úvodem a fakta, která dřív stála osamoceně pod kartami, jsou součástí úvodu.
+ */
+function ChapterIntro({
+  index,
+  name,
+  title,
+  lead,
+  facts,
+}: {
+  index: string;
+  name: string;
+  title: string;
+  lead: string;
+  facts: { label: string; value: string }[];
+}) {
   return (
-    <dl
-      className="m-0 mt-(--section-y-sm) grid gap-(--grid-gap) border-t border-border-strong pt-8 max-lg:grid-cols-2! max-sm:grid-cols-1! max-lg:gap-y-6!"
-      style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
-    >
-      {items.map((f) => (
-        <div key={f.label} className="grid content-start gap-2">
-          <dt className="font-mono text-eyebrow uppercase tracking-eyebrow text-muted">{f.label}</dt>
-          <dd className="m-0 font-display text-h4 font-medium text-strong">{f.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <div className="mb-(--section-y-sm) grid grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] items-end gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-10!">
+      <div className="grid content-start gap-7">
+        <ChapterMarker index={index} name={name} />
+        <h2 className="max-w-[15ch] font-display text-display-2 font-medium leading-display tracking-display text-strong">{title}</h2>
+      </div>
+      <div className="grid content-end gap-8">
+        <p className="max-w-[44ch] text-lead leading-snug text-body">{lead}</p>
+        <dl className="m-0 grid border-t border-border-strong">
+          {facts.map((f) => (
+            <div key={f.label} className="flex items-baseline justify-between gap-6 border-b border-border-hairline py-3.5">
+              <dt className="font-mono text-eyebrow uppercase tracking-eyebrow text-muted">{f.label}</dt>
+              <dd className="m-0 text-right font-display text-body-lg font-medium text-strong">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
   );
 }
 
@@ -118,17 +145,9 @@ export default function Home() {
           pinned={
             <>
                 <SectionAnchor id="strechy" target={false}>
-                  <Hero
-                    height="66svh"
-                    marker={{ index: "01", name: "Střechy" }}
-                    title={ROOFS_HERO.title}
-                    lead={ROOFS_HERO.lead}
-                    src="/photos/hero-strechy.webp"
-                    label="Plochá střecha — detail atiky"
-                  />
-                </SectionAnchor>
+                <Section density="md" topRule>
+                  <ChapterIntro index="01" name="Střechy" title={ROOFS_HERO.title} lead={ROOFS_HERO.lead} facts={ROOF_FACTS} />
 
-                <Section density="lg" topRule>
                   <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1! max-sm:gap-14!">
                     {ROOF_TYPES.map((c) => (
                       <Reveal key={c.i}>
@@ -153,25 +172,21 @@ export default function Home() {
                     ))}
                   </div>
 
-                  {/* Specializace, novostavby, modernizace a záruka střech
-                      jsou rozepsané v Častých otázkách (téma Střechy). */}
+                  {/* Specializace, novostavby a modernizace střech jsou
+                      rozepsané v Častých otázkách (téma Střechy). */}
                 </Section>
+                </SectionAnchor>
             </>
           }
           cover={
             <>
                 <SectionAnchor id="domy">
-                  <Hero
-                    height="66svh"
-                    marker={{ index: "02", name: "Dřevostavby" }}
-                    title={HOUSES_HERO.title}
-                    lead={HOUSES_HERO.lead}
-                    src="/photos/hero-domy.webp"
-                    label="CLT panel — montáž na jeřábu"
-                  />
-                </SectionAnchor>
+                {/* O stupeň světlejší podklad než Střechy: obě kapitoly jsou
+                    teď světlé a list, který se přes Střechy vysouvá, od nich
+                    musí být poznat. */}
+                <Section tone="raised" density="md" topRule>
+                  <ChapterIntro index="02" name="Dřevostavby" title={HOUSES_HERO.title} lead={HOUSES_HERO.lead} facts={HOUSE_FACTS} />
 
-                <Section density="lg" topRule>
                   <div className="grid grid-cols-3 gap-(--grid-gap) max-lg:grid-cols-2! max-sm:grid-cols-1! max-sm:gap-14!">
                     {HOUSE_TYPES.map((c) => (
                       <Reveal key={c.i}>
@@ -184,13 +199,8 @@ export default function Home() {
                       </Reveal>
                     ))}
                   </div>
-
-                  {/* Cena, rychlost, nastěhování — otázky každého, kdo zvažuje
-                      dřevostavbu místo zděného domu. */}
-                  <Reveal>
-                    <FactRow items={HOUSE_FACTS} />
-                  </Reveal>
                 </Section>
+                </SectionAnchor>
             </>
           }
         />
@@ -257,14 +267,36 @@ export default function Home() {
           </Reveal>
         </Section>
 
-        <Section density="lg">
-          <div className="grid gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-10!" style={{ gridTemplateColumns: "minmax(0,0.8fr) minmax(0,1.2fr)" }}>
+        <Section density="md">
+          <div className="grid items-start gap-(--grid-gap) max-lg:grid-cols-1! max-lg:gap-10!" style={{ gridTemplateColumns: "minmax(0,0.8fr) minmax(0,1.2fr)" }}>
+            {/* Levý sloupec drží při čtení odpovědí na místě a nese cestu
+                dál pro toho, kdo odpověď nenašel — dřív pod nadpisem zůstával
+                prázdný sloupec přes celou výšku otázek. */}
+            <div className="lg:sticky lg:top-[calc(var(--header-h)+2.5rem)]">
             <Reveal>
               <div className="grid content-start gap-5">
                 <Eyebrow>Časté otázky</Eyebrow>
                 <h2 className="text-h1 font-display font-medium tracking-heading leading-heading text-strong">Na co se ptáte.</h2>
+                <p className="max-w-[36ch] text-body-lg leading-body text-body">
+                  Nenašli jste odpověď? Zavolejte nám, nebo pošlete nezávaznou poptávku.
+                </p>
+                <div className="mt-2 grid max-w-[22rem] border-t border-border-strong">
+                  <a
+                    href={tel}
+                    className="group flex items-baseline justify-between gap-6 border-b border-border-hairline py-4 no-underline"
+                  >
+                    <span className="font-mono text-eyebrow uppercase tracking-eyebrow text-muted">Telefon</span>
+                    <span className="font-mono text-body-lg text-strong transition-colors duration-150 group-hover:text-signal-600">{PHONE}</span>
+                  </a>
+                  <div className="pt-6">
+                    <InquiryTriggerButton variant="primary" size="md" arrow>
+                      Nezávazná poptávka
+                    </InquiryTriggerButton>
+                  </div>
+                </div>
               </div>
             </Reveal>
+            </div>
             <Accordion items={FAQ} />
           </div>
           <FaqSchema />
@@ -281,7 +313,7 @@ export default function Home() {
               <div className="grid gap-10 content-start">
                 <SpecTable rows={CONTACT_ROWS} />
                 <OfficeMap
-                  src="/photos/mapa-sidlo.webp"
+                  src="/photos/mapa-sidlo-v2.webp"
                   alt="Mapa Olomouce s vyznačeným sídlem firmy TATAI"
                   label="Sídlo"
                   address={ADDRESS}

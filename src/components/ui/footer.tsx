@@ -56,22 +56,25 @@ export function Footer({
             <span className="text-graphite-400 text-body-sm leading-snug">{address}</span>
           </div>
         </div>
-        <div className="grid items-center gap-x-8 gap-y-5 pt-10 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400 grid-cols-[auto_1fr_auto] max-xl:grid-cols-1! max-xl:justify-items-center! max-xl:text-center!">
+        {/* Spodní řádek: vlevo copyright, vpravo právní odkazy. Autorský
+            podpis má vlastní řádek pod nimi — ve třech sloupcích vedle
+            dlouhého názvu firmy se lámal na dva řádky. Vědomě nejtišší text
+            na stránce: najde ho, kdo ho hledá, a nikoho z klientů netahá
+            za oko. */}
+        <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-4 pt-10 font-mono text-eyebrow uppercase tracking-eyebrow text-graphite-400 max-lg:flex-col! max-lg:text-center!">
           <span>© {new Date().getFullYear()} {COMPANY_NAME}{ico ? ` — IČO ${ico}` : ""}</span>
-          {/* Autorský podpis. Vědomě nejtišší text na stránce — o dva stupně
-              tmavší než řádek, ve kterém sedí, takže ho najde, kdo ho hledá,
-              a nikoho z klientů TATAI netahá za oko. */}
-          <span className="justify-self-center text-graphite-600">Created by Lukáš Obručník</span>
-          <div className="flex flex-wrap items-center justify-end gap-x-8 gap-y-4 max-xl:justify-center!">
-            <Link href="/ochrana-soukromi" className="inline-flex min-h-8 items-center text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
+          <div className="flex flex-wrap items-center justify-end gap-x-8 gap-y-2 max-lg:justify-center!">
+            <Link href="/ochrana-soukromi" className="inline-flex min-h-8 items-center text-graphite-400 no-underline transition-colors duration-150 hover:text-signal-500">
               Ochrana soukromí
             </Link>
-            <Link href="/obchodni-podminky" className="inline-flex min-h-8 items-center text-graphite-400 no-underline hover:text-signal-500 transition-colors duration-150">
+            <Link href="/obchodni-podminky" className="inline-flex min-h-8 items-center text-graphite-400 no-underline transition-colors duration-150 hover:text-signal-500">
               Obchodní podmínky
             </Link>
-            <span className="inline-flex min-h-8 items-center">Střechy &amp; dřevostavby</span>
           </div>
         </div>
+        <p className="m-0 pt-5 font-mono text-eyebrow uppercase tracking-eyebrow text-graphite-600 max-lg:text-center!">
+          Created by Lukáš Obručník
+        </p>
 
       </div>
     </footer>

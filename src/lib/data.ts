@@ -36,7 +36,7 @@ export const MAP_URL =
 export const COMPANY_NAME = "TATAI specializované stavební činnosti s.r.o.";
 export const ICO = "05452783";
 /** Poloha sídla (OpenStreetMap, uzel adresy 1210/10b). Na ní je vystředěná
- *  mapa public/photos/mapa-sidlo.webp a čte ji i strukturovaná data. */
+ *  mapa public/photos/mapa-sidlo-v2.webp a čte ji i strukturovaná data. */
 export const OFFICE_GEO = { lat: 49.5902343, lng: 17.2996594 };
 /** Kam chodí poptávky z formuláře (viz app/api/poptavka). Na serveru je
  *  přebije proměnná CONTACT_TO, pokud je nastavená. */
