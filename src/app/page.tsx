@@ -33,8 +33,6 @@ import {
   HERO_META,
   ROOFS_HERO,
   ROOF_TYPES,
-  ROOF_POINTS,
-  ROOF_FACTS,
   HOUSES_HERO,
   HOUSE_TYPES,
   HOUSE_FACTS,
@@ -55,10 +53,10 @@ import {
    verze je v gitu pod tagem `pred-zkracenim-2026-10-21` a její texty
    v docs/archiv. */
 /** Řádek krátkých faktů pod kapitolou — mono štítek, hodnota v display. */
-function FactRow({ items, className = "mt-(--section-y-sm) border-t pt-8" }: { items: { label: string; value: string }[]; className?: string }) {
+function FactRow({ items }: { items: { label: string; value: string }[] }) {
   return (
     <dl
-      className={`m-0 grid gap-(--grid-gap) border-border-strong max-lg:grid-cols-2! max-sm:grid-cols-1! max-lg:gap-y-6! ${className}`}
+      className="m-0 mt-(--section-y-sm) grid gap-(--grid-gap) border-t border-border-strong pt-8 max-lg:grid-cols-2! max-sm:grid-cols-1! max-lg:gap-y-6!"
       style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
     >
       {items.map((f) => (
@@ -153,40 +151,8 @@ export default function Home() {
                     ))}
                   </div>
 
-                  {/* Co majitel o střechách říká nad rámec typů: specializace,
-                      jednoduché novostavby, modernizace starých střech.
-                      Vlastní panel s nadpisem a body pod sebou jako řádky —
-                      ve třech sloupcích pod třemi kartami to vypadalo, že
-                      každý bod patří ke kartě nad ním. */}
-                  <Reveal>
-                    <div className="mt-(--section-y-sm) grid grid-cols-3 gap-(--grid-gap) border border-border-hairline bg-surface-raised p-[clamp(1.5rem,4vw,3.5rem)] max-lg:grid-cols-1! max-lg:gap-8!">
-                      <div className="grid content-start gap-4">
-                        <Eyebrow>Střechy · jak pracujeme</Eyebrow>
-                        <h3 className="max-w-[14ch] font-display text-h2 font-medium tracking-heading text-strong">
-                          Od složitých po jednoduché
-                        </h3>
-                      </div>
-
-                      <div className="col-span-2 max-lg:col-span-1!">
-                        <ol className="m-0 grid list-none border-t border-border-strong p-0">
-                          {ROOF_POINTS.map((p, i) => (
-                            <li
-                              key={p.title}
-                              className="grid grid-cols-[3rem_minmax(0,14rem)_minmax(0,1fr)] items-baseline gap-x-6 gap-y-2 border-b border-border-hairline py-6 max-md:grid-cols-[2.5rem_minmax(0,1fr)]!"
-                            >
-                              <span className="font-mono text-caption tabular-nums tracking-eyebrow text-signal-600">
-                                {String(i + 1).padStart(2, "0")}
-                              </span>
-                              <h4 className="font-display text-h4 font-medium tracking-heading text-strong">{p.title}</h4>
-                              <p className="max-w-[48ch] text-body-md leading-body text-body max-md:col-start-2!">{p.body}</p>
-                            </li>
-                          ))}
-                        </ol>
-
-                        <FactRow items={ROOF_FACTS} className="mt-8 border-t-0 pt-0" />
-                      </div>
-                    </div>
-                  </Reveal>
+                  {/* Specializace, novostavby, modernizace a záruka střech
+                      jsou rozepsané v Častých otázkách (téma Střechy). */}
                 </Section>
             </>
           }

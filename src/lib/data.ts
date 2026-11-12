@@ -4,7 +4,15 @@
    textů je potřeba ji zachovat. */
 export type SpecRow = { label: string; value: string };
 export type ProcessStep = { title: string; body: string };
-export type FaqItem = { title: string; body: string };
+/** Téma častých otázek: krátká odpověď (vidět i zavřená), části s delším
+ *  textem a volitelně čísla — buď jako řádek faktů, nebo jako časová osa. */
+export type FaqItem = {
+  title: string;
+  body: string;
+  parts?: { title: string; body: string }[];
+  facts?: SpecRow[];
+  timeline?: SpecRow[];
+};
 /** Jedna fotka z dílny. Rozměry drží lightbox — podle nich volí object-contain
  *  box, aby fotka na výšku nepřetekla obrazovku. */
 export type HallPhoto = { src: string; w: number; h: number };
@@ -98,24 +106,8 @@ export const ROOF_TYPES: { i: string; title: string; body: string; items: string
     title: "Zelené střechy",
     body: "Vegetační střecha na plochý i mírně šikmý střešní plášť.",
     items: ["Hydroizolace pod zeleň", "Drenáž a odvodnění", "Novostavby i stávající střechy"],
-    label: "Zelená střecha — foto doplníme",
-  },
-];
-
-/** Co majitel chce o střechách říct nad rámec typů: specializace, jednoduché
- *  novostavby a modernizace starých střech. Jedna věta na kartu. */
-export const ROOF_POINTS = [
-  {
-    title: "Složité střechy",
-    body: "Krokevní izolace a členité střechy jsou naše specializace. Proto nás jako subdodavatele volají i větší firmy, které si na ně netroufnou.",
-  },
-  {
-    title: "Jednoduchá novostavba",
-    body: "Jednoduchá střecha je pro nás hračka. Na novostavbě ji uděláme rádi, rychle a za super cenu.",
-  },
-  {
-    title: "Ze staré nová",
-    body: "Předěláme i střechu, která ještě drží, jen je zastaralá. Modernizujete jednou a dům máte hezký napořád.",
+    src: "/photos/strecha-zelena.webp",
+    label: "Zelená střecha — extenzivní vegetace",
   },
 ];
 
@@ -203,30 +195,81 @@ export const PROCESS: ProcessStep[] = [
   { title: "Montáž", body: "Za týden stojí dům i se střechou. Do tří měsíců se stěhujete." },
 ];
 
+/** Časté otázky — záměrně málo témat a delší odpovědi rozdělené do částí.
+ *  Kdo to opravdu řeší, rozbalí si celé téma; ostatním stačí úvodní věta,
+ *  která je vidět i zavřená. Obsah od majitele (listopad 2026). `body` je
+ *  zároveň krátká odpověď pro strukturovaná data (FAQPage). */
 export const FAQ: FaqItem[] = [
   {
-    title: "Kolik to bude stát?",
-    body: "Dřevostavba od nás vyjde zhruba stejně jako zděný dům. U střech záleží na ploše, skladbě a materiálu — po prohlídce, která je zdarma, dostanete položkový rozpočet.",
+    title: "Střechy — co děláme a jak",
+    body: "Ploché, šikmé i zelené střechy. Specializujeme se na krokevní izolace a složité střechy, ale rádi uděláme i jednoduchou střechu na novostavbě.",
+    parts: [
+      {
+        title: "Složité střechy",
+        body: "Krokevní izolace a členité střechy jsou naše specializace. Proto nás jako subdodavatele volají i větší stavební firmy, které si na ně samy netroufnou.",
+      },
+      {
+        title: "Jednoduchá novostavba",
+        body: "Jednoduchá střecha je pro nás hračka. Na novostavbě ji uděláme rádi, rychle a za super cenu.",
+      },
+      {
+        title: "Ze staré nová",
+        body: "Předěláme i střechu, která ještě drží, jen je morálně zastaralá. Nová izolace ve stejné tloušťce izoluje dvakrát lépe. Modernizujete jednou a dům máte hezký napořád.",
+      },
+    ],
+    facts: ROOF_FACTS,
   },
   {
-    title: "Jak dlouho trvá stavba domu?",
-    body: "Samotná montáž trvá týden i se střechou, s fasádou do tří týdnů. K nastěhování je dům do tří měsíců od chvíle, kdy kopneme do země.",
+    title: "Dřevostavby — cena a jak dlouho to trvá",
+    body: "Dřevostavba od nás vyjde zhruba stejně jako zděný dům. Na pozemku stojí za týden i se střechou a do tří měsíců od výkopu se stěhujete.",
+    parts: [
+      {
+        title: "Cena",
+        body: "Počítejte zhruba s cenou zděného domu. Dílce vyrábíme v hale, kde stačí menší parta a práce stojí méně než na stavbě. Úsporu promítneme do ceny. Přesné číslo dostanete v položkovém rozpočtu po prohlídce, která je zdarma.",
+      },
+      {
+        title: "Proč tak rychle",
+        body: "Stěny i stropy vznikají pod střechou haly, takže do konstrukce nezaprší a nečeká se na počasí. Na pozemek přivezeme hotové dílce i s okny a jen je smontujeme.",
+      },
+    ],
+    timeline: [
+      { label: "Výroba", value: "V hale, v suchu" },
+      { label: "Montáž", value: "Týden i se střechou" },
+      { label: "Fasáda", value: "Do tří týdnů" },
+      { label: "Nastěhování", value: "3 měsíce od výkopu" },
+    ],
   },
   {
-    title: "Zajistíte i projekt?",
-    body: "Projekt ani stavební povolení nevyřizujeme, omlouváme se. Rádi ale poradíme — a když přijdete s povolením na zděný dům, předěláme ho na dřevostavbu.",
+    title: "Projekt a stavební povolení",
+    body: "Projekt ani stavební povolení nevyřizujeme. Když ale přijdete s povolením na zděný dům, předěláme ho na dřevostavbu.",
+    parts: [
+      {
+        title: "Co nezajišťujeme",
+        body: "Projekt ani stavební povolení nevyřizujeme, omlouváme se. Je potřeba si je zajistit u projektanta.",
+      },
+      {
+        title: "Zděný projekt na dřevostavbu",
+        body: "Máte projekt a povolení na zděný dům? Nemusíte začínat znovu — projekt předěláme na dřevostavbu. Rádi s tím poradíme.",
+      },
+    ],
   },
   {
-    title: "Opravíte i starou střechu?",
-    body: "Ano, i takovou, kterou jsme nestavěli. Často modernizujeme střechy, které ještě fungují, jen jsou zastaralé. Nová izolace ve stejné tloušťce izoluje dvakrát lépe.",
-  },
-  {
-    title: "Děláte subdodávky pro stavební firmy?",
-    body: "Ano. Krokevní izolace a složité střechy děláme i pro větší firmy, které si na ně samy netroufnou.",
-  },
-  {
-    title: "Kde působíte?",
-    body: "Po celé Moravě. Sídlo máme v Olomouci a na prohlídku přijedeme za vámi.",
+    title: "Spolupráce a kde působíme",
+    body: "Stavíme po celé Moravě pro soukromé zákazníky i jako subdodavatel pro stavební firmy. Sídlo máme v Olomouci.",
+    parts: [
+      {
+        title: "Pro vás",
+        body: "Přijedeme, změříme a poradíme — zdarma a nezávazně. Potom dostanete položkový rozpočet bez schovaných položek.",
+      },
+      {
+        title: "Pro stavební firmy",
+        body: "Krokevní izolace a složité střechy děláme i jako subdodávku pro větší firmy, které si na ně samy netroufnou.",
+      },
+      {
+        title: "Kde působíme",
+        body: "Po celé Moravě. Sídlo máme v Olomouci na Pavelkově ulici a na prohlídku přijedeme za vámi.",
+      },
+    ],
   },
 ];
 

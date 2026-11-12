@@ -85,7 +85,12 @@ export function FaqSchema() {
     mainEntity: FAQ.map((item) => ({
       "@type": "Question",
       name: item.title,
-      acceptedAnswer: { "@type": "Answer", text: item.body },
+      // Celá odpověď: krátká věta i rozepsané části, ať strojový text
+      // odpovídá tomu, co si člověk na stránce rozbalí.
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: [item.body, ...(item.parts ?? []).map((p) => `${p.title}: ${p.body}`)].join(" "),
+      },
     })),
   };
 
