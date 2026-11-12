@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_BASE } from "@/lib/site";
 import { LegalPage } from "@/components/legal-page";
 import { ADDRESS, COMPANY_NAME, EMAIL, ICO } from "@/lib/data";
 
@@ -6,7 +7,8 @@ export const metadata: Metadata = {
   title: "Ochrana soukromí",
   description: "Zásady zpracování osobních údajů a používání cookies na webu TATAI.",
   alternates: { canonical: "/ochrana-soukromi" },
-  openGraph: { url: "/ochrana-soukromi", title: "Ochrana soukromí — TATAI" },
+  openGraph: { ...OG_BASE, url: "/ochrana-soukromi", title: "Ochrana soukromí — TATAI" },
+  twitter: { card: "summary_large_image", title: "Ochrana soukromí — TATAI", images: ["/twitter-image.jpg"] },
 };
 
 function H({ children }: { children: string }) {
@@ -45,8 +47,18 @@ export default function OchranaSoukromi() {
         <H>Proč údaje zpracováváme</H>
         <P>
           Údaje používáme výhradně k tomu, abychom mohli reagovat na vaši poptávku, domluvit prohlídku, připravit
-          cenovou nabídku a případně realizovat zakázku. Nepoužíváme je k ničemu jinému a nepředáváme je třetím
-          stranám, s výjimkou situací, kdy nám to ukládá zákon.
+          cenovou nabídku a případně realizovat zakázku. Právním základem je jednání o smlouvě a její plnění
+          (čl. 6 odst. 1 písm. b) GDPR). Nepoužíváme je k ničemu jinému, neposíláme vám reklamu a neprodáváme je.
+        </P>
+      </div>
+
+      <div className="grid gap-4">
+        <H>Kdo s údaji pracuje kromě nás</H>
+        <P>
+          Web běží na hostingu společnosti Vercel Inc. a zprávy z poptávkového formuláře nám doručuje e-mailová
+          služba Resend. Obě služby údaje zpracovávají jen proto, aby web fungoval a poptávka k nám dorazila, a
+          jen podle našich pokynů. Jinak údaje třetím stranám nepředáváme, s výjimkou situací, kdy nám to ukládá
+          zákon.
         </P>
       </div>
 

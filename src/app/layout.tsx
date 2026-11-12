@@ -53,6 +53,11 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
+  // Náhledový obrázek (Facebook, WhatsApp, Messenger, LinkedIn, X…) dodává
+  // soubor app/opengraph-image.jpg a twitter-image.jpg: Next k URL přidá
+  // otisk obsahu, takže po výměně obrázku sítě nestahují starou verzi z cache,
+  // a obrázek dědí i podstránky, které si openGraph přepisují po svém.
+  // Ikony stejně tak: app/favicon.ico, app/icon.svg, app/apple-icon.png.
   openGraph: {
     type: "website",
     locale: "cs_CZ",
@@ -60,13 +65,11 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${SITE_NAME} — ${SITE_TAGLINE}` }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
-    images: ["/og.jpg"],
   },
   // Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in the host's environment and the
   // Search Console tag appears — no deploy of a code change needed for it.

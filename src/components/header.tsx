@@ -21,7 +21,7 @@ export function Header({ items, phone, hrefPrefix = "" }: { items: typeof NAV; p
     <header className="sticky top-0 z-40 bg-surface-page border-b border-border-hairline">
       <div className="container-tatai h-(--header-h) flex items-center gap-10 max-sm:gap-4!">
         <a href={`${hrefPrefix}#home`} className="flex items-center no-underline flex-none" onClick={() => setOpen(false)}>
-          <Image src="/logo/tatai-mark.webp" alt="TATAI" width={192} height={119} priority className="h-9 w-auto" />
+          <Image src="/logo/tatai-mark.svg" alt="TATAI" width={191} height={111} priority unoptimized className="h-9 w-auto" />
         </a>
 
         <nav className="hidden lg:flex gap-8 ml-auto">

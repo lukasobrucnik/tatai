@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_BASE } from "@/lib/site";
 import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
 import { ADDRESS, COMPANY_NAME, EMAIL, ICO } from "@/lib/data";
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
   title: "Obchodní podmínky",
   description: "Obecné obchodní podmínky pro poptávky a zakázky realizované společností TATAI.",
   alternates: { canonical: "/obchodni-podminky" },
-  openGraph: { url: "/obchodni-podminky", title: "Obchodní podmínky — TATAI" },
+  openGraph: { ...OG_BASE, url: "/obchodni-podminky", title: "Obchodní podmínky — TATAI" },
+  twitter: { card: "summary_large_image", title: "Obchodní podmínky — TATAI", images: ["/twitter-image.jpg"] },
 };
 
 function H({ children }: { children: string }) {

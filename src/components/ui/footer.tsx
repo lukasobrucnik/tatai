@@ -28,7 +28,7 @@ export function Footer({
       <div className="container-tatai">
         <div className="grid gap-12 pb-(--section-y-sm) border-b border-border-inverse grid-cols-[minmax(0,1.9fr)_repeat(auto-fit,minmax(140px,1fr))] max-lg:grid-cols-1!">
           <div className="grid gap-6 content-start">
-            <Image src="/logo/tatai-mark.webp" alt="TATAI" width={192} height={119} className="h-10 w-auto" />
+            <Image src="/logo/tatai-mark-inverse.svg" alt="TATAI" width={191} height={111} unoptimized className="h-10 w-auto" />
             {claim.map((paragraph) => (
               <p key={paragraph.slice(0, 24)} className="max-w-[46ch] text-body-md leading-body">
                 {paragraph}

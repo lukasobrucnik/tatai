@@ -24,3 +24,13 @@ export const ROUTES = [
   { path: "/ochrana-soukromi", priority: 0.3, changeFrequency: "yearly" as const },
   { path: "/obchodni-podminky", priority: 0.3, changeFrequency: "yearly" as const },
 ];
+
+/** Společný základ openGraph pro podstránky. Next metadata slučuje jen
+ *  mělce: podstránka, která si nastaví vlastní `openGraph`, by jinak ztratila
+ *  náhledový obrázek, název webu i jazyk zděděný z layoutu. */
+export const OG_BASE = {
+  type: "website" as const,
+  locale: "cs_CZ",
+  siteName: SITE_NAME,
+  images: [{ url: "/opengraph-image.jpg", width: 1200, height: 630, alt: `${SITE_NAME} — ${SITE_TAGLINE}` }],
+};

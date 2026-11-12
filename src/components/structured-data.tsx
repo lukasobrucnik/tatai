@@ -30,7 +30,7 @@ export function BusinessSchema() {
     telephone: PHONE.replace(/\s/g, ""),
     email: EMAIL,
     foundingDate: "2016",
-    image: `${SITE_URL}/og.jpg`,
+    image: `${SITE_URL}/opengraph-image.jpg`,
     logo: `${SITE_URL}/logo/tatai-mark.webp`,
     address: {
       "@type": "PostalAddress",
