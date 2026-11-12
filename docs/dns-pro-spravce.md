@@ -4,7 +4,7 @@ Stav zjištěný 12. 11. 2026 z veřejného DNS:
 
 | Záznam | Hodnota dnes | Co s ním |
 |---|---|---|
-| NS | Webglobe (`ns1/ns2.webglobe.cz`, `ns3.webglobe.com`) | beze změny, DNS spravuje Webglobe |
+| NS | registr .cz deleguje na `ns.ebola.cz`, `ns1.ebola.cz`, `ns2.ebola.cz` (Ebola / Webglobe); zóna sama uvádí `ns1/ns2.webglobe.cz`, `ns3.webglobe.com` | beze změny; správce ať záznamy mění tam, kde je zóna skutečně vedená (Ebola/Webglobe) |
 | `tatai.cz` A | `62.109.154.162` (starý web na Webglobe) | **změnit** na Vercel |
 | `tatai.cz` AAAA | `2001:1ab0:7e1e:151:62:109:154:162` | **smazat** (Vercel IPv6 nemá; jinak by část návštěvníků dál viděla starý web) |
 | `www.tatai.cz` | CNAME na `tatai.cz` | **změnit** na Vercel |
@@ -40,9 +40,9 @@ Starý web běží bez platného HTTPS certifikátu; po přepnutí ho nahradí n
 >
 > | Typ | Název | Hodnota | Akce |
 > |---|---|---|---|
-> | A | `tatai.cz` (@) | `__VERCEL_A__` | nahradit stávající `62.109.154.162` |
+> | A | `tatai.cz` (@) | `216.198.79.1` | nahradit stávající `62.109.154.162` |
 > | AAAA | `tatai.cz` (@) | — | **smazat** stávající `2001:1ab0:…:162` |
-> | CNAME | `www` | `__VERCEL_CNAME__` | nahradit stávající CNAME na `tatai.cz` |
+> | CNAME | `www` | `99e52bccbcdf7453.vercel-dns-017.com` | nahradit stávající CNAME na `tatai.cz` |
 >
 > **Odesílání e-mailů z webu (Resend)**
 >
@@ -59,12 +59,12 @@ Starý web běží bez platného HTTPS certifikátu; po přepnutí ho nahradí n
 >
 > Děkuji.
 
-## Typické hodnoty (ověřit v administraci Vercelu a Resendu)
+## Hodnoty
 
-- `__VERCEL_A__`: Vercel uvádí `76.76.21.21`; novější projekty mohou dostat
-  jinou adresu — platí ta z Vercelu.
-- `__VERCEL_CNAME__`: `cname.vercel-dns.com` nebo projektová hodnota
-  `….vercel-dns-0xx.com` — platí ta z Vercelu.
+- Web: domény `www.tatai.cz` (hlavní) a `tatai.cz` (308 → www) jsou
+  v projektu Vercel přidané 12. 11. 2026. Hodnoty A a CNAME výše jsou
+  doporučení Vercelu pro tento projekt (záložně funguje A `76.76.21.21`
+  a CNAME `cname.vercel-dns.com`).
 - `__RESEND_DKIM__`: dlouhý řetězec začínající `p=MIGfMA0…` — jen z Resendu.
 - Region Resendu musí odpovídat MX `send` (`eu-west-1` = Irsko).
 - `_dmarc`: dnes není; `p=none` jen sleduje, nic neblokuje. Pokud ho
