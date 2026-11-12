@@ -62,7 +62,7 @@ export const HERO = {
   alt: "Krov dřevostavby proti zamračené obloze, na vazbě stojí tesař",
   links: [
     { index: "01", label: "Střechy", caption: "Ploché, šikmé, zelené", href: "#strechy" },
-    { index: "02", label: "Dřevostavby", caption: "Vyrobené v hale", href: "#domy" },
+    { index: "02", label: "Dřevostavby", caption: "Sloupkové, CLT, roubenky", href: "#domy" },
   ],
 };
 

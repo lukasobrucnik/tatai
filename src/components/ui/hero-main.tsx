@@ -19,7 +19,7 @@ export type HeroLink = {
  * Nahradila diptych (dvě poloviny, Střechy | Domy). Majitel chtěl hero
  * „jednotné, ne na dvě poloviny“: firma je jedna, a krov na dřevostavbě
  * ukáže oba obory v jednom záběru. Dva obory pořád zůstávají vidět — jako
- * dva odkazy nahoře, kde dřív visely popisky polovin.
+ * dva odkazy s typy vpravo dole, na stejné lince jako čísla.
  *
  * Pohyb je převzatý z diptychu: vstup běží v CSS (.hero-curtain/.hero-rise
  * v globals.css, aby nadpis nečekal na JavaScript), odchod jede ze scrollu
@@ -87,35 +87,6 @@ export function HeroMain({
       </div>
 
       <span aria-hidden className="pointer-events-none absolute inset-0 z-[1]" style={{ background: "var(--overlay-photo)" }} />
-      {/* Horní clona: obloha je světlá a odkazy na obory stojí na ní. */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-40"
-        style={{ background: "linear-gradient(180deg, rgba(10,12,13,.6) 0%, rgba(10,12,13,0) 100%)" }}
-      />
-
-      {links.length > 0 && (
-        <nav
-          aria-label="Obory"
-          {...rise(0.4)}
-          className="hero-rise container-tatai absolute inset-x-0 top-0 z-[2] flex gap-10 pt-8 sm:pt-10 max-sm:gap-6!"
-        >
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className="group relative grid content-start gap-1.5 no-underline">
-              <span className="flex items-center gap-2 font-mono text-eyebrow tracking-eyebrow uppercase text-inverse">
-                <span className="text-signal-500">{l.index}</span>
-                <span className="text-graphite-400">—</span>
-                {l.label}
-              </span>
-              <span className="hidden font-mono text-eyebrow tracking-mono text-graphite-300 sm:block">{l.caption}</span>
-              <span
-                aria-hidden
-                className="absolute inset-x-0 -bottom-2 h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
-              />
-            </a>
-          ))}
-        </nav>
-      )}
 
       <m.div
         className="container-tatai relative z-[2] grid w-full gap-6 pb-[clamp(4rem,7vh,5.5rem)] pt-[clamp(7rem,18vh,14rem)] sm:gap-8 max-sm:gap-5! max-sm:pt-16! max-sm:pb-8!"
@@ -144,18 +115,49 @@ export function HeroMain({
           </div>
         )}
 
-        {meta.length > 0 && (
-          <dl
+        {(meta.length > 0 || links.length > 0) && (
+          // Spodní řádek: vlevo čísla, vpravo oba obory s jejich typy. Obory
+          // dřív visely samostatně v levém horním rohu fotky, odtržené od
+          // zbytku; tady sedí na stejné lince jako čísla. Na telefonu je
+          // vynecháváme — oba obory má menu a hero by se nevešlo.
+          <div
             {...rise(0.74)}
-            className="hero-rise m-0 flex flex-wrap gap-x-8 gap-y-4 border-t border-border-inverse pt-6 sm:gap-x-12 sm:pt-8 max-sm:grid! max-sm:grid-cols-3! max-sm:gap-x-4! max-sm:pt-5!"
+            className="hero-rise flex flex-wrap items-end justify-between gap-x-12 gap-y-6 border-t border-border-inverse pt-6 sm:pt-8 max-sm:pt-5!"
           >
-            {meta.map((item) => (
-              <div key={item.label} className="grid gap-1.5">
-                <dt className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{item.label}</dt>
-                <dd className="m-0 font-display text-h3 font-medium tabular-nums text-inverse max-sm:text-h4!">{item.value}</dd>
-              </div>
-            ))}
-          </dl>
+            {meta.length > 0 && (
+              <dl className="m-0 flex flex-wrap gap-x-8 gap-y-4 sm:gap-x-12 max-sm:grid! max-sm:w-full! max-sm:grid-cols-3! max-sm:gap-x-4!">
+                {meta.map((item) => (
+                  <div key={item.label} className="grid gap-1.5">
+                    <dt className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{item.label}</dt>
+                    <dd className="m-0 font-display text-h3 font-medium tabular-nums text-inverse max-sm:text-h4!">{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+
+            {links.length > 0 && (
+              <nav aria-label="Obory" className="flex gap-x-10 max-lg:hidden">
+                {links.map((l) => (
+                  <a key={l.href} href={l.href} className="group relative grid content-start gap-1.5 no-underline">
+                    <span className="flex items-center gap-2 font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">
+                      <span className="text-signal-500">{l.index}</span>
+                      {l.label}
+                    </span>
+                    <span className="flex items-center gap-2 font-display text-body-lg font-medium text-inverse">
+                      {l.caption}
+                      <span aria-hidden className="text-signal-500 transition-transform duration-200 group-hover:translate-x-1">
+                        →
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden
+                      className="absolute inset-x-0 -bottom-2 h-0.5 origin-left scale-x-0 bg-signal-500 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                    />
+                  </a>
+                ))}
+              </nav>
+            )}
+          </div>
         )}
       </m.div>
     </section>
