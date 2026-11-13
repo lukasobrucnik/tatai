@@ -178,16 +178,19 @@ export const BUILD_STEPS: BuildStep[] = [
 ];
 
 /** Vedoucí záběr haly — celá výrobní plocha s rozpracovanými dílci. */
-export const HALL_LEAD: HallPhoto = { src: "/photos/vyroba/jih-10.webp", w: 2000, h: 1126 };
+export const HALL_LEAD: HallPhoto = { src: "/photos/vyroba/sever-11.webp", w: 2000, h: 1126 };
 
-/** Fotky z obou hal pro lightbox (bez rozmazaného detailu fólie jih-11). Pořadí: nejdřív to, co je vidět na
- *  stránce, potom zbytek — šipkou se tak čtenář nejdřív vrací k známému. */
+/** Fotky pro lightbox. Na webu je záměrně jen starší hala (sever) — přání
+ *  majitele; záběry haly jih (jih-01, 03, 04, 05, 06, 08, 10) zůstávají ve
+ *  složce public/photos/vyroba pro případ změny. Detaily, na kterých hala není vidět
+ *  (jih-02, 07, 09, sever-04, 06, 09) nejde k hale přiřadit, tak zůstaly.
+ *  Pořadí: nejdřív to, co je vidět na stránce, potom zbytek — šipkou se tak
+ *  čtenář nejdřív vrací k známému. */
 export const HALL_PHOTOS: HallPhoto[] = [
   HALL_LEAD,
   ...BUILD_STEPS.map(({ src, w, h }) => ({ src, w, h })),
   ...[
-    "jih-01", "jih-03", "jih-04", "jih-05", "jih-06", "jih-08",
-    "sever-01", "sever-02", "sever-07", "sever-08", "sever-10", "sever-11",
+    "sever-01", "sever-02", "sever-07", "sever-08", "sever-10",
   ].map((n) => ({ src: `/photos/vyroba/${n}.webp`, w: 2000, h: 1126 })),
   ...["jih-07", "sever-04", "sever-06", "sever-09"].map((n) => ({ src: `/photos/vyroba/${n}.webp`, w: 1126, h: 2000 })),
 ];
