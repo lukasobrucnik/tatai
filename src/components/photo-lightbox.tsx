@@ -97,7 +97,7 @@ export function PhotoLightbox({
           role="dialog"
           aria-modal="true"
           aria-label={`${label} — fotografie ${index + 1} z ${count}`}
-          className="fixed inset-0 z-[70] grid grid-rows-[auto_1fr_auto] bg-graphite-1000/95"
+          className="fixed inset-0 z-[70] grid grid-rows-[auto_1fr_auto] bg-graphite-1000/65"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -108,21 +108,21 @@ export function PhotoLightbox({
           <div aria-hidden onClick={onClose} className="absolute inset-0" />
 
           <div className="relative flex items-center justify-between gap-4 px-(--container-gutter) py-5">
-            <span className="font-mono text-eyebrow tracking-eyebrow uppercase text-graphite-400">{label}</span>
+            <span aria-hidden />
             <button
               ref={closeRef}
               type="button"
               onClick={onClose}
               aria-label="Zavřít"
-              className="grid h-11 w-11 place-items-center border-0 bg-transparent p-0 text-bone-100 cursor-pointer transition-colors duration-150 hover:text-signal-500"
+              className="grid h-12 w-12 shrink-0 place-items-center border border-bone-100 bg-graphite-1000/70 p-0 text-bone-100 cursor-pointer transition-colors duration-150 hover:border-signal-500 hover:bg-signal-500 hover:text-graphite-1000"
             >
-              <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
-                <path d="M1 1l16 16M17 1L1 17" stroke="currentColor" strokeWidth="1.5" />
+              <svg width="20" height="20" viewBox="0 0 18 18" aria-hidden>
+                <path d="M1 1l16 16M17 1L1 17" stroke="currentColor" strokeWidth="1.75" />
               </svg>
             </button>
           </div>
 
-          <div className="relative min-h-0 px-(--container-gutter)">
+          <div className="relative min-h-0 px-(--container-gutter) max-sm:px-3">
             {/* Fotka se překreslí přes key, takže při přepnutí prokřížíme starou
                 s novou místo bliknutí na prázdno. */}
             <AnimatePresence mode="wait" initial={false}>
@@ -152,16 +152,14 @@ export function PhotoLightbox({
                 />
               </m.div>
             </AnimatePresence>
+            <NavArrow direction="prev" onClick={() => step(-1)} />
+            <NavArrow direction="next" onClick={() => step(1)} />
           </div>
 
           <div className="relative flex items-center justify-between gap-4 px-(--container-gutter) py-5">
             <span className="font-mono text-caption tabular-nums tracking-mono text-graphite-400">
               {String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
             </span>
-            <div className="flex items-center gap-2">
-              <NavArrow direction="prev" onClick={() => step(-1)} />
-              <NavArrow direction="next" onClick={() => step(1)} />
-            </div>
           </div>
         </m.div>
       )}
@@ -177,7 +175,7 @@ function NavArrow({ direction, onClick }: { direction: "prev" | "next"; onClick:
       type="button"
       onClick={onClick}
       aria-label={next ? "Další fotografie" : "Předchozí fotografie"}
-      className="grid h-11 w-11 place-items-center border border-border-inverse bg-transparent p-0 font-mono text-body-md leading-none text-bone-100 cursor-pointer transition-colors duration-150 hover:border-signal-500 hover:text-signal-500"
+      className={`absolute top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center border border-bone-100 bg-graphite-1000/70 p-0 font-mono text-h3 leading-none text-bone-100 cursor-pointer transition-colors duration-150 hover:border-signal-500 hover:bg-signal-500 hover:text-graphite-1000 max-sm:h-11 max-sm:w-11 ${next ? "right-(--container-gutter) max-sm:right-2" : "left-(--container-gutter) max-sm:left-2"}`}
     >
       <span aria-hidden>{next ? "›" : "‹"}</span>
     </button>

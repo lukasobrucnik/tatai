@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PhotoLightbox } from "@/components/photo-lightbox";
+import { PhotoWall } from "@/components/photo-wall";
 import type { BuildStep, HallPhoto } from "@/lib/data";
 
 /**
@@ -27,6 +28,7 @@ export function WorkshopGallery({
   photos: HallPhoto[];
 }) {
   const [viewing, setViewing] = useState<number | null>(null);
+  const [wallOpen, setWallOpen] = useState(false);
 
   return (
     <>
@@ -67,12 +69,20 @@ export function WorkshopGallery({
         </ol>
 
         <div className="pt-2">
-          <Button variant="outline" onClick={() => setViewing(0)}>
+          <Button variant="outline" onClick={() => setWallOpen(true)}>
             + Všech {photos.length} fotek z haly
           </Button>
         </div>
       </div>
 
+      <PhotoWall
+        photos={photos}
+        open={wallOpen}
+        suspended={viewing !== null}
+        label="Výroba v hale"
+        onClose={() => setWallOpen(false)}
+        onSelect={setViewing}
+      />
       <PhotoLightbox
         photos={photos}
         index={viewing}
