@@ -28,6 +28,25 @@ const nextConfig: NextConfig = {
     // 20–30% off the same picture.
     formats: ["image/avif", "image/webp"],
   },
+  /**
+   * Adresy starého webu (do 11/2026 na stejné doméně). Google je má pořád
+   * v indexu; 308 mu řekne, kam se obsah přestěhoval, a přenese i pozice.
+   * Cíle jsou kotvy jednostránkového webu — Google kotvu ignoruje a bere
+   * „/“, člověk ale skončí u správné sekce. Až vzniknou podstránky služeb,
+   * přesměrovat sem na ně. Konkrétní pravidla musí být před obecnými.
+   */
+  async redirects() {
+    return [
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/kontakt.html", destination: "/#kontakt", permanent: true },
+      { source: "/certifikaty.html", destination: "/", permanent: true },
+      { source: "/strechy-izolace-sanace/kontakt.html", destination: "/#kontakt", permanent: true },
+      { source: "/strechy-izolace-sanace/onas.html", destination: "/", permanent: true },
+      { source: "/strechy-izolace-sanace/partneri.html", destination: "/", permanent: true },
+      { source: "/strechy-izolace-sanace/:path*", destination: "/#strechy", permanent: true },
+      { source: "/CLT_panely/:path*", destination: "/#domy", permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { COMPANY_NAME, type FOOTER_COLUMNS } from "@/lib/data";
+import { COMPANY_NAME, REGISTRY, type FOOTER_COLUMNS } from "@/lib/data";
+import { ConsentSettingsLink } from "../cookie-consent";
 
 export function Footer({
   columns,
@@ -62,7 +63,11 @@ export function Footer({
             na stránce: najde ho, kdo ho hledá, a nikoho z klientů netahá
             za oko. */}
         <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-4 pt-10 font-mono text-eyebrow uppercase tracking-eyebrow text-graphite-400 max-lg:flex-col! max-lg:text-center!">
-          <span>© {new Date().getFullYear()} {COMPANY_NAME}{ico ? ` — IČO ${ico}` : ""}</span>
+          <span>
+            © {new Date().getFullYear()} {COMPANY_NAME}{ico ? ` — IČO ${ico}` : ""}
+            {/* Spisová značka: § 435 OZ, patří k identifikaci s.r.o. na webu. */}
+            <span className="block pt-1 normal-case tracking-normal">Spisová značka {REGISTRY}</span>
+          </span>
           <div className="flex flex-wrap items-center justify-end gap-x-8 gap-y-2 max-lg:justify-center!">
             <Link href="/ochrana-soukromi" className="inline-flex min-h-8 items-center text-graphite-400 no-underline transition-colors duration-150 hover:text-signal-500">
               Ochrana soukromí
@@ -70,6 +75,7 @@ export function Footer({
             <Link href="/obchodni-podminky" className="inline-flex min-h-8 items-center text-graphite-400 no-underline transition-colors duration-150 hover:text-signal-500">
               Obchodní podmínky
             </Link>
+            <ConsentSettingsLink className="inline-flex min-h-8 items-center bg-transparent border-0 p-0 cursor-pointer font-[inherit] uppercase tracking-[inherit] text-graphite-400 transition-colors duration-150 hover:text-signal-500" />
           </div>
         </div>
         <p className="m-0 pt-5 font-mono text-eyebrow uppercase tracking-eyebrow text-graphite-600 max-lg:text-center!">

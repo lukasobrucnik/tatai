@@ -35,6 +35,12 @@ export const MAP_URL =
  *  patičky a strukturovaných dat. */
 export const COMPANY_NAME = "TATAI specializované stavební činnosti s.r.o.";
 export const ICO = "05452783";
+/** Zápis v obchodním rejstříku (ARES, ověřeno 19. 11. 2026). § 435 OZ ho
+ *  u s.r.o. vyžaduje i na webu, včetně oddílu a vložky. */
+export const REGISTRY = "C 67586 vedená u Krajského soudu v Ostravě";
+/** Datum účinnosti právních textů. Při každé věcné změně zásad nebo
+ *  podmínek posunout. */
+export const LEGAL_EFFECTIVE = "19. 11. 2026";
 /** Poloha sídla (OpenStreetMap, uzel adresy 1210/10b). Na ní je vystředěná
  *  mapa public/photos/mapa-sidlo-v2.webp a čte ji i strukturovaná data. */
 export const OFFICE_GEO = { lat: 49.5902343, lng: 17.2996594 };

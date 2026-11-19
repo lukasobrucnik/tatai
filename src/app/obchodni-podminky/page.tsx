@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { OG_BASE } from "@/lib/site";
 import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
-import { ADDRESS, COMPANY_NAME, EMAIL, ICO } from "@/lib/data";
+import { ADDRESS, COMPANY_NAME, EMAIL, ICO, REGISTRY } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Obchodní podmínky",
@@ -30,7 +30,8 @@ export default function ObchodniPodminky() {
       <div className="grid gap-4">
         <H>Úvodní ustanovení</H>
         <P>
-          Tyto podmínky vydává {COMPANY_NAME}, IČO {ICO}, se sídlem {ADDRESS} (dále jen „zhotovitel“), a
+          Tyto podmínky vydává {COMPANY_NAME}, IČO {ICO}, se sídlem {ADDRESS}, zapsaná v obchodním rejstříku
+          pod spisovou značkou {REGISTRY} (dále jen „zhotovitel“), a
           upravují obecný postup při vyřizování poptávek a realizaci zakázek v oblasti střech a dřevěných
           konstrukcí. Konkrétní práva a povinnosti k jednotlivé zakázce upravuje vždy individuální nabídka nebo
           smlouva mezi zhotovitelem a zákazníkem.
@@ -75,6 +76,23 @@ export default function ObchodniPodminky() {
         <P>
           Na provedené dílo poskytujeme záruku v rozsahu uvedeném v nabídce nebo smlouvě k dané zakázce, v souladu s
           platnými právními předpisy. Reklamace vyřizujeme na kontaktech uvedených níže.
+        </P>
+      </div>
+
+      <div className="grid gap-4">
+        <H>Mimosoudní řešení sporů</H>
+        <P>
+          Pokud jste spotřebitel a spor se nám nepodaří vyřešit dohodou, můžete podat návrh na mimosoudní řešení
+          spotřebitelského sporu. Příslušným subjektem je Česká obchodní inspekce, Ústřední inspektorát – oddělení
+          ADR, Gorazdova 1969/24, 120 00 Praha 2, web{" "}
+          <a href="https://adr.coi.cz" className="text-strong underline decoration-border-strong underline-offset-2 hover:text-signal-600">
+            adr.coi.cz
+          </a>
+          . Návrh lze podat nejpozději do jednoho roku od uplatnění práva u nás.
+        </P>
+        <P>
+          Dozor nad dodržováním povinností podle zákona o ochraně spotřebitele vykonává Česká obchodní inspekce
+          (www.coi.cz), v oblasti ochrany osobních údajů Úřad pro ochranu osobních údajů (www.uoou.cz).
         </P>
       </div>
 

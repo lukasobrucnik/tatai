@@ -6,7 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/ui/footer";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { NAV, PHONE, EMAIL, ADDRESS, ICO, FOOTER_CLAIM, FOOTER_COLUMNS } from "@/lib/data";
+import { NAV, PHONE, EMAIL, ADDRESS, ICO, FOOTER_CLAIM, FOOTER_COLUMNS, LEGAL_EFFECTIVE } from "@/lib/data";
 
 export function LegalPage({
   eyebrow,
@@ -40,6 +40,7 @@ export function LegalPage({
               <Eyebrow>{eyebrow}</Eyebrow>
               <h1 className="text-h1 font-display font-medium tracking-display leading-tight text-strong">{title}</h1>
               {lead && <p className="text-lead leading-snug max-w-[52ch] text-body">{lead}</p>}
+              <p className="m-0 font-mono text-eyebrow tracking-eyebrow uppercase text-muted">Účinné od {LEGAL_EFFECTIVE}</p>
             </div>
             <div className="grid gap-10 max-w-[68ch] pt-14">{children}</div>
           </Section>

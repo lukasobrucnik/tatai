@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { ConsentedAnalytics } from "@/components/analytics";
 import { CookieConsent } from "@/components/cookie-consent";
 import { CustomCursor } from "@/components/custom-cursor";
 import { MotionProvider } from "@/components/motion-provider";
@@ -103,6 +104,8 @@ export default function RootLayout({
         {/* Outside SmoothScroll: these are fixed to the viewport and have no
             business inside the scrolled content. */}
         <CookieConsent />
+        {/* Měření návštěvnosti — načte se jen po „Povolit měření“. */}
+        <ConsentedAnalytics />
         <CustomCursor />
         {/* Site-wide: the firm is the same firm on every page. The questions
             are marked up only where they are answered — see page.tsx. */}

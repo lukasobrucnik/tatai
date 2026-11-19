@@ -3,37 +3,41 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { onConsentSettingsOpen, openConsentSettings, setConsent, useConsent } from "@/lib/consent";
 
-const STORAGE_KEY = "tatai-cookie-consent";
-
+/**
+ * Lišta se ptá jen na jednu věc: smíme měřit návštěvnost? Nic jiného web
+ * nesbírá. Dokud návštěvník neklikne „Povolit“, měřicí skript se vůbec
+ * nenačte (viz analytics.tsx) — „Odmítnout“ tedy opravdu nic nezapne.
+ */
 export function CookieConsent() {
-  const [visible, setVisible] = useState(false);
+  const consent = useConsent();
+  const [reopened, setReopened] = useState(false);
 
-  useEffect(() => {
-    // One-time read of an external store (localStorage) on mount to decide
-    // whether consent was already given — not derived from props/state.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setVisible(!window.localStorage.getItem(STORAGE_KEY));
-  }, []);
+  useEffect(() => onConsentSettingsOpen(() => setReopened(true)), []);
+
+  // undefined = ještě nevíme (server, hydratace): nic neukazovat, ať lišta
+  // neproblikne lidem, kteří už rozhodli.
+  const visible = reopened || consent === null;
+  if (!visible) return null;
 
   function decide(value: "accepted" | "declined") {
-    window.localStorage.setItem(STORAGE_KEY, value);
-    setVisible(false);
+    setConsent(value);
+    setReopened(false);
   }
-
-  if (!visible) return null;
 
   return (
     <div
       role="dialog"
       aria-live="polite"
-      aria-label="Souhlas s používáním cookies"
+      aria-label="Souhlas s měřením návštěvnosti"
       className="fixed inset-x-0 bottom-0 z-50 border-t border-border-hairline bg-surface-raised"
     >
       <div className="container-tatai py-5 flex flex-wrap items-center gap-x-8 gap-y-4">
         <p className="flex-1 min-w-[240px] text-body-sm leading-body text-body">
-          Tento web používá cookies nezbytné pro jeho správné fungování. Víc najdete v{" "}
-          <Link href="/ochrana-soukromi" className="text-strong underline decoration-border-strong underline-offset-2 hover:text-signal-600">
+          Se souhlasem anonymně měříme návštěvnost webu, abychom věděli, co lidi zajímá. Bez souhlasu nic neměříme.
+          Víc v{" "}
+          <Link href="/ochrana-soukromi#mereni" className="text-strong underline decoration-border-strong underline-offset-2 hover:text-signal-600">
             ochraně soukromí
           </Link>
           .
@@ -47,10 +51,19 @@ export function CookieConsent() {
             Odmítnout
           </button>
           <Button variant="primary" size="sm" onClick={() => decide("accepted")}>
-            Rozumím
+            Povolit měření
           </Button>
         </div>
       </div>
     </div>
+  );
+}
+
+/** Odkaz do patičky: znovu otevře lištu, ať jde souhlas kdykoli odvolat. */
+export function ConsentSettingsLink({ className }: { className?: string }) {
+  return (
+    <button type="button" onClick={openConsentSettings} className={className}>
+      Nastavení měření
+    </button>
   );
 }

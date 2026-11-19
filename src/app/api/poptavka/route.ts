@@ -68,10 +68,8 @@ export async function POST(req: NextRequest) {
   const email = clean(body.email, MAX_LEN.email);
   const type = clean(body.type, MAX_LEN.type);
   const description = clean(body.description, MAX_LEN.description);
-  const consent = body.consent === true;
 
   if (!name || !phone || !type) return fail(400, "Vyplňte prosím jméno, telefon a typ zakázky.");
-  if (!consent) return fail(400, "Bez souhlasu se zpracováním údajů poptávku odeslat nemůžeme.");
   if (email && !/^[^\s@"'<>]+@[^\s@"'<>]+\.[^\s@"'<>]+$/.test(email)) return fail(400, "E-mail nevypadá správně.");
 
   const apiKey = process.env.RESEND_API_KEY;

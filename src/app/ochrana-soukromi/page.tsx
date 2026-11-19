@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { OG_BASE } from "@/lib/site";
 import { LegalPage } from "@/components/legal-page";
-import { ADDRESS, COMPANY_NAME, EMAIL, ICO } from "@/lib/data";
+import { ADDRESS, COMPANY_NAME, EMAIL, ICO, REGISTRY } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Ochrana soukromí",
-  description: "Zásady zpracování osobních údajů a používání cookies na webu TATAI.",
+  description: "Zásady zpracování osobních údajů a měření návštěvnosti na webu TATAI.",
   alternates: { canonical: "/ochrana-soukromi" },
   openGraph: { ...OG_BASE, url: "/ochrana-soukromi", title: "Ochrana soukromí — TATAI" },
   twitter: { card: "summary_large_image", title: "Ochrana soukromí — TATAI", images: ["/twitter-image.jpg"] },
@@ -29,7 +29,8 @@ export default function OchranaSoukromi() {
       <div className="grid gap-4">
         <H>Kdo je správcem údajů</H>
         <P>
-          Správcem osobních údajů je společnost {COMPANY_NAME}, se sídlem {ADDRESS}, IČO {ICO}. Ve věcech
+          Správcem osobních údajů je společnost {COMPANY_NAME}, se sídlem {ADDRESS}, IČO {ICO}, zapsaná
+          v obchodním rejstříku pod spisovou značkou {REGISTRY}. Ve věcech
           ochrany osobních údajů nás můžete kontaktovat na e-mailu {EMAIL}.
         </P>
       </div>
@@ -55,10 +56,20 @@ export default function OchranaSoukromi() {
       <div className="grid gap-4">
         <H>Kdo s údaji pracuje kromě nás</H>
         <P>
-          Web běží na hostingu společnosti Vercel Inc. a zprávy z poptávkového formuláře nám doručuje e-mailová
-          služba Resend. Obě služby údaje zpracovávají jen proto, aby web fungoval a poptávka k nám dorazila, a
-          jen podle našich pokynů. Jinak údaje třetím stranám nepředáváme, s výjimkou situací, kdy nám to ukládá
-          zákon.
+          Web běží na hostingu společnosti Vercel Inc., zprávy z poptávkového formuláře nám doručuje e-mailová
+          služba Resend a e-mailovou poštu nám provozuje Microsoft (Microsoft 365). Tyto
+          služby údaje zpracovávají jen proto, aby web fungoval a poptávka k nám dorazila, a jen podle našich
+          pokynů. Jinak údaje třetím stranám nepředáváme, s výjimkou situací, kdy nám to ukládá zákon.
+        </P>
+      </div>
+
+      <div className="grid gap-4">
+        <H>Předání údajů mimo EU</H>
+        <P>
+          Vercel, Resend i Microsoft jsou společnosti se sídlem v USA, takže k vašim údajům může docházet i ze
+          Spojených států. Předání je chráněno rámcem EU–USA pro ochranu osobních údajů (EU-U.S. Data Privacy
+          Framework), u kterého Evropská komise rozhodla, že zajišťuje odpovídající ochranu, a doplňkově
+          standardními smluvními doložkami schválenými Evropskou komisí.
         </P>
       </div>
 
@@ -70,11 +81,21 @@ export default function OchranaSoukromi() {
         </P>
       </div>
 
-      <div className="grid gap-4">
-        <H>Cookies</H>
+      <div id="mereni" className="grid gap-4 scroll-mt-32">
+        <H>Cookies a měření návštěvnosti</H>
         <P>
-          Tento web používá cookies nezbytné pro jeho správné fungování. Svou volbu k používání cookies můžete
-          kdykoli změnit v nastavení svého prohlížeče.
+          Web neukládá žádné reklamní ani sledovací cookies. Do úložiště vašeho prohlížeče si zapamatuje jen to,
+          zda jste měření návštěvnosti povolili, nebo odmítli, abychom se nemuseli ptát při každé návštěvě.
+        </P>
+        <P>
+          Pokud měření povolíte, používáme službu Vercel Web Analytics. Ta nepoužívá cookies a nevytváří profil
+          návštěvníka: zaznamená zobrazené stránky, zdroj návštěvy, typ zařízení a prohlížeče, zemi a odeslání
+          poptávky, a výsledky nám ukazuje jen souhrnně. Právním základem je váš souhlas (čl. 6 odst. 1 písm. a)
+          GDPR). Bez souhlasu se měřicí skript vůbec nenačte.
+        </P>
+        <P>
+          Souhlas můžete kdykoli odvolat nebo změnit odkazem „Nastavení měření“ v patičce webu. Odvolání nemá vliv
+          na zpracování, které proběhlo před ním.
         </P>
       </div>
 

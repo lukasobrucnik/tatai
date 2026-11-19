@@ -4,7 +4,8 @@ import { useState, type FormEvent } from "react";
 import { Eyebrow } from "./ui/eyebrow";
 import { Input } from "./ui/input";
 import { Select } from "./ui/select";
-import { Checkbox } from "./ui/checkbox";
+import Link from "next/link";
+import { trackInquirySent } from "./analytics";
 import { Button } from "./ui/button";
 import { INQUIRY_RECIPIENTS, PHONE } from "@/lib/data";
 
@@ -65,11 +66,12 @@ export function InquiryForm({
       const res = await fetch("/api/poptavka", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, consent: fd.get("consent") !== null }),
+        body: JSON.stringify(data),
       });
       const json = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; unavailable?: boolean };
       if (res.ok && json.ok) {
         setStatus({ kind: "sent" });
+        trackInquirySent(data.type);
         return;
       }
       setStatus({
@@ -121,12 +123,16 @@ export function InquiryForm({
               <input type="text" name="website" tabIndex={-1} autoComplete="off" />
             </label>
           </div>
-          <Checkbox
-            label="Souhlasím se zpracováním osobních údajů"
-            description="Údaje použijeme výhradně k odpovědi na tuto poptávku."
-            name="consent"
-            required
-          />
+          {/* Žádný „souhlas“: údaje zpracováváme kvůli jednání o smlouvě
+              (čl. 6 odst. 1 písm. b GDPR), ne na základě souhlasu. Stačí
+              informovat — checkbox by sliboval právo, které tu neplatí. */}
+          <p className="m-0 text-caption leading-body text-muted max-w-[60ch]">
+            Údaje použijeme jen k odpovědi na poptávku. Odesláním berete na vědomí{" "}
+            <Link href="/ochrana-soukromi" className="text-strong underline decoration-border-strong underline-offset-2 hover:text-signal-600">
+              zásady ochrany osobních údajů
+            </Link>
+            .
+          </p>
 
           {status.kind === "error" && (
             <div role="alert" className="grid gap-2 border-l-2 border-signal-500 pl-4">
