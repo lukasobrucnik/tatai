@@ -38,6 +38,23 @@ export default function ObchodniPodminky() {
         </P>
       </div>
 
+      {/* Hero, sekce a FAQ používají zkratky, které chtěl majitel („záruka
+          10 let“, „cena jako zděný dům“, „za týden stojí“). Tady je řečeno,
+          co z nich je závazné: nic, dokud to nestojí v nabídce nebo smlouvě.
+          Pozor: proti klamavé reklamě (zákon o ochraně spotřebitele) tahle
+          věta nechrání — chrání jen před tím, aby se zkratka stala smlouvou. */}
+      <div className="grid gap-4">
+        <H>Informace na webu</H>
+        <P>
+          Údaje na tomto webu o cenách, termínech, zárukách, materiálech a vlastnostech staveb (například srovnání
+          ceny se zděným domem, doba výstavby nebo délka záruky) jsou obecné a orientační. Vycházejí z obvyklých
+          zakázek a nejsou nabídkou k uzavření smlouvy. Skutečná cena, termíny, délka a rozsah záruky závisí na
+          konkrétním projektu, lokalitě, zvolených materiálech a rozsahu prací a závazně je určuje až individuální
+          nabídka nebo smlouva o dílo. Pokud se údaj na webu liší od nabídky nebo smlouvy, platí nabídka nebo
+          smlouva.
+        </P>
+      </div>
+
       <div className="grid gap-4">
         <H>Poptávka a nabídka</H>
         <P>
@@ -74,8 +91,8 @@ export default function ObchodniPodminky() {
       <div className="grid gap-4">
         <H>Záruka a reklamace</H>
         <P>
-          Na provedené dílo poskytujeme záruku v rozsahu uvedeném v nabídce nebo smlouvě k dané zakázce, v souladu s
-          platnými právními předpisy. Reklamace vyřizujeme na kontaktech uvedených níže.
+          Na provedené dílo poskytujeme záruku v délce a rozsahu uvedeném v nabídce nebo smlouvě k dané zakázce, v
+          souladu s platnými právními předpisy. Délka záruky uváděná na webu je orientační (viz Informace na webu). Reklamace vyřizujeme na kontaktech uvedených níže.
         </P>
       </div>
 
